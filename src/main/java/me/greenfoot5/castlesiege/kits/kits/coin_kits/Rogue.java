@@ -4,9 +4,7 @@ import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.events.EnderchestEvent;
-import me.greenfoot5.castlesiege.events.combat.AssistKill;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
-import me.greenfoot5.castlesiege.events.death.DeathEvent;
 import me.greenfoot5.castlesiege.events.timed.BarCooldown;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
@@ -24,7 +22,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Horse;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -57,10 +54,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * A sneaky rogue
+ */
 public class Rogue extends CoinKit implements Listener {
 
-    public static final ArrayList<UUID> hasPoisonedWeapons = new ArrayList<>();
-    public static final ArrayList<UUID> isShadow = new ArrayList<>();
     private static final int health = 210;
     private static final double regen = 8;
     private static final double meleeDamage = 32;
@@ -70,7 +68,11 @@ public class Rogue extends CoinKit implements Listener {
     private final ItemStack comboPoint;
     private final ItemStack netheriteSword;
     private final ItemStack netheriteSwordVoted;
+    private final ItemStack poisonSword;
     private final ItemStack poisonSwordVoted;
+
+    private boolean isShadowstepping = false;
+    private boolean hasPoisonedWeapon = false;
 
     private boolean canGouge = false;
     private BukkitRunnable br = null;
@@ -89,8 +91,8 @@ public class Rogue extends CoinKit implements Listener {
         netheriteSword = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("32 Melee Damage", NamedTextColor.DARK_GREEN)),
-                null, 32);
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)),
+                null, meleeDamage);
         // Weapon
         es.hotbar[0] = netheriteSword;
 
@@ -98,17 +100,23 @@ public class Rogue extends CoinKit implements Listener {
         netheriteSwordVoted = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                 Component.text("Dagger", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("34 Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
 								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 34);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
 
+        poisonSword = CSItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
+                Component.text("Poison Dagger", NamedTextColor.GREEN),
+                List.of(Component.empty(),
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)),
+                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage);
         // Voted weapon
         poisonSwordVoted = CSItemCreator.weapon(new ItemStack(Material.GOLDEN_SWORD),
                 Component.text("Poison Dagger", NamedTextColor.GREEN),
-                Collections.singletonList(Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 34);
-        es.votedWeapon = new Tuple<>(netheriteSwordVoted, 0);
+                List.of(Component.empty(),
+                        Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
+                        Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
+                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2);
 
         // Gouge
         gouge = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_INGOT),
@@ -161,7 +169,6 @@ public class Rogue extends CoinKit implements Listener {
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, 25, 0), true);
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
         trackArrow.setItemMeta(potionMeta);
-
         es.hotbar[4] = trackArrow;
 
         comboPoint = CSItemCreator.item(new ItemStack(Material.GLOWSTONE_DUST),
@@ -226,7 +233,6 @@ public class Rogue extends CoinKit implements Listener {
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 1));
         super.potionEffects.add(new PotionEffect(PotionEffectType.JUMP_BOOST, 999999, 0));
         super.potionEffects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0));
-        super.potionEffects.add(new PotionEffect(PotionEffectType.HASTE, 999999, 1));
 
         // Death Messages
         super.deathMessage[0] = "You were struck from the shadows by ";
@@ -234,6 +240,10 @@ public class Rogue extends CoinKit implements Listener {
         super.killMessage[1] = " from the shadows";
     }
 
+    /**
+     * Get the weapon poison bottle
+     * @return A rogue's poison potion bottle
+     */
     private ItemStack poisonPotion() {
         ItemStack itemStack = new ItemStack(Material.POTION);
         PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
@@ -252,131 +262,123 @@ public class Rogue extends CoinKit implements Listener {
 
     /**
      * Activate poisoned weapons
-     * @param e event triggered by right-clicking mode switch button.
+     * @param e Right-click the poison bottle
      */
     @EventHandler
-    public void onAbilityTrigger(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+    public void onPoisonWeapon(PlayerInteractEvent e) {
+        if (e.getPlayer() != equippedPlayer)
             return;
-        }
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
             return;
-        }
+
+
         if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
-        if (p.getInventory().getItemInMainHand().getType() != Material.POTION) {
+        if (equippedPlayer.getInventory().getItemInMainHand().getType() != Material.POTION) {
             return;
         }
 
-        Messenger.sendActionInfo("You poisoned your weapons", p);
-        applyPoison(p);
+        if (equippedPlayer.getCooldown(Material.POTION) != 0)
+            return;
+
+        Messenger.sendActionInfo("You poisoned your weapons", equippedPlayer);
+        applyPoison();
     }
 
     /**
-     * Activate ShadowStep
-     * @param e event triggered by right-clicking mode switch button.
+     * Applies poison to the rogue's weapon
      */
-    @EventHandler
-    public void onShadowstep(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
-            return;
-        }
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            return;
-        }
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-        Material item = p.getInventory().getItemInMainHand().getType();
-        if (!item.equals(shadowStep.getType())) {
-            return;
-        }
-        Messenger.sendActionInfo("You dived into the shadows", p);
-        shadowstepAbility(p);
-    }
+    private void applyPoison() {
+        hasPoisonedWeapon = true;
+        equippedPlayer.setCooldown(Material.POTION, 1000);
 
-    /**
-     * Hide the player from everyone.
-     * @param p The player to make invisible
-     */
-    private void shadowstepAbility(Player p) {
-        int duration = 160;
-        if (InCombat.isPlayerInCombat(p.getUniqueId())) {
-            Messenger.sendActionError("You can't shadow-step whilst in combat!", p);
-            return;
-        }
-        if (p.getCooldown(shadowStep.getType()) != 0) {
-            Messenger.sendActionError("This ability is still under cool-down.", p);
-            return;
-        }
-        p.setCooldown(shadowStep.getType(), 420);
-        isShadow.add(p.getUniqueId());
-        // invisibility is there for show
-        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 999999, 4));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
-        //Makes invisible
-        mythicMobsApi.castSkill(p,"RogueEffect");
+        changeSword(netheriteSword.getType(), poisonSword, poisonSwordVoted);
+
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-                    return;
-                }
-
-                if (isShadow.contains(p.getUniqueId())) {
-                    Messenger.sendActionWarning("You are no longer invisible! (Strike now!)", p);
-                    mythicMobsApi.castSkill(p,"RogueEffect2");
-                    isShadow.remove(p.getUniqueId());
-                }
-
-                for (PotionEffect effect : p.getActivePotionEffects()) {
-                    if ((effect.getType().equals(PotionEffectType.INVISIBILITY) && effect.getAmplifier() == 0)
-                            || (effect.getType().equals(PotionEffectType.JUMP_BOOST) && effect.getAmplifier() == 4)) {
-                        p.removePotionEffect(effect.getType());
-                    }
-                }
-            }
-        }.runTaskLater(Main.plugin, duration);
-    }
-
-    private void applyPoison(Player p) {
-        if (!Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            return;
-        }
-        if (p.getCooldown(poisonPotion().getType()) != 0 || hasPoisonedWeapons.contains(p.getUniqueId())) {
-            return;
-        }
-        hasPoisonedWeapons.add(p.getUniqueId());
-        p.setCooldown(poisonPotion().getType(), 1000);
-        p.getInventory().setItem(0, poisonSwordVoted);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-                    hasPoisonedWeapons.remove(p.getUniqueId());
-                    changeSword(p, poisonSwordVoted.getType(), netheriteSword, netheriteSwordVoted);
-                }
+                hasPoisonedWeapon = false;
+                changeSword(poisonSword.getType(), netheriteSword, netheriteSwordVoted);
             }
         }.runTaskLater(Main.plugin, 201);
     }
 
     /**
+     * Activate ShadowStep
+     * @param e Right-click shadow step item
+     */
+    @EventHandler
+    public void onShadowstepActivate(PlayerInteractEvent e) {
+        if (e.getPlayer() != equippedPlayer)
+            return;
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        Material item = equippedPlayer.getInventory().getItemInMainHand().getType();
+        if (!item.equals(shadowStep.getType())) {
+            return;
+        }
+        Messenger.sendActionInfo("You dived into the shadows", equippedPlayer);
+        shadowstep();
+    }
+
+    /**
+     * Hide the player from everyone.
+     */
+    private void shadowstep() {
+        int duration = 160;
+        if (InCombat.isPlayerInCombat(equippedPlayer.getUniqueId())) {
+            Messenger.sendActionError("You can't shadow-step whilst in combat!", equippedPlayer);
+            return;
+        }
+
+        equippedPlayer.setCooldown(shadowStep.getType(), 420);
+        isShadowstepping = true;
+
+        // invisibility is there for show
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 999999, 4));
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
+
+        //Makes invisible
+        mythicMobsApi.castSkill(equippedPlayer,"RogueEffect");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!isShadowstepping)
+                    return;
+
+                Messenger.sendActionWarning("You are no longer invisible! (Strike now!)", equippedPlayer);
+                mythicMobsApi.castSkill(equippedPlayer,"RogueEffect2");
+
+                leaveShadowStep();
+            }
+        }.runTaskLater(Main.plugin, duration);
+    }
+
+    private void leaveShadowStep() {
+        isShadowstepping = false;
+
+        for (PotionEffect effect : equippedPlayer.getActivePotionEffects()) {
+            if ((effect.getType().equals(PotionEffectType.INVISIBILITY) && effect.getAmplifier() == 0)
+                    || (effect.getType().equals(PotionEffectType.JUMP_BOOST) && effect.getAmplifier() == 4)) {
+                equippedPlayer.removePotionEffect(effect.getType());
+            }
+        }
+    }
+
+    /**
      * Change the player's poison dagger.
-     * @param player The player
      * @param oldMaterial The material of the sword to remove
      * @param sword The sword to set if not voted
      * @param swordVoted The sword to set if voted
      */
-    private void changeSword(Player player, Material oldMaterial, ItemStack sword, ItemStack swordVoted) {
-        PlayerInventory inventory = player.getInventory();
+    private void changeSword(Material oldMaterial, ItemStack sword, ItemStack swordVoted) {
+        PlayerInventory inventory = equippedPlayer.getInventory();
 
         // Remove old sword
         inventory.remove(oldMaterial);
@@ -388,7 +390,7 @@ public class Rogue extends CoinKit implements Listener {
             return;
 
         // Give new sword
-        if (CSActiveData.getData(player.getUniqueId()).hasVote("sword"))
+        if (CSActiveData.getData(equippedPlayer.getUniqueId()).hasVote("sword"))
             inventory.addItem(swordVoted);
         else
             inventory.setItem(0, sword);
@@ -400,176 +402,149 @@ public class Rogue extends CoinKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
-        if (!(e.getDamager() instanceof Player player))
-            return;
-
-        if (!Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name))
+        if (e.getDamager() != equippedPlayer)
             return;
 
         // Prevent dealing damage while using the shadow ability
-        if (isShadow.contains(player.getUniqueId())) {
+        if (isShadowstepping) {
             e.setCancelled(true);
             return;
         }
 
         // Ensure the poison sword is used
-        Material item = player.getInventory().getItemInMainHand().getType();
-        if (item != Material.GOLDEN_SWORD || !hasPoisonedWeapons.contains(player.getUniqueId()))
+        if (!hasPoisonedWeapon)
             return;
 
-        // Deal poison damage to players and horses
-        if (e.getEntity() instanceof Player || e.getEntity() instanceof Horse)
+        // Deal poison damage to any living entity
+        if (e.getEntity() instanceof LivingEntity)
             ((LivingEntity) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 260, 0));
     }
 
     /**
-     * Activate the spearman ability of throwing a spear
-     * @param e The event called when right-clicking with a stick
+     * Launches a tracking arrow
+     * @param e Right-clicked the tracking arrow
      */
     @EventHandler
     public void throwTrackArrow(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack stick = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.TIPPED_ARROW);
-
+        if (e.getPlayer() != equippedPlayer)
+            return;
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
             return;
+
+        ItemStack stick = equippedPlayer.getInventory().getItemInMainHand();
+        int cooldown = equippedPlayer.getCooldown(Material.TIPPED_ARROW);
+
+        if (!stick.getType().equals(Material.TIPPED_ARROW))
+            return;
+
+        if (isShadowstepping) {
+            Messenger.sendActionError("You can't throw your arrow while in shadows!", equippedPlayer);
         }
 
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            return;
-        }
-        if (!stick.getType().equals(Material.TIPPED_ARROW)) {
-            return;
-        }
+
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-            if (cooldown == 0 && !isShadow.contains(p.getUniqueId())) {
-                p.setCooldown(Material.TIPPED_ARROW, 100);
-                p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(4.0));
-            } else if (isShadow.contains(p.getUniqueId())) {
-                Messenger.sendActionError("You can't throw your arrow while in shadows!", p);
-            } else {
-                Messenger.sendActionError("You can't throw your tracking arrow yet!", p);
-            }
-        } else if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (cooldown == 0 && !isShadow.contains(p.getUniqueId())) {
-                p.setCooldown(Material.TIPPED_ARROW, 180);
-                //shoot 3 track arrows instead of one, resulting in a larger cooldown.
-                    Arrow arrow = p.launchProjectile(Arrow.class);
-                    arrow.setVelocity(p.getLocation().getDirection().multiply(4.0));
-                    Vector v = arrow.getVelocity();
-                    p.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
-                    p.launchProjectile(Arrow.class, v.rotateAroundY(-0.314));
+            equippedPlayer.setCooldown(Material.TIPPED_ARROW, 100);
+            equippedPlayer.launchProjectile(Arrow.class).setVelocity(equippedPlayer.getLocation().getDirection().multiply(4.0));
 
-            } else if (isShadow.contains(p.getUniqueId())) {
-                Messenger.sendActionError("You can't throw your tracking arrow while in shadows!", p);
-            } else {
-                Messenger.sendActionError("You can't throw your tracking arrow yet!", p);
-            }
+        } else if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            equippedPlayer.setCooldown(Material.TIPPED_ARROW, 180);
+            //shoot 3 track arrows instead of one, resulting in a larger cooldown.
+            Arrow arrow = equippedPlayer.launchProjectile(Arrow.class);
+            arrow.setVelocity(equippedPlayer.getLocation().getDirection().multiply(4.0));
+            Vector v = arrow.getVelocity();
+            equippedPlayer.launchProjectile(Arrow.class, v.rotateAroundY(0.157));
+            equippedPlayer.launchProjectile(Arrow.class, v.rotateAroundY(-0.314));
         }
     }
 
     /**
-     * Set the thrown spear's damage
-     * @param e The event called when an arrow hits a player
+     * @param e A tracking arrow hit
      */
     @EventHandler(priority = EventPriority.LOW)
-    public void changeTrackArrowDamage(ProjectileHitEvent e) {
-        if (e.getEntity().getShooter() instanceof Player &&
-            !Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name))
+    public void onTrackingArrowHit(ProjectileHitEvent e) {
+        if (e.getEntity().getShooter() != equippedPlayer)
             return;
 
-        if (e.getEntity() instanceof Arrow arrow) {
+        if (!(e.getEntity() instanceof Arrow arrow))
+            return;
 
-            //The damage on Players is 10, whilst on other entities it is 25. Hitting players also awards comboPoints.
-            if (arrow.getShooter() instanceof Player damages && e.getHitEntity() instanceof Player hit){
-                if (!Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    return;
-                }
-                arrow.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 0), true);
-                arrow.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
-                if (!Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    return;
-                }
-                //check if players aren't on the same team
-                if (TeamController.getTeam(damages.getUniqueId())
-                        != TeamController.getTeam(hit.getUniqueId())) {
-                    arrow.setDamage(5);
-                    ((Player) arrow.getShooter()).getInventory().addItem(comboPoint);
-                }
-            } else if (arrow.getShooter() instanceof Player && !(e.getHitEntity() instanceof Player)){
-                arrow.setDamage(10);
+        //The damage on Players is 10, whilst on other entities it is 25. Hitting players also awards comboPoints.
+        if (e.getHitEntity() instanceof Player hit) {
+            arrow.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 0), true);
+            arrow.addCustomEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0), true);
+
+            //check if players aren't on the same team
+            if (TeamController.getTeam(equippedPlayer.getUniqueId()) != TeamController.getTeam(hit.getUniqueId())) {
+                arrow.setDamage(5);
+                equippedPlayer.getInventory().addItem(comboPoint);
             }
+        } else {
+            arrow.setDamage(10);
         }
     }
 
     /**
-     * @param toHeal The player to heal
      * @param healed How much they healed by
      */
-    private void healPlayer(Player toHeal, int healed) {
+    private void healPlayer(int healed) {
         if ((baseHealth + healed) > baseHealth) {
-            toHeal.setHealth(baseHealth);
+            equippedPlayer.setHealth(baseHealth);
         } else {
-            toHeal.setHealth(toHeal.getHealth() + healed);
+            equippedPlayer.setHealth(equippedPlayer.getHealth() + healed);
         }
     }
 
     /**
-     * @param damager the player who is damaging the target
      * @param target the target to deal damage to
      * @param amount the amount of combo points used
      */
-    private void gougedDamage(Player damager, Player target, int amount) {
+    private void gougedDamage(Player target, int amount) {
         int damage = 25 + (25 * amount);
         int duration = 40 + (10 * amount);
         target.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, duration, 4));
         target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 0));
         target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, duration, 0));
-        AssistKill.addDamager(target.getUniqueId(), damager.getUniqueId(), damage);
-        healPlayer(damager, damage);
+        healPlayer(damage);
 
         //remove used up combo points
-        removeComboPoints(damager);
-        if (isShadow.contains(damager.getUniqueId())) {
-            mythicMobsApi.castSkill(damager,"RogueEffectQuit");
-            isShadow.remove(damager.getUniqueId());
+        removeComboPoints();
+        if (isShadowstepping) {
+            mythicMobsApi.castSkill(equippedPlayer,"RogueEffectQuit");
+            leaveShadowStep();
         }
+
         if ((target.getHealth() - damage > 0)) {
-            target.damage(damage);
-        } else {
-            target.setHealth(0);
-            DeathEvent.setKiller(target, damager);
-            damager.getInventory().addItem(comboPoint);
+            equippedPlayer.getInventory().addItem(comboPoint);
         }
+
+        target.damage(damage, equippedPlayer);
     }
 
-    private void removeComboPoints(Player p) {
-        if (p.getInventory().contains(Material.GLOWSTONE_DUST)) {
-            for (ItemStack item : p.getInventory().getContents()) {
-                if (item == null) { return; }
-                if (item.getType().equals(Material.GLOWSTONE_DUST)) {
-                    item.setAmount(0);
-                }
+    /**
+     * Removes all the combo points a player has collected
+     */
+    private void removeComboPoints() {
+        for (ItemStack item : equippedPlayer.getInventory().getContents()) {
+            if (item != null && item.getType().equals(Material.GLOWSTONE_DUST)) {
+                item.setAmount(0);
             }
         }
     }
 
     /**
-     * @param event the event where a player dies to a rogue and the rogue gets a combo point from that.
+     * @param event The rogue kills a player
      */
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if (event.getEntity().getKiller() == null) { return; }
-        if (Objects.equals(Kit.equippedKits.get(event.getEntity().getKiller().getUniqueId()).name, name)) {
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(event.getEntity().getKiller().getUniqueId())) {
-                return;
-            }
-            event.getEntity().getKiller().getInventory().addItem(comboPoint);
-        }
+        if (event.getEntity().getKiller() != equippedPlayer)
+            return;
+
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        event.getEntity().getKiller().getInventory().addItem(comboPoint);
+
     }
 
 
@@ -578,20 +553,20 @@ public class Rogue extends CoinKit implements Listener {
      * @param ed The event called when a player attacks another player
      */
     @EventHandler(ignoreCancelled = true)
-    public void gougeDamage(PlayerInteractEntityEvent ed) {
+    public void onGougeActivate(PlayerInteractEntityEvent ed) {
+        if (ed.getPlayer() != equippedPlayer)
+            return;
+
         if (!(ed.getRightClicked() instanceof Player hit)) {
             return;
         }
-        Player p = ed.getPlayer();
-        if (!Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-            return;
-        }
-        if (p.getCooldown(gouge.getType()) != 0) {
+
+        if (equippedPlayer.getCooldown(gouge.getType()) != 0) {
             return;
         }
 
         Location hitLoc = hit.getLocation();
-        Location damagerLoc = p.getLocation();
+        Location damagerLoc = equippedPlayer.getLocation();
 
         // Basically what happens here is you check whether the player
         // is not looking at you at all (so having their back aimed at you.)
@@ -600,23 +575,22 @@ public class Rogue extends CoinKit implements Listener {
             return;
         }
 
-        if (p.getInventory().getItemInMainHand().getType() != Material.NETHERITE_INGOT) {
+        if (equippedPlayer.getInventory().getItemInMainHand().getType() != Material.NETHERITE_INGOT) {
             return;
         }
-        p.setCooldown(gouge.getType(), 100);
+        equippedPlayer.setCooldown(gouge.getType(), 100);
 
         ed.setCancelled(true);
-        Messenger.sendWarning("You were gouged by " + CSNameTag.mmUsername(p), hit);
-        Messenger.sendSuccess("You gouged " + CSNameTag.mmUsername(hit), p);
-        if (!p.getInventory().contains(Material.GLOWSTONE_DUST)) {
-            gougedDamage(p, hit, 0);
+        Messenger.sendWarning("You were gouged by " + CSNameTag.mmUsername(equippedPlayer), hit);
+        Messenger.sendSuccess("You gouged " + CSNameTag.mmUsername(hit), equippedPlayer);
+        if (!equippedPlayer.getInventory().contains(Material.GLOWSTONE_DUST)) {
+            gougedDamage(hit, 0);
             return;
         }
-        for (ItemStack item : p.getInventory().getContents()) {
+        for (ItemStack item : equippedPlayer.getInventory().getContents()) {
             if (item != null) {
                 if (item.getType().equals(Material.GLOWSTONE_DUST)) {
-                    int amount = item.getAmount();
-                    gougedDamage(p, hit, amount);
+                    gougedDamage(hit, item.getAmount());
                 }
             }
         }
@@ -669,11 +643,13 @@ public class Rogue extends CoinKit implements Listener {
     public void onClickEnderchest(EnderchestEvent event) {
         if (Objects.equals(Kit.equippedKits.get(event.getPlayer().getUniqueId()).name, name)) {
             event.setCancelled(true);
-            Player p = event.getPlayer();
 
-            isShadow.remove(p.getUniqueId());
-            hasPoisonedWeapons.remove(p.getUniqueId());
-            mythicMobsApi.castSkill(p,"RogueEffectQuit");
+            if (isShadowstepping) {
+                mythicMobsApi.castSkill(equippedPlayer,"RogueEffectQuit");
+                leaveShadowStep();
+            }
+
+            hasPoisonedWeapon = false;
         }
     }
 
