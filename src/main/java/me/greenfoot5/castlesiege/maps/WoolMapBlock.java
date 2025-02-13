@@ -56,7 +56,7 @@ public class WoolMapBlock {
                             if (player.isInsideVehicle())
                                 Objects.requireNonNull(player.getVehicle()).remove();
                             // Set kit items
-                            Kit.equippedKits.get(uuid).setItems(uuid, true);
+                            Kit.equippedKits.get(uuid).setItems(true);
                             // Spawn player
                             player.teleport(core.getSpawnPoint());
                             // Remove mount
@@ -93,7 +93,7 @@ public class WoolMapBlock {
                         if (player.isInsideVehicle())
                             Objects.requireNonNull(player.getVehicle()).remove();
                         // Set kit items
-                        Kit.equippedKits.get(uuid).setItems(uuid, true);
+                        Kit.equippedKits.get(uuid).setItems(true);
                         // Spawn player
                         player.teleport(flag.getSpawnPoint(team.getName()));
                         // Remove mount

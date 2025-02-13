@@ -88,10 +88,9 @@ public class Hellsteed extends SignKit implements Listener {
 
     /**
      * Disguise the player as a Hell steed
-     * @param p The player to (un)disguise
      */
     @Override
-    protected void setDisguise(Player p) {
+    protected void setDisguise() {
 
         ItemStack horseArmor = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_HORSE_ARMOR),
                 Component.text("Leather Armor", NamedTextColor.GREEN), null, null,
@@ -108,7 +107,7 @@ public class Hellsteed extends SignKit implements Listener {
         horseWatcher.setStyle(Horse.Style.BLACK_DOTS);
         horseWatcher.setTamed(true);
 
-        disguise(p, mobDisguise);
+        disguise(mobDisguise);
     }
 
 

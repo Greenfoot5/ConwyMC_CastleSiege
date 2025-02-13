@@ -71,7 +71,7 @@ public class DeathEvent implements Listener {
         MapController.forcedRandom)
             player.performCommand("random");
         else
-            Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), false);
+            Kit.equippedKits.get(player.getUniqueId()).setItems(false);
 
         player.setWalkSpeed(0.2f);
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> respawnCounter(player), 10);

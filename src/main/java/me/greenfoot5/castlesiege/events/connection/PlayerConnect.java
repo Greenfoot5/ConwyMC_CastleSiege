@@ -73,9 +73,9 @@ public class PlayerConnect implements Listener {
             // Assign stored kit
             Kit kit = Kit.getKit(data.getKit());
             if (kit != null && kit.canSelect(player, true, true, false))
-                kit.addPlayer(uuid, true);
+                kit.equip(uuid, true);
             else
-                Kit.getKit("Swordsman").addPlayer(uuid, true);
+                Kit.getKit("Swordsman").equip(uuid, true);
         }
 
         // Reset player xp and level
@@ -165,9 +165,9 @@ public class PlayerConnect implements Listener {
             // Assign stored kit
             Kit kit = Kit.getKit(data.getKit());
             if (kit != null && kit.canSelect(p, true, true, false))
-                kit.addPlayer(uuid, true);
+                kit.equip(uuid, true);
             else
-                Kit.getKit("Swordsman").addPlayer(uuid, true);
+                Kit.getKit("Swordsman").equip(uuid, true);
         }
 
         // Reset player xp and level

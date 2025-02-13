@@ -66,14 +66,13 @@ public class Fallen extends SignKit implements Listener {
 
     /**
      * Disguise the player as a Fallen
-     * @param p The player to (un)disguise
      */
     @Override
-    protected void setDisguise(Player p) {
+    protected void setDisguise() {
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.WITHER_SKELETON);
         mobDisguise.setModifyBoundingBox(true);
 
-        disguise(p, mobDisguise);
+        disguise(mobDisguise);
     }
 
 

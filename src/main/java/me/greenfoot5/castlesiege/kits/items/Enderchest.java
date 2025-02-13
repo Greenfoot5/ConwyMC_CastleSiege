@@ -75,9 +75,7 @@ public class Enderchest implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onClickEnderchest(EnderchestEvent event) {
 		Player player = event.getPlayer();
-		UUID uuid = player.getUniqueId();
-		Kit kit = Kit.equippedKits.get(uuid);
-		kit.refillItems(uuid);
+		Kit.equippedKits.get(player.getUniqueId()).refillItems();
 		Messenger.sendActionSuccess("Equipment resupplied", player);
 	}
 }

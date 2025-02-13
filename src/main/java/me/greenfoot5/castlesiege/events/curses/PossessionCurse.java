@@ -47,7 +47,7 @@ public class PossessionCurse extends CurseCast {
             Player player = Bukkit.getPlayer(uuid);
             assert player != null;
             Kit kit = getKit() == null ? randomKit() : Kit.getKit(kitName);
-            kit.addPlayer(player.getUniqueId(), false);
+            kit.equip(player.getUniqueId(), false);
             Bukkit.getScheduler().runTask(Main.plugin, () ->
                     player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).getValue())
             );

@@ -62,7 +62,7 @@ public class SetKitCommand implements CommandExecutor {
         // Set the player's kit
         Messenger.sendInfo(String.format("You set %s's kit to %s", player.getName(), kit.name), sender);
         Messenger.sendInfo("Your kit was set by " + sender.getName(), player);
-        kit.addPlayer(player.getUniqueId(), false);
+        kit.equip(player.getUniqueId(), false);
     }
 
     /**

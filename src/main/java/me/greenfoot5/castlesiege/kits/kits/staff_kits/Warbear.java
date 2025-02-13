@@ -83,13 +83,12 @@ public class Warbear extends StaffKit implements Listener {
 
     /**
      * Disguise the player as a polar bear
-     * @param p The player to (un)disguise
      */
     @Override
-    protected void setDisguise(Player p) {
+    protected void setDisguise() {
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.POLAR_BEAR);
 
-        disguise(p, mobDisguise);
+        disguise(mobDisguise);
     }
 
     /**

@@ -95,16 +95,15 @@ public class Abyssal extends SignKit implements Listener {
 
     /**
      * Disguise the player as an Abyssal
-     * @param p The player to (un)disguise
      */
     @Override
-    protected void setDisguise(Player p) {
+    protected void setDisguise() {
         PlayerDisguise playerDisguise = new PlayerDisguise("hiderr");
 
         playerDisguise.getWatcher().setCapeEnabled(false);
         playerDisguise.getWatcher().setParticlesColor(Color.GREEN);
 
-        disguise(p, playerDisguise);
+        disguise(playerDisguise);
     }
 
     /**

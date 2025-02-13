@@ -39,15 +39,9 @@ public class EquipmentSet {
 
     /**
      * Sets a player's inventory to this equipment set
-     * @param uuid The unique id of the player whose inventory to change
+     * @param player The player whose inventory to change
      */
-    public void setEquipment(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        assert player != null;
-
-        for (PotionEffect effect : player.getActivePotionEffects())
-            player.removePotionEffect(effect.getType());
-
+    public void setEquipment(Player player) {
         PlayerInventory inv = player.getInventory();
         inv.clear();
 
@@ -62,7 +56,7 @@ public class EquipmentSet {
         if (feet != null && feet.getAmount() > 0) {
             inv.setBoots(clearDefence(feet));
             // Voted boots
-            if (CSActiveData.getData(uuid).hasVote("boots") && votedFeet != null && votedFeet.getAmount() > 0) {
+            if (CSActiveData.getData(player.getUniqueId()).hasVote("boots") && votedFeet != null && votedFeet.getAmount() > 0) {
                 inv.setBoots(clearDefence(votedFeet));
             }
         }
@@ -75,7 +69,7 @@ public class EquipmentSet {
 
         if (offhand != null && offhand.getAmount() > 0) {
             inv.setItemInOffHand(offhand);
-            if (CSActiveData.getData(uuid).hasVote("sword")) {
+            if (CSActiveData.getData(player.getUniqueId()).hasVote("sword")) {
                 if (votedOffhand != null && votedOffhand.getAmount() > 0) {
                     inv.setItemInOffHand(votedOffhand);
                 }
@@ -83,7 +77,7 @@ public class EquipmentSet {
         }
 
         // Votes Weapon
-        if (CSActiveData.getData(uuid).hasVote("sword") &&
+        if (CSActiveData.getData(player.getUniqueId()).hasVote("sword") &&
                 votedWeapon != null && votedWeapon.getFirst().getAmount() > 0) {
             if (votedWeapon.getSecond() == -1) {
                 inv.setItemInOffHand(votedWeapon.getFirst());
@@ -93,7 +87,7 @@ public class EquipmentSet {
         }
 
         // Votes Ladders
-        if (CSActiveData.getData(uuid).hasVote("ladders") &&
+        if (CSActiveData.getData(player.getUniqueId()).hasVote("ladders") &&
                 votedLadders != null && votedLadders.getFirst().getAmount() > 0) {
             if (votedLadders.getSecond() == -1) {
                 inv.setItemInOffHand(votedLadders.getFirst());

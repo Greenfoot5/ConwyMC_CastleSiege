@@ -214,7 +214,7 @@ public class Werewolf extends EventKit implements Listener {
         healWerewolf(p);
         changeSword(p, regularSword.getType(), werewolfSword, werewolfSwordVoted);
         p.setCooldown(Material.RABBIT_HIDE, 800);
-        setDisguise(p);
+        setDisguise();
         // Revert sword
         Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
             if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
@@ -254,15 +254,14 @@ public class Werewolf extends EventKit implements Listener {
 
     /**
      * Disguise the player as a werewolf
-     * @param p The player to (un)disguise
      */
-    protected void setDisguise(Player p) {
+    protected void setDisguise() {
         PlayerDisguise mobDisguise = new PlayerDisguise("Chingling8");
         PlayerWatcher wolfWatcher = mobDisguise.getWatcher();
 
         wolfWatcher.setCapeEnabled(false);
 
-        disguise(p, mobDisguise);
+        disguise(mobDisguise);
     }
 
     /**

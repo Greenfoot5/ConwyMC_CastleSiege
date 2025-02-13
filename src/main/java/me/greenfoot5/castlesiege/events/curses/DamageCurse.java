@@ -39,7 +39,7 @@ public class DamageCurse extends CurseCast {
 
         // Update all player's current health
         for (UUID uuid : TeamController.getPlayers())
-            Kit.equippedKits.get(uuid).setItems(uuid, true);
+            Kit.equippedKits.get(uuid).setItems(true);
 
         CurseCast curse = this;
         new BukkitRunnable() {
@@ -50,7 +50,7 @@ public class DamageCurse extends CurseCast {
 
                 // Update all player's current health
                 for (UUID uuid : TeamController.getPlayers())
-                    Kit.equippedKits.get(uuid).setItems(uuid, true);
+                    Kit.equippedKits.get(uuid).setItems(true);
 
                 Messenger.broadcastCurseEnd("<dark_green>" + expired.getDisplayName() + "</dark_green> has been expired! " + expired.getExpireMessage());
             }

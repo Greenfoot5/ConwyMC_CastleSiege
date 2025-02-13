@@ -284,7 +284,7 @@ public class TeamController implements FactionProvider {
             CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
         }
 
-        Kit.equippedKits.get(player.getUniqueId()).setItems(player.getUniqueId(), true);
+        Kit.equippedKits.get(player.getUniqueId()).setItems(true);
     }
 
     /**

@@ -102,17 +102,16 @@ public class Warhound extends CoinKit implements Listener {
 
     /**
      * Disguise the player as a wolf
-     * @param p The player to (un)disguise
      */
     @Override
-    protected void setDisguise(Player p) {
+    protected void setDisguise() {
         MobDisguise mobDisguise = new MobDisguise(DisguiseType.WOLF);
         WolfWatcher wolfWatcher = (WolfWatcher) mobDisguise.getWatcher();
 
-        wolfWatcher.setCollarColor(getCollarColor(p));
+        wolfWatcher.setCollarColor(getCollarColor(equippedPlayer));
         wolfWatcher.setTamed(true);
 
-        disguise(p, mobDisguise);
+        disguise(mobDisguise);
     }
 
     /**

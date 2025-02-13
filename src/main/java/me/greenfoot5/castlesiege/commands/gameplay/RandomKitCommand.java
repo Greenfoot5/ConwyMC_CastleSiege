@@ -80,7 +80,7 @@ public class RandomKitCommand implements CommandExecutor, Listener {
             kits.add(kit);
         });
 
-        kits.get(new Random().nextInt(kits.size())).addPlayer(uuid, true);
+        kits.get(new Random().nextInt(kits.size())).equip(uuid, true);
     }
 
     /**

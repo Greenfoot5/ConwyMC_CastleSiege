@@ -60,9 +60,9 @@ public class SpectateCommand implements CommandExecutor {
             // Assign stored kit
             Kit kit = Kit.getKit(data.getKit());
             if (kit != null && kit.canSelect(player, true, true, false))
-                kit.addPlayer(player.getUniqueId(), true);
+                kit.equip(player.getUniqueId(), true);
             else
-                Kit.getKit("Swordsman").addPlayer(player.getUniqueId(), true);
+                Kit.getKit("Swordsman").equip(player.getUniqueId(), true);
 
         } else {
 
