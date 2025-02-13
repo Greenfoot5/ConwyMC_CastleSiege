@@ -19,7 +19,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Cake;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -30,7 +29,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -39,11 +37,8 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * The medic kit
@@ -55,9 +50,9 @@ public class Medic extends CoinKit implements Listener {
     private static final double meleeDamage = 30;
     private static final int ladderCount = 4;
     private static final int cakeCount = 16;
+    private static final int BANDAGE_COOLDOWN_TICKS = 39;
 
-    public static final HashMap<Player, Block> cakes = new HashMap<>();
-    public static final ArrayList<Player> cooldown = new ArrayList<>();
+    public static final HashSet<Block> cakes = new HashSet<>();
 
     /**
      * Set the equipment and attributes of this kit
@@ -166,15 +161,9 @@ public class Medic extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
-
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(player.getUniqueId())) {
-            return;
-        }
-
-        if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name) &&
-                event.getBlockPlaced().getType() == Material.CAKE) {
+        if (event.getPlayer() == equippedPlayer
+                && InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())
+                && event.getBlockPlaced().getType() == Material.CAKE) {
 
             // Check you aren't placing on a cake
             if (event.getBlockAgainst() instanceof Cake) {
@@ -183,8 +172,7 @@ public class Medic extends CoinKit implements Listener {
             }
 
             event.setCancelled(false);
-            destroyCake(player);
-            cakes.put(player, event.getBlockPlaced());
+            cakes.add(event.getBlockPlaced());
         }
     }
 
@@ -200,21 +188,16 @@ public class Medic extends CoinKit implements Listener {
         }
 
         Block cake = e.getBlock();
-        if (cake.getType() == Material.CAKE) {
+        if (cake.getType() == Material.CAKE
+                && cakes.contains(cake)) {
             e.setCancelled(true);
 
             Player p = e.getPlayer();
-            Player q = getPlacer(cake);
-            String cakeType;
-            if (q != null) {
-                destroyCake(q);
-                cakeType = TeamController.getTeam(p.getUniqueId())
-                        == TeamController.getTeam(q.getUniqueId()) ? " friendly" : "n enemy";
-                Messenger.sendWarning("Your cake was destroyed by " + CSNameTag.mmUsername(p), q);
-            } else {
-                cake.setType(Material.AIR);
-                cakeType = " neutral";
-            }
+            destroyCake(cake);
+            String cakeType = TeamController.getTeam(p.getUniqueId())
+                    == TeamController.getTeam(equippedPlayer.getUniqueId()) ? " friendly" : "n enemy";
+            Messenger.sendWarning("Your cake was destroyed by " + CSNameTag.mmUsername(p), equippedPlayer);
+
             Messenger.sendActionInfo("You destroyed a" + cakeType + " cake", p);
         }
     }
@@ -226,33 +209,28 @@ public class Medic extends CoinKit implements Listener {
     @EventHandler
     public void onHeal(PlayerInteractEntityEvent event) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            Player player = event.getPlayer();
-            UUID uuid = player.getUniqueId();
-
             // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
+            if (event.getPlayer() != equippedPlayer
+                    || InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
                 return;
             }
 
-            PlayerInventory i = player.getInventory();
-            Entity q = event.getRightClicked();
-            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
-                    (i.getItemInMainHand().getType() == Material.PAPER) &&                    // Uses bandage
-                    q instanceof Player r &&                                                          // On player
-                    TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId()) &&      // Same team
-                    ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
-                    !cooldown.contains((Player) q)) {                                               // Not on cooldown
+            PlayerInventory i = equippedPlayer.getInventory();
+            if ((i.getItemInMainHand().getType() == Material.PAPER)
+                    && event.getRightClicked() instanceof Player patient
+                    && TeamController.getTeam(equippedPlayer.getUniqueId()) == TeamController.getTeam(patient.getUniqueId())
+                    && patient.getHealth() < Kit.equippedKits.get(patient.getUniqueId()).baseHealth
+                    && equippedPlayer.getCooldown(Material.PAPER) == 0) {
 
                 // Apply cooldown
-                cooldown.add(r);
-                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
+                equippedPlayer.setCooldown(Material.PAPER, BANDAGE_COOLDOWN_TICKS);
 
                 // Heal
-                addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
-                addPotionEffect(player, new PotionEffect(PotionEffectType.RESISTANCE, 60, 0));
-                Messenger.sendHealing(CSNameTag.mmUsername(player) + " is healing you", r);
-                Messenger.sendHealing("You are healing " + CSNameTag.mmUsername(r), player);
-                UpdateStats.addHeals(uuid, 1);
+                addPotionEffect(patient, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
+                addPotionEffect(equippedPlayer, new PotionEffect(PotionEffectType.RESISTANCE, 60, 0));
+                Messenger.sendHealing(CSNameTag.mmUsername(equippedPlayer) + " is healing you", patient);
+                Messenger.sendHealing("You are healing " + CSNameTag.mmUsername(patient), equippedPlayer);
+                UpdateStats.addHeals(equippedPlayer.getUniqueId(), 1);
             }
         });
     }
@@ -272,7 +250,8 @@ public class Medic extends CoinKit implements Listener {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        destroyCake(e.getEntity());
+        if (e.getEntity() == equippedPlayer)
+            destroyCakes();
     }
 
     /**
@@ -281,30 +260,28 @@ public class Medic extends CoinKit implements Listener {
      */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        destroyCake(e.getPlayer());
+        if (e.getPlayer() == equippedPlayer)
+            destroyCakes();
     }
 
     /**
      * Destroy the player's cake if present
-     * @param p The player whose cake to destroy
      */
-    private void destroyCake(Player p) {
-        Block cake = cakes.remove(p);
-        if (cake != null) {
-            cake.setType(Material.AIR);
+    private void destroyCake(Block block) {
+        boolean removed = cakes.remove(block);
+        if (removed) {
+            block.setType(Material.AIR);
         }
     }
 
     /**
-     * Get the placer of the cake
-     * @param cake The cake whose placer to find
-     * @return The placer of the cake, null if the placer is not a medic
+     * Destroy the player's cake if present
      */
-    public static Player getPlacer(Block cake) {
-        return cakes.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue(), cake))
-                .findFirst().map(Map.Entry::getKey)
-                .orElse(null);
+    private void destroyCakes() {
+        for (Block cake : cakes) {
+            cake.setType(Material.AIR);
+        }
+        cakes.clear();
     }
 
     /**
@@ -313,32 +290,30 @@ public class Medic extends CoinKit implements Listener {
      */
     @EventHandler
     public void drinkPotion(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+        if (e.getPlayer() == equippedPlayer)
+            return;
 
-        if (!TeamController.isPlaying(uuid))
+        if (e.getHand() == null || e.getItem() == null || e.getItem().getType() != Material.POTION) {
             return;
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            return;
-        }
-        if (e.getItem() == null || e.getItem().getType() != Material.POTION) {
-            return;
-        }
-        if (e.getHand() == EquipmentSlot.HAND) {
-            p.getInventory().getItemInMainHand().setType(Material.GLASS_BOTTLE);
-        } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-            p.getInventory().getItemInOffHand().setType(Material.GLASS_BOTTLE);
         }
 
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
-            e.setCancelled(true);
-            return;
+        ItemStack bottle = new ItemStack(Material.GLASS_BOTTLE);
+
+        switch (e.getHand()) {
+            case HAND:
+                equippedPlayer.getInventory().setItemInMainHand(bottle);
+                break;
+            case OFF_HAND:
+                equippedPlayer.getInventory().setItemInOffHand(bottle);
+                break;
+            default:
+                return;
         }
 
         // Potion effects
-        p.addPotionEffect(new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 6));
-
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 6));
     }
 
     /**
