@@ -4,7 +4,6 @@ import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -28,7 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * The halberdier kit
@@ -138,8 +136,9 @@ public class Halberdier extends CoinKit implements Listener {
     public void antiCav(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player cav && e.getDamager() instanceof Player halb) {
 
-            if (Objects.equals(Kit.equippedKits.get(halb.getUniqueId()).name, name) &&
-                    cav.isInsideVehicle() && cav.getVehicle() instanceof Horse) {
+            if (halb == equippedPlayer
+                    && cav.isInsideVehicle()
+                    && cav.getVehicle() instanceof Horse) {
                 e.setDamage(e.getDamage() * 1.5);
             }
         }
@@ -151,12 +150,11 @@ public class Halberdier extends CoinKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void halbCooldown(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player halb &&
-                Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
+        if (e.getDamager() == equippedPlayer) {
 
-            if (halb.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
-                if (halb.getCooldown(Material.DIAMOND_AXE) == 0) {
-                    halb.setCooldown(Material.DIAMOND_AXE, e.getEntity() instanceof Player ? 20 : 10);
+            if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.DIAMOND_AXE) {
+                if (equippedPlayer.getCooldown(Material.DIAMOND_AXE) == 0) {
+                    equippedPlayer.setCooldown(Material.DIAMOND_AXE, e.getEntity() instanceof Player ? 20 : 10);
                 } else {
                     e.setCancelled(true);
                 }
@@ -165,13 +163,12 @@ public class Halberdier extends CoinKit implements Listener {
     }
 
     /**
-     * Activate the halberdier ability of taking +50% damage from arrows
+     * Activate the halberdier ability of taking +100% damage from arrows
      * @param e The event called when taking damage from an arrow
      */
     @EventHandler(priority = EventPriority.HIGH)
     public void weakToArrows(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow &&
-                Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
+        if (e.getDamager() instanceof Arrow && e.getEntity() == equippedPlayer) {
             e.setDamage(e.getDamage() * 2);
         }
     }
@@ -193,9 +190,9 @@ public class Halberdier extends CoinKit implements Listener {
         kitLore.add(Component.text("- Resistance I", NamedTextColor.GRAY));
         kitLore.add(Component.text(" ", NamedTextColor.GRAY));
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- Cannot run", NamedTextColor.RED));
+        kitLore.add(Component.text("- Cannot jump", NamedTextColor.RED));
         kitLore.add(Component.text("- Has a slower attack speed", NamedTextColor.RED));
-        kitLore.add(Component.text("- Halberdier takes 50% more DMG from arrows", NamedTextColor.RED));
+        kitLore.add(Component.text("- Halberdier takes 100% more DMG from arrows", NamedTextColor.RED));
         return kitLore;
     }
 }
