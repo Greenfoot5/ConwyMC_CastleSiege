@@ -8,7 +8,6 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -41,7 +40,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -55,7 +53,9 @@ public class Priest extends CoinKit implements Listener {
     private static final int blessingCooldown = 500;
     private static final int staffCooldown = 40;
     private final ItemStack holyBook;
-    public static final HashMap<Player, UUID> blessings = new HashMap<>();
+
+    private static UUID blessed;
+    private static BukkitRunnable blessing;
 
     private final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
@@ -181,24 +181,24 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickHolyStaff(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack staff = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.SPECTRAL_ARROW);
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (staff.getType().equals(Material.SPECTRAL_ARROW)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.SPECTRAL_ARROW, staffCooldown);
-                        mythicMobsApi.castSkill(p ,"PriestSmite", p.getLocation());
-                    }
-                }
+        ItemStack staff = equippedPlayer.getInventory().getItemInMainHand();
+
+        if (!staff.getType().equals(Material.SPECTRAL_ARROW))
+            return;
+
+        if (e.getAction() == Action.RIGHT_CLICK_AIR
+                || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (equippedPlayer.getCooldown(Material.SPECTRAL_ARROW) == 0) {
+                equippedPlayer.setCooldown(Material.SPECTRAL_ARROW, staffCooldown);
+                mythicMobsApi.castSkill(equippedPlayer ,"PriestSmite", equippedPlayer.getLocation());
             }
         }
     }
@@ -210,59 +210,59 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickBible(PlayerInteractEntityEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
 
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+        ItemStack book = equippedPlayer.getInventory().getItemInMainHand();
+        if (!book.getType().equals(Material.BOOK))
             return;
-        }
-        Player p = e.getPlayer();
-        ItemStack book = p.getInventory().getItemInMainHand();
-        if (!book.getType().equals(Material.BOOK)) {
-            return;
-        }
-        if (!(e.getRightClicked() instanceof Player) ||
-                TeamController.getTeam(e.getRightClicked().getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
-            return;
-        }
-        int cooldown = p.getCooldown(Material.BOOK);
-        if (cooldown != 0) {
-            return;
-        }
-        p.setCooldown(Material.BOOK, blessingCooldown);
-        blessings.put(p, e.getRightClicked().getUniqueId());
-        assignBook(p, book);
 
-        new BukkitRunnable() {
+        if (!(e.getRightClicked() instanceof Player)
+                || TeamController.getTeam(e.getRightClicked().getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
+            return;
+        }
+
+        if (equippedPlayer.getCooldown(Material.BOOK) != 0) {
+            return;
+        }
+
+        equippedPlayer.setCooldown(Material.BOOK, blessingCooldown);
+        bless((Player) e.getRightClicked(), book);
+    }
+
+    private void cancelBlessing() {
+        if (blessing != null)
+            blessing.cancel();
+        blessing = null;
+    }
+
+    private void bless(Player player, ItemStack book) {
+
+        cancelBlessing();
+        blessed = player.getUniqueId();
+        assignBook(book);
+
+        blessing = new BukkitRunnable() {
             @Override
             public void run() {
-                if (!blessings.containsKey(p)) {
-                    this.cancel();
-                    return;
-                }
-                // It is possible that even with this somehow the player will keep being healed? hmm. Not sure but can't exclude the possibility.
-                if (blessings.get(p) == null || TeamController.getTeam(blessings.get(p)) != TeamController.getTeam(p.getUniqueId())
-                || !Objects.equals(Kit.equippedKits.get(uuid).name, name) || InCombat.isPlayerInLobby(blessings.get(p)) || InCombat.isPlayerInLobby(uuid)) {
-                    blessings.remove(p);
-                    unassignBook(p, book);
-                    this.cancel();
-                    return;
-                }
-                Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
-                AttributeInstance healthAttribute = Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getAttribute(Attribute.MAX_HEALTH);
+                Player blessedPlayer = Bukkit.getPlayer(blessed);
+                Objects.requireNonNull(blessedPlayer).addPotionEffect((new PotionEffect(PotionEffectType.REGENERATION, 200, 3)));
+                AttributeInstance healthAttribute = Objects.requireNonNull(blessedPlayer).getAttribute(Attribute.MAX_HEALTH);
                 assert healthAttribute != null;
                 //Priest doesn't get a heal for blessing someone who is full health.
-                if (Objects.requireNonNull(Bukkit.getPlayer(blessings.get(p))).getHealth() != healthAttribute.getBaseValue()) {
-                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addHeals(p.getUniqueId(), 1));
+                if (Objects.requireNonNull(blessedPlayer).getHealth() != healthAttribute.getBaseValue()) {
+                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> UpdateStats.addHeals(equippedPlayer.getUniqueId(), 1));
                 }
-                Messenger.sendActionInfo("Your blessing is currently affecting: " + CSNameTag.mmUsername(Bukkit.getPlayer(blessings.get(p))), p);
+                Messenger.sendActionInfo("Your blessing is currently affecting: " + CSNameTag.mmUsername(blessedPlayer), equippedPlayer);
             }
-        }.runTaskTimer(Main.plugin, 10, 200);
+        };
 
+        blessing.runTaskTimer(Main.plugin, 10, 200);
     }
 
     /**
@@ -270,41 +270,38 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
-        if (blessings.containsKey(event.getPlayer())) {
-            assignBook(event.getPlayer(), holyBook);
+        if (blessing != null) {
+            assignBook(holyBook);
             event.getPlayer().getInventory().setItem(1, holyBook);
         }
     }
 
 
     /**
-     * @param priest The priest using the book
      * @param book The book being used
      */
-    private void assignBook(Player priest, ItemStack book) {
-        if (blessings.containsKey(priest)) {
+    private void assignBook(ItemStack book) {
+        if (blessing != null) {
             ItemMeta bootMeta = book.getItemMeta();
             assert bootMeta != null;
             bootMeta.displayName(Objects.requireNonNull(holyBook.getItemMeta().displayName())
                     .append(Component.text(" : ", NamedTextColor.GREEN))
-                    .append(Component.text(Objects.requireNonNull(Bukkit.getPlayer(blessings.get(priest))).getName(), NamedTextColor.AQUA)));
+                    .append(Bukkit.getPlayer(blessed).displayName().color(NamedTextColor.AQUA)));
             book.setItemMeta(bootMeta);
         }
     }
 
     /**
-     * @param priest The priest using the book
      * @param book The book being used
      */
-    private void unassignBook(Player priest, ItemStack book) {
+    private void unassignBook(ItemStack book) {
 
         ItemMeta bookMeta = book.getItemMeta();
         assert bookMeta != null;
         bookMeta.displayName((Component.text("Holy Bible", NamedTextColor.GREEN)));
 
-        for (ItemStack item : priest.getInventory().getContents()) {
-            if (item == null) { return; }
-            if (item.getType().equals(Material.BOOK)) {
+        for (ItemStack item : equippedPlayer.getInventory().getContents()) {
+            if (item != null && item.getType().equals(Material.BOOK)) {
                 item.setItemMeta(bookMeta);
             }
         }
@@ -315,7 +312,8 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> blessings.remove(e.getPlayer()));
+        if (e.getPlayer() == equippedPlayer || e.getPlayer().getUniqueId() == blessed)
+            cancelBlessing();
     }
 
     /**
@@ -323,7 +321,14 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> blessings.remove(e.getPlayer()));
+        if (e.getPlayer() == equippedPlayer || e.getPlayer().getUniqueId() == blessed)
+            cancelBlessing();
+    }
+
+    @Override
+    public void unequip() {
+        cancelBlessing();
+        super.unequip();
     }
 
     /**
