@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.events.gameplay.HorseHandler;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -148,7 +146,7 @@ public class Cavalry extends CoinKit implements Listener {
 
         if (!TeamController.isPlaying(uuid))
             return;
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+        if (p != equippedPlayer) {
             return;
         }
         if (InCombat.isPlayerInLobby(uuid)) {
