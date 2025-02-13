@@ -107,29 +107,24 @@ public class Viking extends CoinKit implements Listener {
      * Activate the viking ability of ignoring armor
      * @param e The event called when hitting another player
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) {
+        if (e.getDamager() != equippedPlayer)
             return;
-        }
 
-        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
-            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) &&
-                    ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
-                Player p = (Player) e.getEntity();
-                int baseHealth = Kit.equippedKits.get(p.getUniqueId()).baseHealth;
+        if (e.getEntity() instanceof Player hit) {
+            if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+                int baseHealth = Kit.equippedKits.get(hit.getUniqueId()).baseHealth;
                 e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
             }
-        } else if (e.getEntity() instanceof LivingEntity && (!(e.getEntity() instanceof Player)) && e.getDamager() instanceof Player){
-            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name) &&
-                    ((Player) e.getDamager()).getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
-                LivingEntity mob = (LivingEntity) e.getEntity();
+        } else if (e.getEntity() instanceof LivingEntity hit){
+            if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
 
-                AttributeInstance maxHealth = mob.getAttribute(Attribute.MAX_HEALTH);
+                AttributeInstance maxHealth = hit.getAttribute(Attribute.MAX_HEALTH);
                 assert maxHealth != null;
                 if (!(maxHealth.getValue() >= 500)) {
-                 e.setDamage((maxHealth.getValue() * PERCENTAGE_DAMAGE) + e.getDamage());
-              }
+                    e.setDamage((maxHealth.getValue() * PERCENTAGE_DAMAGE) + e.getDamage());
+                }
             }
         }
     }
