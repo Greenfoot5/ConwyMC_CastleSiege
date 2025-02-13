@@ -5,14 +5,12 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -30,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 public class Sorcerer extends CoinKit implements Listener {
 
@@ -39,6 +35,7 @@ public class Sorcerer extends CoinKit implements Listener {
     private static final double regen = 10.5;
     private static final double meleeDamage = 26;
     private static final int ladderCount = 4;
+
     private static final int arcaneBoltCooldown = 60;
     private static final int frostNovaCooldown = 220;
     private static final int arcaneBarrageCooldown = 400;
@@ -183,22 +180,21 @@ public class Sorcerer extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickStaff(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (e.getPlayer() != equippedPlayer)
             return;
-        }
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            ItemStack staff = p.getInventory().getItemInMainHand();
-            if (staff.getType().equals(Material.STICK)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    int cooldown = p.getCooldown(Material.STICK);
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.STICK, arcaneBoltCooldown);
-                        mythicMobsApi.castSkill(p ,"SorcererArcanebolt", p.getLocation());
-                    }
-                }
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        ItemStack staff = equippedPlayer.getInventory().getItemInMainHand();
+        if (!staff.getType().equals(Material.STICK))
+            return;
+
+        if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (equippedPlayer.getCooldown(Material.STICK) == 0) {
+                equippedPlayer.setCooldown(Material.STICK, arcaneBoltCooldown);
+                mythicMobsApi.castSkill(equippedPlayer ,"SorcererArcanebolt", equippedPlayer.getLocation());
             }
         }
     }
@@ -209,23 +205,25 @@ public class Sorcerer extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickFrostNova(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            ItemStack pItem = p.getInventory().getItemInMainHand();
-            if (pItem.getType().equals(Material.DIAMOND)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    int cooldown = p.getCooldown(Material.DIAMOND);
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.DIAMOND, frostNovaCooldown);
-                        mythicMobsApi.castSkill(p ,"SorcererFrostnova", p.getLocation());
-                    }
-                }
-            }
+
+        ItemStack pItem = equippedPlayer.getInventory().getItemInMainHand();
+        if (!pItem.getType().equals(Material.DIAMOND))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        int cooldown = equippedPlayer.getCooldown(Material.DIAMOND);
+        if (cooldown == 0) {
+            equippedPlayer.setCooldown(Material.DIAMOND, frostNovaCooldown);
+            mythicMobsApi.castSkill(equippedPlayer,"SorcererFrostnova", equippedPlayer.getLocation());
         }
     }
 
@@ -235,23 +233,25 @@ public class Sorcerer extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickBarrage(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            ItemStack staff = p.getInventory().getItemInMainHand();
-            if (staff.getType().equals(Material.AMETHYST_SHARD)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    int cooldown = p.getCooldown(Material.AMETHYST_SHARD);
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.AMETHYST_SHARD, arcaneBarrageCooldown);
-                        mythicMobsApi.castSkill(p ,"SorcererArcaneboltBarrage", p.getLocation());
-                    }
-                }
-            }
+
+        ItemStack staff = equippedPlayer.getInventory().getItemInMainHand();
+        if (!staff.getType().equals(Material.AMETHYST_SHARD))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        int cooldown = equippedPlayer.getCooldown(Material.AMETHYST_SHARD);
+        if (cooldown == 0) {
+            equippedPlayer.setCooldown(Material.AMETHYST_SHARD, arcaneBarrageCooldown);
+            mythicMobsApi.castSkill(equippedPlayer ,"SorcererArcaneboltBarrage", equippedPlayer.getLocation());
         }
     }
 
@@ -261,23 +261,25 @@ public class Sorcerer extends CoinKit implements Listener {
      */
     @EventHandler
     public void clickSlowFalling(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            ItemStack staff = p.getInventory().getItemInMainHand();
-            if (staff.getType().equals(Material.FEATHER)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    int cooldown = p.getCooldown(Material.FEATHER);
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.FEATHER, slowFallingCooldown);
-                        mythicMobsApi.castSkill(p ,"SorcererSlowfalling", p.getLocation());
-                    }
-                }
-            }
+
+        ItemStack staff = equippedPlayer.getInventory().getItemInMainHand();
+        if (!staff.getType().equals(Material.FEATHER))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        int cooldown = equippedPlayer.getCooldown(Material.FEATHER);
+        if (cooldown == 0) {
+            equippedPlayer.setCooldown(Material.FEATHER, slowFallingCooldown);
+            mythicMobsApi.castSkill(equippedPlayer ,"SorcererSlowfalling", equippedPlayer.getLocation());
         }
     }
 
