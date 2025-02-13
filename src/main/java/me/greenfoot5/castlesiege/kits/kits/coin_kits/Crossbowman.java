@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -29,10 +28,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * A kit that can fire arrows that don't fall
@@ -48,13 +44,10 @@ public class Crossbowman extends CoinKit implements Listener {
      * Set the equipment and attributes of this kit
      */
 
-    public static final HashMap<UUID, Boolean> snipers = new HashMap<>();
+    private boolean sniping = false;
 
-    private final ItemStack mobilitySwitchInactive;
-    private final ItemStack sniperSwitchInactive;
-
-    private final ItemStack mobilitySwitchActive;
-    private final ItemStack sniperSwitchActive;
+    private final ItemStack mobilitySwitch;
+    private final ItemStack sniperSwitch;
 
     /**
      * Creates a new crossbowman
@@ -118,7 +111,7 @@ public class Crossbowman extends CoinKit implements Listener {
         es.votedLadders = new Tuple<>(new ItemStack(Material.LADDER, ladderCount + 2), 1);
 
         // mode switch button
-        mobilitySwitchInactive = CSItemCreator.weapon(new ItemStack(Material.LIME_DYE),
+        mobilitySwitch = CSItemCreator.weapon(new ItemStack(Material.LIME_DYE),
                 Component.text("Mobility Mode", NamedTextColor.GREEN),
                 Arrays.asList(Component.empty(),
                         Component.text("Right-click to enable Mobility Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -129,7 +122,7 @@ public class Crossbowman extends CoinKit implements Listener {
                         Component.text("crossbow.", NamedTextColor.AQUA)),
                 null, 0);
 
-        sniperSwitchInactive = CSItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
+        sniperSwitch = CSItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
                 Component.text("Sniper Mode", NamedTextColor.YELLOW),
                 Arrays.asList(Component.empty(),
                         Component.text("Right-click to enable Sniper Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
@@ -139,30 +132,7 @@ public class Crossbowman extends CoinKit implements Listener {
                         Component.text("has a cooldown and shoots like a sniper", NamedTextColor.AQUA)),
                 Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 0);
 
-        // mode switch button
-        mobilitySwitchActive = CSItemCreator.weapon(new ItemStack(Material.LIME_DYE),
-                Component.text("Mobility Mode", NamedTextColor.GREEN),
-                Arrays.asList(Component.empty(),
-                        Component.text("Right-click to enable Mobility Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
-                        Component.empty(),
-                        Component.text("Mobility mode:", NamedTextColor.AQUA),
-                        Component.text("In this mode crossbowman is faster, ", NamedTextColor.AQUA),
-                        Component.text("has no cooldown and shoots like a normal", NamedTextColor.AQUA),
-                        Component.text("crossbow.", NamedTextColor.AQUA)),
-                null, 0);
-
-        sniperSwitchActive = CSItemCreator.weapon(new ItemStack(Material.YELLOW_DYE),
-                Component.text("Sniper Mode", NamedTextColor.YELLOW),
-                Arrays.asList(Component.empty(),
-                        Component.text("Right-click to enable Sniper Mode", NamedTextColor.AQUA).decorate(TextDecoration.BOLD),
-                        Component.empty(),
-                        Component.text("Sniper mode:", NamedTextColor.AQUA),
-                        Component.text("In this mode crossbowman is slower, ", NamedTextColor.AQUA),
-                        Component.text("has a cooldown and shoots like a sniper", NamedTextColor.AQUA)),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 0);
-
-        es.hotbar[6] = mobilitySwitchActive;
-        es.hotbar[7] = sniperSwitchInactive;
+        es.hotbar[6] = sniperSwitch;
 
         // Arrows
         es.hotbar[5] = new ItemStack(Material.ARROW, 48);
@@ -186,20 +156,31 @@ public class Crossbowman extends CoinKit implements Listener {
     @EventHandler
     public void shootCrossbow(EntityShootBowEvent e) {
         //Multiple checks including if the crossbow is in sniper mode.
-        if (e.isCancelled() || !(e.getEntity() instanceof Player p) || !isInSnipingMode(e.getEntity().getUniqueId())) {
+        if (e.isCancelled() || e.getEntity() != equippedPlayer || !sniping) {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+        if (!(e.getProjectile() instanceof Arrow a)) {
+            return;
+        }
 
-            if (!(e.getProjectile() instanceof Arrow a)) {
-                return;
+        equippedPlayer.setCooldown(Material.CROSSBOW, 70);
+        //((Arrow) e.getProjectile()).setPierceLevel(1);
+        a.setKnockbackStrength(1);
+        a.setVelocity(equippedPlayer.getLocation().getDirection().normalize().multiply(40));
+    }
+
+    /**
+     * Set the arrow-damage of a crossbow's arrows
+     * @param e The event called when a player is hit by an arrow
+     */
+    @EventHandler(priority = EventPriority.LOW)
+    public void onArrowHit(ProjectileHitEvent e) {
+        if (e.getEntity() instanceof Arrow
+                && e.getEntity().getShooter() == equippedPlayer) {
+            if (!sniping) {
+                ((Arrow) e.getEntity()).setDamage(18);
             }
-
-            p.setCooldown(Material.CROSSBOW, 70);
-            //((Arrow) e.getProjectile()).setPierceLevel(1);
-            a.setKnockbackStrength(1);
-            a.setVelocity(p.getLocation().getDirection().normalize().multiply(40));
         }
     }
 
@@ -209,33 +190,8 @@ public class Crossbowman extends CoinKit implements Listener {
      */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
-            snipers.put(event.getPlayer().getUniqueId(), false);
-    }
-
-    /**
-     *
-     * @param uuid the uuid of the player to check
-     * @return true if the player is in snipe mode, false if they aren't.
-     */
-    private boolean isInSnipingMode(UUID uuid) {
-        if (snipers.get(uuid) == null) {
-            return false;
-        } else return snipers.get(uuid);
-    }
-
-    /**
-     * Set the arrow-damage of a ranger's arrows
-     * @param e The event called when a player is hit by an arrow
-     */
-    @EventHandler(priority = EventPriority.LOW)
-    public void onArrowHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow &&
-                e.getEntity().getShooter() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            if (!isInSnipingMode(((Player) e.getEntity().getShooter()).getUniqueId())) {
-                ((Arrow) e.getEntity()).setDamage(18);
-            }
-        }
+        if (event.getPlayer() == equippedPlayer)
+            mobilityMode();
     }
 
 
@@ -246,20 +202,8 @@ public class Crossbowman extends CoinKit implements Listener {
     private void onClickGreenDye(Player p) {
         // mode switch button
         int cooldown = p.getCooldown(Material.LIME_DYE);
-        if (cooldown == 0 && isInSnipingMode(p.getUniqueId())) {
-            p.setCooldown(Material.LIME_DYE, 200);
-            p.setCooldown(Material.YELLOW_DYE, 200);
-            p.getInventory().setItem(6, mobilitySwitchActive);
-            p.getInventory().setItem(7, sniperSwitchInactive);
-            // Potion effects when Mobility Mode
-            for (PotionEffect effect : p.getActivePotionEffects()) {
-                if ((effect.getType().equals(PotionEffectType.SLOWNESS) && effect.getAmplifier() == 2)) {
-                    p.removePotionEffect(effect.getType());
-                    this.potionEffects.remove(effect.getType());
-                }
-            }
-            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
-            snipers.put(p.getUniqueId(), false);
+        if (cooldown == 0 && sniping) {
+            mobilityMode();
         }
     }
 
@@ -269,21 +213,50 @@ public class Crossbowman extends CoinKit implements Listener {
      */
     private void onClickYellowDye(Player p) {
         int cooldown = p.getCooldown(Material.YELLOW_DYE);
-        if (cooldown == 0 && !isInSnipingMode(p.getUniqueId())) {
-            p.setCooldown(Material.LIME_DYE, 200);
-            p.setCooldown(Material.YELLOW_DYE, 200);
-            p.getInventory().setItem(6, mobilitySwitchInactive);
-            p.getInventory().setItem(7, sniperSwitchActive);
-            // Potion effects when Sniper Mode
-            for (PotionEffect effect : p.getActivePotionEffects()) {
-                if ((effect.getType().equals(PotionEffectType.SPEED) && effect.getAmplifier() == 0)) {
-                    p.removePotionEffect(effect.getType());
-                    this.potionEffects.remove(effect.getType());
-                }
-            }
-            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 999999, 2));
-            snipers.put(p.getUniqueId(), true);
+        if (cooldown == 0 && !sniping) {
+            snipingMode();
         }
+    }
+
+    /**
+     * Sets the player to mobility mode
+     */
+    private void mobilityMode() {
+        sniping = false;
+
+        equippedPlayer.setCooldown(Material.LIME_DYE, 200);
+        equippedPlayer.setCooldown(Material.YELLOW_DYE, 200);
+        equippedPlayer.getInventory().setItem(6, sniperSwitch);
+
+        // Potion effects when Mobility Mode
+        for (PotionEffect effect : equippedPlayer.getActivePotionEffects()) {
+            if ((effect.getType().equals(PotionEffectType.SLOWNESS) && effect.getAmplifier() == 2)) {
+                equippedPlayer.removePotionEffect(effect.getType());
+                this.potionEffects.remove(effect.getType());
+            }
+        }
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 0));
+    }
+
+    /**
+     * Sets the player to sniping mode
+     */
+    private void snipingMode() {
+        sniping = true;
+
+        equippedPlayer.setCooldown(Material.LIME_DYE, 200);
+        equippedPlayer.setCooldown(Material.YELLOW_DYE, 200);
+        equippedPlayer.getInventory().setItem(6, mobilitySwitch);
+
+        // Potion effects when Sniper Mode
+        for (PotionEffect effect : equippedPlayer.getActivePotionEffects()) {
+            if ((effect.getType().equals(PotionEffectType.SPEED) && effect.getAmplifier() == 0)) {
+                equippedPlayer.removePotionEffect(effect.getType());
+                this.potionEffects.remove(effect.getType());
+            }
+        }
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 999999, 2));
+        sniping = true;
     }
 
 
@@ -293,20 +266,20 @@ public class Crossbowman extends CoinKit implements Listener {
      */
     @EventHandler
     public void onModeSwitch(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (p.getInventory().getItemInMainHand().getType().equals(Material.LIME_DYE)) {
-                    onClickGreenDye(p);
-                }
-                if (p.getInventory().getItemInMainHand().getType().equals(Material.YELLOW_DYE)) {
-                    onClickYellowDye(p);
-                }
+
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.LIME_DYE)) {
+                mobilityMode();
+            }
+            else if (equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.YELLOW_DYE)) {
+                snipingMode();
             }
         }
     }
