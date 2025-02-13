@@ -128,7 +128,7 @@ public class Berserker extends CoinKit implements Listener {
 
         if (!TeamController.isPlaying(uuid))
             return;
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
+        if (p != equippedPlayer) {
             return;
         }
         if (e.getItem() == null || e.getItem().getType() != Material.POTION) {
