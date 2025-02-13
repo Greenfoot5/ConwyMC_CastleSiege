@@ -33,6 +33,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -43,6 +44,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -78,7 +80,6 @@ public abstract class Kit implements CommandExecutor, Listener {
     protected final String[] projectileKillMessage;
 
     // Player Tracking
-    public final List<UUID> players;
     public static final Map<UUID, Kit> equippedKits = new HashMap<>();
     private int limit = -1;
 
@@ -92,6 +93,9 @@ public abstract class Kit implements CommandExecutor, Listener {
     private static final List<UUID> activeBindings = new ArrayList<>();
     private static double healthMultiplier = 1.0;
     private static boolean vulnerable = false;
+
+    /** The player that's equipped this instance of the kit */
+    protected Player equippedPlayer;
 
     /**
      * Create a kit with basic settings
@@ -107,8 +111,7 @@ public abstract class Kit implements CommandExecutor, Listener {
         this.baseHealth = baseHealth;
         this.regenAmount = regenAmount;
 
-        players = new ArrayList<>();
-        kits.put(getSpacelessName(), this);
+        kits.putIfAbsent(getSpacelessName(), this);
 
         canCap = true;
         canClimb = true;
@@ -129,104 +132,113 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     /**
      * Give the items and attributes of this kit to a player
-     * @param uuid The unique id of the player to whom this kit is given
-     * @param force If the
+     * @param force If the kit should be applied without checks
      */
-    public void setItems(UUID uuid, boolean force) {
+    public void setItems(boolean force) {
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
-            Player player = Bukkit.getPlayer(uuid);
-            if (player == null)
+            if (equippedPlayer == null)
                 return;
 
             // The player shouldn't get the items
-            if (!(force || canSelect(player,false, false, false))) {
-                player.performCommand("random");
+            if (!(force || canSelect(equippedPlayer,false, false, false))) {
+                equippedPlayer.performCommand("random");
                 return;
             }
 
-            // Health
-            AttributeInstance healthAttribute = player.getAttribute(Attribute.MAX_HEALTH);
-            assert healthAttribute != null;
-            double maxHealth = vulnerable ? 1 : baseHealth * healthMultiplier;
-            healthAttribute.setBaseValue(maxHealth);
-            player.setHealth(maxHealth);
-            player.setFireTicks(0);
-            if (maxHealth > 200) {
-                player.setHealthScale(maxHealth / 10.0);
-            } else if (maxHealth == 1) {
-                player.setHealthScale(0.5);
-            }
-            else {
-                player.setHealthScale(20.0);
-            }
-
-            // Knockback resistance
-            AttributeInstance kbAttribute = player.getAttribute(Attribute.KNOCKBACK_RESISTANCE);
-            assert kbAttribute != null;
-            kbAttribute.setBaseValue(kbResistance);
+            // Attributes
+            setAttributes();
 
             // Items
-            refillItems(uuid);
+            refillItems();
 
             // Change disguise
-            setDisguise(player);
+            setDisguise();
 
-            // Change player health display
-            displayHealth(player);
+            // Change health display
+            displayHealth();
         });
+    }
+
+    public void setAttributes() {
+        // Health
+        AttributeInstance healthAttribute = equippedPlayer.getAttribute(Attribute.MAX_HEALTH);
+        assert healthAttribute != null;
+        double maxHealth = vulnerable ? 1 : baseHealth * healthMultiplier;
+        healthAttribute.setBaseValue(maxHealth);
+        equippedPlayer.setHealth(maxHealth);
+        equippedPlayer.setFireTicks(0);
+        if (maxHealth > 200) {
+            equippedPlayer.setHealthScale(maxHealth / 10.0);
+        } else if (maxHealth == 1) {
+            equippedPlayer.setHealthScale(0.5);
+        }
+        else {
+            equippedPlayer.setHealthScale(20.0);
+        }
+
+        // Knockback resistance
+        AttributeInstance kbAttribute = equippedPlayer.getAttribute(Attribute.KNOCKBACK_RESISTANCE);
+        assert kbAttribute != null;
+        kbAttribute.setBaseValue(kbResistance);
+    }
+
+    protected void resetAttributes() {
+        // Knockback resistance
+        AttributeInstance kbAttribute = equippedPlayer.getAttribute(Attribute.KNOCKBACK_RESISTANCE);
+        assert kbAttribute != null;
+        kbAttribute.setBaseValue(0);
     }
 
     /**
      * Reset the player's items and reapply their potion effects
-     * @param uuid The unique id of the player for whom to perform the refill
      */
-    public void refillItems(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        if (player == null)
-            return;
-
+    public void refillItems() {
         // Equipment
-        equipment.setEquipment(uuid);
-        resetCooldown(uuid);
+        equipment.setEquipment(equippedPlayer);
+        resetCooldown();
 
         // Wool hat
-        WoolHat.setHead(player);
+        WoolHat.setHead(equippedPlayer);
 
         // Menu Item -> 8Th slot is reserved for this always! (9th slot in reality)
 //        MenuItem.giveMenuItem(equippedPlayer);
 
         // Potion effects
-        applyPotionEffects(uuid);
+        applyPotionEffects();
     }
 
     /**
      * Reset all item cooldowns of items the player's hotbar
-     * @param uuid The unique id of the player for whom to reset the cooldowns
      */
-    private void resetCooldown(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        if (player == null) { return; }
-
-        PlayerInventory inv = player.getInventory();
+    private void resetCooldown() {
+        PlayerInventory inv = equippedPlayer.getInventory();
         for (int i = 0; i < 8; i++) {
             if (inv.getItem(i) != null) {
-                player.setCooldown(Objects.requireNonNull(inv.getItem(i)).getType(), 0);
+                equippedPlayer.setCooldown(Objects.requireNonNull(inv.getItem(i)).getType(), 0);
             }
         }
     }
 
     /**
-     * Remove all potion effects from the player and apply this kit's potion effects
-     * @param uuid The unique id of the player for whom to apply the potion effects
+     * Applies the kit's potion effects to the player
      */
-    protected void applyPotionEffects(UUID uuid) {
+    protected void applyPotionEffects() {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Player player = Bukkit.getPlayer(uuid);
-                if (player == null) { return; }
-                player.getActivePotionEffects().clear();
-                player.addPotionEffects(potionEffects);
+                equippedPlayer.addPotionEffects(potionEffects);
+            }
+        }.runTaskLater(Main.plugin, 5);
+    }
+
+    /**
+     * Removes all potion effects from a player
+     */
+    protected void removePotionEffects() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                equippedPlayer.getActivePotionEffects().clear();
             }
         }.runTaskLater(Main.plugin, 1);
     }
@@ -236,29 +248,45 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @param uuid The unique id of the player to register
      * @param shouldRespawn If the player should be respawned
      */
-    public void addPlayer(UUID uuid, boolean shouldRespawn) {
+    public void equip(UUID uuid, boolean shouldRespawn) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            Player player = Bukkit.getPlayer(uuid);
-            assert player != null;
-            players.add(uuid);
-            equippedKits.put(uuid, this);
-            setItems(uuid, true);
-            CSActiveData.getData(uuid).setKit(getSpacelessName());
-            Messenger.sendInfo("Selected Kit: " + this.name, player);
+            Kit kit;
+            try {
+                 kit = this.getClass().getConstructor().newInstance();
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+
+            kit.equippedPlayer = Bukkit.getPlayer(uuid);
+            assert kit.equippedPlayer != null;
+
+            // Remove old kit
+            Kit oldKit = equippedKits.get(uuid);
+            if (oldKit != null)
+                oldKit.unequip();
+
+            // Equip new kit
+            equippedKits.put(uuid, kit);
+            kit.setItems(true);
+            CSActiveData.getData(uuid).setKit(kit.getSpacelessName());
+            Messenger.sendInfo("Selected Kit: " + kit.name, kit.equippedPlayer);
+
+            // Register Listeners for the kit
+            Bukkit.getServer().getPluginManager().registerEvents(kit, Main.plugin);
 
             // Kills the player if they have spawned this life, otherwise heal them
             if (shouldRespawn) {
                 if (!InCombat.isPlayerInLobby(uuid)) {
-                    Bukkit.getScheduler().runTask(Main.plugin, () -> player.setHealth(0));
+                    Bukkit.getScheduler().runTask(Main.plugin, () -> kit.equippedPlayer.setHealth(0));
                     if (MapController.isOngoing()) {
-                        Messenger.sendInfo("You have committed suicide <dark_aqua>(+2 deaths)", player);
-                        UpdateStats.addDeaths(player.getUniqueId(), 1); // Note: 1 death added on player respawn
+                        Messenger.sendInfo("You have committed suicide <dark_aqua>(+2 deaths)", kit.equippedPlayer);
+                        UpdateStats.addDeaths(kit.equippedPlayer.getUniqueId(), 1); // Note: 1 death added on player respawn
                     } else {
-                        Messenger.sendInfo("You have committed suicide!", player);
+                        Messenger.sendInfo("You have committed suicide!", kit.equippedPlayer);
                     }
                 } else {
                     Bukkit.getScheduler().runTask(Main.plugin, () ->
-                            player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).getValue())
+                            kit.equippedPlayer.setHealth(Objects.requireNonNull(kit.equippedPlayer.getAttribute(Attribute.MAX_HEALTH)).getValue())
                     );
                 }
             }
@@ -266,46 +294,55 @@ public abstract class Kit implements CommandExecutor, Listener {
     }
 
     /**
+     * Removes the kit from the player
+     */
+    public void unequip() {
+
+        // Remove old kit
+        resetAttributes();
+        removePotionEffects();
+
+        HandlerList.unregisterAll(this);
+    }
+
+    /**
      * Sets the kit's disguise (overridable)
      * By default it removes any disguise a player had
-     * @param p The player to set the disguise for
      */
-    protected void setDisguise(Player p) {
-        disguise(p, null);
+    protected void setDisguise() {
+        disguise(null);
     }
 
     /**
      * Disguises a player
-     * @param p The player to (un)disguise
      * @param disguise The disguise to disguise the player as
      */
-    protected void disguise(Player p, Disguise disguise) {
+    protected void disguise(Disguise disguise) {
         if (disguise == null) {
-            if (DisguiseAPI.isDisguised(p)) {
-                DisguiseAPI.undisguiseToAll(p);
-                Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
+            if (DisguiseAPI.isDisguised(equippedPlayer)) {
+                DisguiseAPI.undisguiseToAll(equippedPlayer);
+                Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(equippedPlayer));
             }
         }
         else {
-            disguise.getWatcher().setCustomName(Messenger.mm.serialize(p.displayName()));
+            disguise.getWatcher().setCustomName(Messenger.mm.serialize(equippedPlayer.displayName()));
             disguise.setCustomDisguiseName(true);
             disguise.setHearSelfDisguise(true);
             disguise.setSelfDisguiseVisible(false);
             disguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
 
-            disguise.setEntity(p);
+            disguise.setEntity(equippedPlayer);
             disguise.startDisguise();
-            Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(p));
+            Bukkit.getPluginManager().callEvent(new UpdateNameTagEvent(equippedPlayer));
         }
     }
 
 
     /**
      * Sets the player's ability to see people's health
-     * @param p The player
      */
-    private void displayHealth(Player p) {
-        Scoreboard scoreboard = p.getScoreboard();
+    private void displayHealth() {
+        Scoreboard scoreboard = equippedPlayer.getScoreboard();
         Objective healthDisplay = scoreboard.getObjective("healthDisplay");
 
         if (canSeeHealth && healthDisplay == null) {
@@ -377,7 +414,7 @@ public abstract class Kit implements CommandExecutor, Listener {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             if (canSelect(sender, true, true, false))
-                addPlayer(((Player) sender).getUniqueId(), true);
+                equip(((Player) sender).getUniqueId(), true);
         });
         return true;
     }
@@ -616,7 +653,8 @@ public abstract class Kit implements CommandExecutor, Listener {
             case CHEST:
             case LEVER:
             case CAKE:
-            case ENDER_CHEST: return true;
+            case ENDER_CHEST:
+                return true;
             default:
                 return false;
         }
