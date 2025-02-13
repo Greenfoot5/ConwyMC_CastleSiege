@@ -1,10 +1,8 @@
 package me.greenfoot5.castlesiege.kits.kits.coin_kits;
 
-import me.greenfoot5.castlesiege.events.death.DeathEvent;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
@@ -29,7 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * The executioner kit
@@ -118,32 +115,29 @@ public class Executioner extends CoinKit implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void onExecute(EntityDamageByEntityEvent e) {
 		// Both are players
-		if (e.getEntity() instanceof Attributable defAttri && e.getDamager() instanceof Player attacker) {
-            Damageable defender = (Damageable) e.getEntity();
+		if (e.getEntity() instanceof Attributable attri && e.getDamager() == equippedPlayer) {
+            Damageable hit = (Damageable) e.getEntity();
 
             // Executioner hits with axe
-			if (Objects.equals(Kit.equippedKits.get(attacker.getUniqueId()).name, name) &&
-					attacker.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
+			if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
 
-				AttributeInstance healthAttribute = defAttri.getAttribute(Attribute.MAX_HEALTH);
+				AttributeInstance healthAttribute = attri.getAttribute(Attribute.MAX_HEALTH);
 				assert healthAttribute != null;
 
 				// Execute
-				if (defender.getHealth() < healthAttribute.getValue() * 0.3) {
+				if (hit.getHealth() < healthAttribute.getValue() * 0.3) {
 					e.setCancelled(true);
 
-					Location loc = defender.getLocation();
+					Location loc = hit.getLocation();
 					// Do extra stuff if they were a player
-					if (defender instanceof Player p) {
+					if (hit instanceof Player p) {
                         loc = p.getEyeLocation();
 
-						Material wool = TeamController.getTeam(defender.getUniqueId()).primaryWool;
-						defender.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);
-
-						DeathEvent.setKiller(p, attacker);
+						Material wool = TeamController.getTeam(hit.getUniqueId()).primaryWool;
+						hit.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);
 					}
-					defender.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-					defender.setHealth(0);
+					hit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
+					hit.damage(healthAttribute.getValue(), equippedPlayer);
 				}
 			}
 		}
