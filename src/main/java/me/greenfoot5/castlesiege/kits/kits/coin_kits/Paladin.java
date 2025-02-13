@@ -174,63 +174,58 @@ public class Paladin extends CoinKit implements Listener {
     }
 
     /**
-     * @param paladin the paladin to remove and give back the shield to.
-     * This is to stop the paladin from blocking even when the cooldown is active.
+     * Stops the player blocking if they were
      */
-    public void tempRemoveShield(Player paladin) {
-        paladin.getInventory().setItemInOffHand(null);
+    public void resetShield() {
+        equippedPlayer.getInventory().setItemInOffHand(null);
         new BukkitRunnable() {
             @Override
             public void run() {
-                paladin.getInventory().setItemInOffHand(shield);
+                equippedPlayer.getInventory().setItemInOffHand(shield);
             }
         }.runTaskLater(Main.plugin, 10);
     }
 
     /**
      * This is basically a shield cool-down mechanism/method.
-     * @param shielder the paladin holding the shield.
      */
-    public void shieldMechanism(Player shielder) {
-        if (Objects.equals(Kit.equippedKits.get(shielder.getUniqueId()).name, name)) {
-            if (shielder.isBlocking() && blockAmount != 0) {
-                blockAmount--;
-                Messenger.sendActionInfo(blockAmount + " blocks left", shielder);
-            } else if (shielder.isBlocking() && blockAmount <= 1) {
-                shielder.setCooldown(Material.SHIELD, 300);
-                tempRemoveShield(shielder);
-                blockAmount = 8;
-                for (UUID uuid : TeamController.getActivePlayers()) {
-                    bless(shielder, uuid);
-                }
+    public void shieldMechanism() {
+        if (equippedPlayer.isBlocking() && blockAmount != 0) {
+            blockAmount--;
+            Messenger.sendActionInfo(blockAmount + " blocks left", equippedPlayer);
+        } else if (equippedPlayer.isBlocking() && blockAmount <= 1) {
+            equippedPlayer.setCooldown(Material.SHIELD, 300);
+            resetShield();
+            blockAmount = 8;
+
+            Messenger.sendActionInfo("You blessed your surroundings!", equippedPlayer);
+            Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
+                mythicMobsApi.castSkill(equippedPlayer, "PaladinBlessingEffect");
+            });
+
+            for (UUID uuid : TeamController.getActivePlayers()) {
+                bless(uuid);
             }
         }
     }
 
     /**
-     *
      * @param e when a paladin gets hit whilst blocking.
      */
     @EventHandler
-    public void combatShielding(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player) {
-            if (Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
-                Player p = (Player) e.getEntity();
-                shieldMechanism(p);
-            }
+    public void combatShieldingMelee(EntityDamageByEntityEvent e) {
+        if (e.getEntity() == equippedPlayer) {
+            shieldMechanism();
         }
     }
     /**
-     *
      * @param e when a paladin gets hit by projectiles whilst blocking.
      */
     @EventHandler
-    public void combatShielding2(ProjectileHitEvent e) {
-        if (e.getHitEntity() instanceof Player) {
-            if (Objects.equals(Kit.equippedKits.get(e.getHitEntity().getUniqueId()).name, name)) {
-                Player p = (Player) e.getHitEntity();
-                shieldMechanism(p);
-            }
+    public void combatShieldingRanged(ProjectileHitEvent e) {
+        if (e.getHitEntity() == equippedPlayer) {
+            shieldMechanism();
         }
     }
     /**
@@ -239,42 +234,35 @@ public class Paladin extends CoinKit implements Listener {
      */
     @EventHandler
     public void shielding(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            if (p.getCooldown(Material.SHIELD) != 0 &&
-                    (p.getInventory().getItemInMainHand().getType() == Material.SHIELD || p.getInventory().getItemInOffHand().getType() == Material.SHIELD)) {
+        if (e.getPlayer() == equippedPlayer) {
+            if (equippedPlayer.getCooldown(Material.SHIELD) != 0 &&
+                    (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.SHIELD
+                            || equippedPlayer.getInventory().getItemInOffHand().getType() == Material.SHIELD)) {
                 e.setCancelled(true);
             }
-            if (!InCombat.isPlayerInCombat(e.getPlayer().getUniqueId())) {
+            if (!InCombat.isPlayerInCombat(equippedPlayer.getUniqueId())) {
                 blockAmount = 8;
             }
         }
     }
 
     /**
-     * @param blesser The player performing the blessing
      * @param blessedUUID The uuid of the player being blessed
      */
-    private void bless(Player blesser, UUID blessedUUID) {
+    private void bless(UUID blessedUUID) {
         Player blessed = Bukkit.getPlayer(blessedUUID);
         if (blessed == null)
             return;
 
-        Messenger.sendActionInfo("You blessed your surroundings!", blesser);
-        Bukkit.getScheduler().runTask(Main.plugin, () -> {
-            blesser.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
-            mythicMobsApi.castSkill(blesser, "PaladinBlessingEffect");
-        });
-        if (TeamController.getTeam(blesser.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
-                && blesser.getLocation().distanceSquared(blessed.getLocation()) <= 5 * 5
-                && blesser != blessed) {
+        if (TeamController.getTeam(equippedPlayer.getUniqueId()) == TeamController.getTeam(blessed.getUniqueId())
+                && equippedPlayer.getLocation().distanceSquared(blessed.getLocation()) <= 5 * 5
+                && equippedPlayer != blessed) {
             AttributeInstance healthAttribute = blessed.getAttribute(Attribute.MAX_HEALTH);
             assert healthAttribute != null;
             //Paladin doesn't get a heal for blessing someone who is full health.
             if (blessed.getHealth() != healthAttribute.getBaseValue()) {
                 Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () ->
-                        UpdateStats.addHeals(blesser.getUniqueId(), 1));
+                        UpdateStats.addHeals(equippedPlayer.getUniqueId(), 1));
             }
             Bukkit.getScheduler().runTask(Main.plugin, () ->
                     blessed.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 4, true, false)));
@@ -284,16 +272,12 @@ public class Paladin extends CoinKit implements Listener {
 
 
     /**
-     * Activate the spearman ability of throwing a spear
-     * @param e The event called when right-clicking with a stick
+     * @param e Activating the paladin's blessing
      */
     @EventHandler
     public void clickBlessing(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-
-        // Incorrect kit
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name))
+        // Incorrect player
+        if (e.getPlayer() != equippedPlayer)
             return;
 
         if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
@@ -301,27 +285,34 @@ public class Paladin extends CoinKit implements Listener {
 
         ItemStack book;
         if (e.getHand() == EquipmentSlot.HAND)
-            book = p.getInventory().getItemInMainHand();
+            book = equippedPlayer.getInventory().getItemInMainHand();
         else if (e.getHand() == EquipmentSlot.OFF_HAND)
-            book = p.getInventory().getItemInOffHand();
+            book = equippedPlayer.getInventory().getItemInOffHand();
         else
             return;
 
-        int cooldown = p.getCooldown(Material.BOOK);
+        int cooldown = equippedPlayer.getCooldown(Material.BOOK);
 
         if (!book.getType().equals(Material.BOOK))
             return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
 
         if (cooldown == 0) {
             book.setAmount(book.getAmount() - 1);
-            p.setCooldown(Material.BOOK, blessingCooldown);
+            equippedPlayer.setCooldown(Material.BOOK, blessingCooldown);
+
+            Messenger.sendActionInfo("You blessed your surroundings!", equippedPlayer);
+            Bukkit.getScheduler().runTask(Main.plugin, () -> {
+                equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 5, true, false));
+                mythicMobsApi.castSkill(equippedPlayer, "PaladinBlessingEffect");
+            });
+
             for (UUID near : TeamController.getActivePlayers()) {
-                bless(p, near);
+                bless(near);
             }
         }
     }
