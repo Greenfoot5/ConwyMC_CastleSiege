@@ -125,8 +125,6 @@ import me.greenfoot5.castlesiege.kits.kits.sign_kits.Pirate;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Shieldman;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Spearman;
 import me.greenfoot5.castlesiege.kits.kits.free_kits.Swordsman;
-import me.greenfoot5.castlesiege.kits.kits.in_development.Armourer;
-import me.greenfoot5.castlesiege.kits.kits.in_development.Bannerman;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.SpearKnight;
@@ -854,6 +852,7 @@ public class Main extends JavaPlugin implements Listener {
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
         world.setGameRule(GameRule.DO_MOB_LOOT, false);
         world.setGameRule(GameRule.DO_TILE_DROPS, false);
+        world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
         world.setAutoSave(false);
     }
 
