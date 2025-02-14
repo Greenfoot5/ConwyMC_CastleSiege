@@ -204,6 +204,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 //        MenuItem.giveMenuItem(equippedPlayer);
 
         // Potion effects
+        removePotionEffects();
         applyPotionEffects();
     }
 
@@ -228,7 +229,7 @@ public abstract class Kit implements CommandExecutor, Listener {
             public void run() {
                 equippedPlayer.addPotionEffects(potionEffects);
             }
-        }.runTaskLater(Main.plugin, 5);
+        }.runTaskLater(Main.plugin, 1);
     }
 
     /**
@@ -238,9 +239,9 @@ public abstract class Kit implements CommandExecutor, Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                equippedPlayer.getActivePotionEffects().clear();
+                equippedPlayer.clearActivePotionEffects();
             }
-        }.runTaskLater(Main.plugin, 1);
+        }.runTask(Main.plugin);
     }
 
     /**
