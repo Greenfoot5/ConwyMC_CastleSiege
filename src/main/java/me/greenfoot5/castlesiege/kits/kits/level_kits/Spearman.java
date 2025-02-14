@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.events.timed.BarCooldown;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.LevelKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -14,9 +13,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Horse;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -31,8 +30,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * The spearman kit
@@ -110,38 +107,39 @@ public class Spearman extends LevelKit implements Listener {
 	 */
 	@EventHandler
 	public void throwSpear(PlayerInteractEvent e) {
-		Player p = e.getPlayer();
-		UUID uuid = p.getUniqueId();
-		ItemStack stick = p.getInventory().getItemInMainHand();
-		int cooldown = p.getCooldown(Material.STICK);
+		if (e.getPlayer() != equippedPlayer)
+			return;
 
 		// Prevent using in lobby
-		if (InCombat.isPlayerInLobby(uuid)) {
+		if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
 			return;
 		}
 
-		if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-			if (stick.getType().equals(Material.STICK)) {
-				if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-					if (cooldown == 0) {
-						Messenger.sendActionInfo("Preparing to throw your spear...", p);
-						stick.setAmount(stick.getAmount() - 1);
-						p.setCooldown(Material.STICK, throwCooldown);
-						BarCooldown.add(uuid, throwDelay);
-						new BukkitRunnable() {
-							@Override
-							public void run() {
-								Messenger.sendActionInfo("You threw your spear!", p);
-								p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(throwVelocity));
-							}
-						}.runTaskLater(Main.plugin, throwDelay);
-					} else {
-						Messenger.sendActionError("You can't throw your spear yet", p);
-					}
-				}
-			}
-		}
-	}
+		ItemStack stick = equippedPlayer.getInventory().getItemInMainHand();
+		int cooldown = equippedPlayer.getCooldown(Material.STICK);
+
+        if (!stick.getType().equals(Material.STICK))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (cooldown == 0) {
+            Messenger.sendActionInfo("Preparing to throw your spear...", equippedPlayer);
+            stick.setAmount(stick.getAmount() - 1);
+            equippedPlayer.setCooldown(Material.STICK, throwCooldown);
+            BarCooldown.add(equippedPlayer.getUniqueId(), throwDelay);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Messenger.sendActionInfo("You threw your spear!", equippedPlayer);
+                    equippedPlayer.launchProjectile(Arrow.class).setVelocity(equippedPlayer.getLocation().getDirection().multiply(throwVelocity));
+                }
+            }.runTaskLater(Main.plugin, throwDelay);
+        } else {
+            Messenger.sendActionError("You can't throw your spear yet", equippedPlayer);
+        }
+    }
 
 	/**
 	 * Set the thrown spear's damage
@@ -149,15 +147,11 @@ public class Spearman extends LevelKit implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOW)
 	public void changeSpearDamage(ProjectileHitEvent e) {
-		if (e.getEntity() instanceof Arrow arrow) {
+		if (e.getEntity().getShooter() != equippedPlayer || !InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+			return;
 
-            if(arrow.getShooter() instanceof Player damages){
-
-                if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-					arrow.setDamage(throwDamage);
-				}
-			}
-		}
+		if (e.getEntity() instanceof AbstractArrow arrow)
+			arrow.setDamage(throwDamage);
 	}
 
 	/**
@@ -166,27 +160,24 @@ public class Spearman extends LevelKit implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onBreakLadder(BlockBreakEvent e) {
-		Player p = e.getPlayer();
-		if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+		if (e.getPlayer() != equippedPlayer || !InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+			return;
 
-			Location l = e.getBlock().getLocation();
-			while (l.getBlock().getType() == Material.LADDER) {
-				l.getBlock().setType(Material.AIR);
-				l.setY(l.getBlockY() - 1);
-			}
-		}
-	}
+        Location loc = e.getBlock().getLocation();
+        while (loc.getBlock().getType() == Material.LADDER) {
+            loc.getBlock().setType(Material.AIR);
+            loc.setY(loc.getBlockY() - 1);
+        }
+    }
 
 	/**
 	 * @param e When a player hits a horse, grants bonus damage
 	 */
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent e) {
-		if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {
-			if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
-				e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
-			}
-		}
+		if (e.getDamager() == equippedPlayer && e.getEntity() instanceof Horse) {
+            e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
+        }
 	}
 
 	/**
