@@ -33,7 +33,7 @@ public class EatCake implements Listener {
     public static final int CAKE_DURATION = 160;
     public static final int REGEN_AMPLIFIER = 12;
 
-    public static HashSet<UUID> cooldowns;
+    public static HashSet<UUID> cooldowns = new HashSet<>();
 
     /**
      * Take a bite from a cake and gain a short period of regeneration.
