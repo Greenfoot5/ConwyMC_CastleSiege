@@ -8,8 +8,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attributable;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -131,7 +129,6 @@ public class Barbarian extends CoinKit implements Listener {
 
         // Perm Potion Effect
         super.potionEffects.add(new PotionEffect(PotionEffectType.SPEED, 999999, 0, true, false));
-
     }
 
 
@@ -142,13 +139,12 @@ public class Barbarian extends CoinKit implements Listener {
     @EventHandler
     public void onIncreasedDamage(EntityDamageByEntityEvent e) {
         // Both are players
-        if (e.getEntity() instanceof Attributable && e.getDamager() instanceof Player attacker) {
+        if (e.getDamager() instanceof Player attacker) {
             // Barbarian increased damage
-            if (attacker == equippedPlayer) {
-                double damageMult = health / attacker.getHealth();
-                double min = equippedPlayer.getAttribute(Attribute.ATTACK_DAMAGE).getValue();
-                double dmg = ((maxDamage - min) * damageMult) + min;
-                e.setDamage(dmg * 3);
+            if (attacker == equippedPlayer && equippedPlayer.getInventory().getItemInMainHand().getType() == Material.NETHERITE_AXE) {
+                double damageMult = 1 - attacker.getHealth() / health;
+                double dmg = ((maxDamage - e.getDamage()) * damageMult) + e.getDamage();
+                e.setDamage(dmg);
             }
         }
     }
