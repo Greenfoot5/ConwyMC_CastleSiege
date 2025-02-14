@@ -16,7 +16,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,8 +32,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Like a normal medic, but a better fighter
@@ -49,8 +46,7 @@ public class BattleMedic extends LevelKit implements Listener {
     private static final int bandageCount = 16;
 
     private static final int level = 15;
-
-    public static final ArrayList<Player> cooldown = new ArrayList<>();
+    public static final int BANDAGE_COOLDOWN_TICKS = 39;
 
     /**
      * Creates a new battle medic
@@ -120,31 +116,28 @@ public class BattleMedic extends LevelKit implements Listener {
     @EventHandler
     public void onHeal(PlayerInteractEntityEvent event) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            Player player = event.getPlayer();
-            UUID uuid = player.getUniqueId();
-
             // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
+            if (event.getPlayer() != equippedPlayer
+                    || InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
                 return;
             }
 
-            PlayerInventory i = player.getInventory();
-            Entity q = event.getRightClicked();
-            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&                            // Player is medic
-                    (i.getItemInMainHand().getType() == Material.PAPER) &&                    // Uses bandage
-                    q instanceof Player r &&                                                          // On player
-                    TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId()) &&      // Same team
-                    ((Player) q).getHealth() < Kit.equippedKits.get(q.getUniqueId()).baseHealth &&  // Below max hp
-                    !cooldown.contains((Player) q)) {                                               // Not on cooldown
+            PlayerInventory i = equippedPlayer.getInventory();
+            if ((i.getItemInMainHand().getType() == Material.PAPER)
+                    && event.getRightClicked() instanceof Player patient
+                    && TeamController.getTeam(equippedPlayer.getUniqueId()) == TeamController.getTeam(patient.getUniqueId())
+                    && patient.getHealth() < Kit.equippedKits.get(patient.getUniqueId()).baseHealth
+                    && equippedPlayer.getCooldown(Material.PAPER) == 0) {
 
                 // Apply cooldown
-                cooldown.add(r);
-                Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> cooldown.remove(r), 39);
-                player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-                addPotionEffect(r, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
-                Messenger.sendActionInfo(CSNameTag.username(player) + "§r is healing you", r);
-                Messenger.sendActionInfo("You are healing " + CSNameTag.username(r), player);
-                UpdateStats.addHeals(uuid, 1);
+                equippedPlayer.setCooldown(Material.PAPER, BANDAGE_COOLDOWN_TICKS);
+
+                // Heal
+                addPotionEffect(patient, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
+                equippedPlayer.getInventory().getItemInMainHand().setAmount(equippedPlayer.getInventory().getItemInMainHand().getAmount() - 1);
+                Messenger.sendHealing(CSNameTag.mmUsername(equippedPlayer) + " is healing you", patient);
+                Messenger.sendHealing("You are healing " + CSNameTag.mmUsername(patient), equippedPlayer);
+                UpdateStats.addHeals(equippedPlayer.getUniqueId(), 1);
             }
         });
     }
