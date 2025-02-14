@@ -3,14 +3,12 @@ package me.greenfoot5.castlesiege.kits.kits.free_kits;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.FreeKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * The archer kit
@@ -109,14 +106,11 @@ public class Archer extends FreeKit implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOW)
 	public void onArrowHit(ProjectileHitEvent e) {
-		if (!(e.getEntity() instanceof AbstractArrow) ||
-				!(e.getEntity().getShooter() instanceof Player))
+		if (e.getEntity().getShooter() != equippedPlayer)
 			return;
 
-		if (!Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name))
-			return;
-
-		((AbstractArrow) e.getEntity()).setDamage(20.5);
+		if (e.getEntity() instanceof AbstractArrow arrow)
+		    arrow.setDamage(20.5);
 	}
 
 	/**
