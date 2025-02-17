@@ -1,9 +1,7 @@
 package me.greenfoot5.castlesiege.commands.staff.maps;
 
-import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.util.Messenger;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,8 +22,8 @@ public class SetKitLimitCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> setKitLimit(sender, args));
-        return false;
+        setKitLimit(sender, args);
+        return true;
     }
 
     /**
@@ -45,6 +43,7 @@ public class SetKitLimitCommand implements CommandExecutor {
             Messenger.sendInfo(kit.name + "'s limit has been disabled", sender);
         else
             Messenger.sendInfo(kit.name + "'s limit has been set to " + limit, sender);
+        return;
     }
 
     /**
@@ -67,6 +66,7 @@ public class SetKitLimitCommand implements CommandExecutor {
         try {
             Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
+            Messenger.sendError("Could not convert " + args[1] + " to a number.", sender);
             return true;
         }
 
