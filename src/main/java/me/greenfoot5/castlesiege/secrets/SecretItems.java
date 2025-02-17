@@ -51,7 +51,7 @@ public class SecretItems implements Listener {
         spawnSecretItem("Skyhold" , skyholdShield(),
                 new Location(Bukkit.getWorld("Skyhold"), 1617, 49, -51));
 
-        spawnSecretItem("Hall Of Herakles" , heraklesApple(),
+        spawnSecretItem("Halls Of Herakles" , heraklesApple(),
                 new Location(Bukkit.getWorld("HallOfHerakles"), -232, 38, -497));
     }
 
@@ -64,7 +64,7 @@ public class SecretItems implements Listener {
     public static void spawnSecretItem(String mapName, ItemStack item, Location loc) {
 
         if (MapController.getCurrentMap().name.equalsIgnoreCase(mapName)) {
-            Bukkit.getWorld(mapName.replace(" ", "")).dropItem(loc.add(+0.5, +1, +0.5), item).setVelocity(new Vector(0, 0, 0));
+            loc.getWorld().dropItem(loc.add(+0.5, +1, +0.5), item).setVelocity(new Vector(0, 0, 0));
         }
     }
 
