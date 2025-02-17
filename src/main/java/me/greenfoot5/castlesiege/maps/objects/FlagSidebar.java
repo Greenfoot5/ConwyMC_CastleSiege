@@ -58,11 +58,11 @@ public class FlagSidebar {
         }
 
         int coreIndex = 0;
-        int lifeIndex = 0;
         int flagIndex = 0;
 
         List<SidebarComponent> sidebarPages = new ArrayList<>();
         for (int page = 0; page < pages; page++) {
+            int lifeIndex = 0;
             // Map Info
             SidebarComponent.Builder lines = SidebarComponent.builder()
                     .addDynamicLine(() -> {
@@ -119,8 +119,8 @@ public class FlagSidebar {
                 if (reversedFlags[flagIndex].isActive()) {
                     lines.addComponent(reversedFlags[flagIndex]);
                     linesLeft--;
-                    flagIndex++;
                 }
+                flagIndex++;
             }
 
             if (pages > 1) {
