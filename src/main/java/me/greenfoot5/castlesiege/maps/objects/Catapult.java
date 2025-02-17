@@ -7,6 +7,7 @@ import me.greenfoot5.castlesiege.structures.SchematicSpawner;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -79,6 +80,7 @@ public class Catapult implements Listener {
         this.direction = direction.toLowerCase();
         this.schematicLocation = location.toLocation(this.world);
         this.signHorizontal = location.toLocation(this.world);
+        this.world.setGameRule(GameRule.MOB_GRIEFING, true);
 
         // Set direction dependent variables
         switch (this.direction) {
