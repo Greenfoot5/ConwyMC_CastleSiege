@@ -126,8 +126,6 @@ public class Executioner extends CoinKit implements Listener {
 
 				// Execute
 				if (hit.getHealth() < healthAttribute.getValue() * 0.3) {
-					e.setCancelled(true);
-
 					Location loc = hit.getLocation();
 					// Do extra stuff if they were a player
 					if (hit instanceof Player p) {
@@ -137,7 +135,7 @@ public class Executioner extends CoinKit implements Listener {
 						hit.getWorld().dropItem(loc, new ItemStack(wool)).setPickupDelay(32767);
 					}
 					hit.getWorld().playSound(loc, Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
-					hit.damage(healthAttribute.getValue(), equippedPlayer);
+					e.setDamage(hit.getHealth());
 				}
 			}
 		}
