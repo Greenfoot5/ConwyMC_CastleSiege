@@ -300,7 +300,7 @@ public class Ranger extends CoinKit implements Listener {
             Messenger.sendWarning("You got backstabbed by " + CSNameTag.mmUsername(equippedPlayer), hit);
             Messenger.sendSuccess("You backstabbed " + CSNameTag.mmUsername(hit), equippedPlayer);
             AssistKill.addDamager(hit.getUniqueId(), equippedPlayer.getUniqueId(), hit.getHealth());
-            hit.damage(hit.getHealth(), equippedPlayer);
+            e.setDamage(hit.getHealth());
 
         }
     }
