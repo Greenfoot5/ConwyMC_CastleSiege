@@ -258,9 +258,9 @@ commands:
     usage: /unlockkit <Player Name> <add/remove> <Kit Name> <Time> <wasDonation>
     permission: conwymc.developer
     permission-message: Try /buykit instead
-  Coinshop:
-    description: Open the coinshop for the player.
-    usage: /coinshop
+#  Coinshop:
+#    description: Open the coinshop for the player.
+#    usage: /coinshop
   buykit:
     description: Buy a kit with coins
     usage: /buykit <kit> [player]
