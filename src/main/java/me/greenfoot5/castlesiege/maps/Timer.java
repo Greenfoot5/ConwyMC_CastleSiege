@@ -11,6 +11,8 @@ public class Timer {
 	public TimerState state;
 	public Integer minutes;
 	public Integer seconds;
+	// Tracked the length of time the map was played for
+	public Integer ongoingTimePassed;
 
 	/**
 	 * @param startMinutes The minutes left on the time
@@ -54,6 +56,9 @@ public class Timer {
 				} else {
 					seconds--;
 				}
+
+				if (state == TimerState.ONGOING)
+					ongoingTimePassed++;
 			}
 		}.runTaskTimerAsynchronously(Main.plugin, 20, 20);
 	}
