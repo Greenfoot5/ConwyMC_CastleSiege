@@ -1,6 +1,7 @@
 package me.greenfoot5.castlesiege.events.combat;
 
 import me.greenfoot5.castlesiege.maps.TeamController;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,9 +21,11 @@ public class ArrowCollision implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void projectileCollision(ProjectileHitEvent e) {
-        if (InCombat.isPlayerInLobby((e.getEntity().getUniqueId()))) {
+        if (!(e.getEntity() instanceof AbstractArrow))
             return;
-        }
+        if (InCombat.isPlayerInLobby((e.getEntity().getUniqueId())))
+            return;
+
         if (e.getEntity().getShooter() instanceof Player attacker && e.getHitEntity() instanceof Player defender) {
 
             if (TeamController.getTeam(attacker.getUniqueId()) == TeamController.getTeam(defender.getUniqueId())) {
