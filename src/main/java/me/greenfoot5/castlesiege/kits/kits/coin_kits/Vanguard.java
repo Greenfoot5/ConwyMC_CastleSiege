@@ -133,16 +133,16 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
 
         int cooldown = equippedPlayer.getCooldown(Material.DIAMOND_SWORD);
         if (cooldown == 0) {
-            equippedPlayer.setCooldown(Material.DIAMOND_SWORD, 300);
+            equippedPlayer.setCooldown(Material.DIAMOND_SWORD, 270);
             Messenger.sendActionInfo("You are charging forward", equippedPlayer);
-            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 160, 4)));
-            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.JUMP_BOOST, 160, 1)));
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.SPEED, 120, 3)));
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.JUMP_BOOST, 120, 1)));
 
-            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.STRENGTH, 160, 0)));
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.STRENGTH, 120, 0)));
 
             equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST , 1, 1 );
             isCharging = true;
-            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> isCharging = false, 165);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.plugin, () -> isCharging = false, 120);
         } else {
             Messenger.sendWarning("You can't charge forward yet.", equippedPlayer);
         }
