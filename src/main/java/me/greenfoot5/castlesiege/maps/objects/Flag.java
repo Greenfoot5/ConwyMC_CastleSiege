@@ -726,7 +726,7 @@ public class Flag implements SidebarComponent {
 
         if (animationIndex == maxCap) {
             // The flag cannot be recapped
-            return MapController.getCurrentMap().canRecap || Objects.equals(currentOwners, startingTeam);
+            return MapController.getCurrentMap().canRecap || !Objects.equals(currentOwners, startingTeam);
         }
 
         return true;
