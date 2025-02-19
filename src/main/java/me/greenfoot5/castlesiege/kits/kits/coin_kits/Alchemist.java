@@ -1,5 +1,6 @@
 package me.greenfoot5.castlesiege.kits.kits.coin_kits;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.database.UpdateStats;
@@ -18,7 +19,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -161,31 +164,36 @@ public class Alchemist extends CoinKit implements Listener {
 
     /**
      * Only applies the correct potion effect to the correct players
-     * @param e Called when a player throws a potion
+     * @param e Called a splash potion hits an area
      */
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onThrownPotion(PotionSplashEvent e) {
         // Is the potion thrown by an alchemist?
-        if (!(e.getPotion().getShooter() instanceof Player damager)) {
+        if (e.getPotion().getShooter() != equippedPlayer)
             return;
-        }
 
-        if (damager != equippedPlayer) {
-            return;
-        }
         e.setCancelled(true);
+
+        Location loc = e.getHitBlock() != null ? e.getHitBlock().getLocation() : e.getHitEntity().getLocation();
+        loc.getWorld().playSound(loc, Sound.ENTITY_SPLASH_POTION_BREAK, 1, 1);
+
+        new ParticleBuilder(Particle.ENTITY_EFFECT)
+                .color(e.getPotion().getPotionMeta().getColor())
+                .location(loc.add(0.5, 1, 0.5))
+                .offset(0.2, 0.5, 0.2)
+                .count(30)
+                .allPlayers()
+                .spawn();
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             Collection<PotionEffect> effects = e.getPotion().getEffects();
             for (Entity entity : e.getAffectedEntities()) {
-                if (!(entity instanceof Player))
+                if (!(entity instanceof Player hit))
                     continue;
 
-                Player hit = ((Player) entity).getPlayer();
-                assert hit != null;
                 for (PotionEffect effect : effects) {
                     PotionEffectType potionType = effect.getType();
-                    boolean isEnemy = TeamController.getTeam(damager.getUniqueId())
+                    boolean isEnemy = TeamController.getTeam(equippedPlayer.getUniqueId())
                             != TeamController.getTeam(hit.getUniqueId());
 
                     // Enemies
@@ -203,7 +211,7 @@ public class Alchemist extends CoinKit implements Listener {
                                 || potionType.equals(PotionEffectType.LEVITATION)
                                 || potionType.equals(PotionEffectType.SLOW_FALLING)
                                 || potionType.equals(PotionEffectType.WITHER)) {
-                            AssistKill.addDamager(hit.getUniqueId(), damager.getUniqueId(), 60);
+                            AssistKill.addDamager(hit.getUniqueId(), equippedPlayer.getUniqueId(), 60);
                             Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
                         }
                     }
@@ -214,8 +222,8 @@ public class Alchemist extends CoinKit implements Listener {
                             || potionType.equals(PotionEffectType.HEALTH_BOOST)
                             || potionType.equals(PotionEffectType.REGENERATION))) {
                         Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                        if (hit.getPlayer() != damager && !isEnemy)
-                            UpdateStats.addHeals(damager.getUniqueId(), 2);
+                        if (hit.getPlayer() != equippedPlayer && !isEnemy)
+                            UpdateStats.addHeals(equippedPlayer.getUniqueId(), 2);
 
                     // Friendly Potions
                     } else if (potionType.equals(PotionEffectType.SPEED)
@@ -233,8 +241,8 @@ public class Alchemist extends CoinKit implements Listener {
                             || potionType.equals(PotionEffectType.CONDUIT_POWER)
                             || potionType.equals(PotionEffectType.FIRE_RESISTANCE)) {
                         Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffect(effect));
-                        if (hit.getPlayer() != damager && !isEnemy)
-                            UpdateStats.addSupports(damager.getUniqueId(), 3);
+                        if (hit.getPlayer() != equippedPlayer && !isEnemy)
+                            UpdateStats.addSupports(equippedPlayer.getUniqueId(), 3);
                     }
                 }
             }
@@ -396,13 +404,14 @@ public class Alchemist extends CoinKit implements Listener {
         }
 
         if (usedItem.getType() == Material.GLASS_BOTTLE) {
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.WATER) {
-            e.setCancelled(true);
-          } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.CAULDRON) {
-            e.setCancelled(true);
-          } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.BREWING_STAND) {
-            e.setCancelled(true);
-        }
+            // TODO - Water doesn't work as it's not selected/clicked
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.WATER) {
+                e.setCancelled(true);
+              } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.CAULDRON) {
+                e.setCancelled(true);
+              } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.BREWING_STAND) {
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -412,12 +421,11 @@ public class Alchemist extends CoinKit implements Listener {
      */
     @EventHandler
     public void onUseStand(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
         if (e.getItem() == null) { return; }
         ItemStack usedItem = e.getItem();
 
         // Prevent using in lobby
-        if (p != equippedPlayer || InCombat.isPlayerInLobby(p.getUniqueId())) {
+        if (e.getPlayer() != equippedPlayer || InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
         if ((e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK)) {
@@ -426,35 +434,32 @@ public class Alchemist extends CoinKit implements Listener {
         if (Objects.requireNonNull(e.getClickedBlock()).getType() != Material.BREWING_STAND) {
             return;
         }
+        if (!e.getClickedBlock().equals(standLoc))
+            return;
 
         // Check if an alchemist tries to brew a potion, while off-cooldown
         if (Objects.requireNonNull(e.getClickedBlock()).getType() == Material.BREWING_STAND &&
                 usedItem != null && usedItem.getType() == Material.GLASS_BOTTLE &&
-                p.getCooldown(Material.GLASS_BOTTLE) == 0) {
+                equippedPlayer.getCooldown(Material.GLASS_BOTTLE) == 0) {
 
-            // Check if the player may brew potions
-            Player placer = getPlacer(e.getClickedBlock());
-            if (placer != null && placer == p) {
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
-                if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                PlayerInventory inv = equippedPlayer.getInventory();
+                // Brew a potion
+                equippedPlayer.setCooldown(Material.GLASS_BOTTLE, 30);
+                usedItem.setAmount(usedItem.getAmount() - 1);
+                inv.addItem(randomPositivePotion());
+                equippedPlayer.playSound(equippedPlayer.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
+                Messenger.sendActionSuccess("You brewed a positive potion!", equippedPlayer);
 
-                    PlayerInventory inv = p.getInventory();
-                    // Brew a potion
-                    p.setCooldown(Material.GLASS_BOTTLE, 30);
-                    usedItem.setAmount(usedItem.getAmount() - 1);
-                    inv.addItem(randomPositivePotion());
-                    p.playSound(p.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
-                    Messenger.sendActionSuccess("You brewed a positive potion!", p);
-
-                } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-                    PlayerInventory inv = p.getInventory();
-                    // Brew a potion
-                    p.setCooldown(Material.GLASS_BOTTLE, 30);
-                    usedItem.setAmount(usedItem.getAmount() - 1);
-                    inv.addItem(randomNegativePotion());
-                    p.playSound(p.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
-                    Messenger.sendActionSuccess("You brewed a negative potion!", p);
-                }
+            } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
+                PlayerInventory inv = equippedPlayer.getInventory();
+                // Brew a potion
+                equippedPlayer.setCooldown(Material.GLASS_BOTTLE, 30);
+                usedItem.setAmount(usedItem.getAmount() - 1);
+                inv.addItem(randomNegativePotion());
+                equippedPlayer.playSound(equippedPlayer.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1, 1f);
+                Messenger.sendActionSuccess("You brewed a negative potion!", equippedPlayer);
             }
         }
     }
