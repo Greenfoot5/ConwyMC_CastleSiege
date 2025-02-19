@@ -44,8 +44,8 @@ public class Halberdier extends CoinKit implements Listener {
     private static final AttributeModifier burnMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_burn"), -1, AttributeModifier.Operation.ADD_SCALAR);
     private static final AttributeModifier explosionKnockMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_explode_knock"), 0.5, AttributeModifier.Operation.ADD_NUMBER);
     private static final AttributeModifier moveEffMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_move_eff"), 1, AttributeModifier.Operation.ADD_NUMBER);
-    private static final AttributeModifier sneakMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_sneak"), -0.8, AttributeModifier.Operation.ADD_NUMBER);
     private static final AttributeModifier sneakMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_sneak"), 1, AttributeModifier.Operation.ADD_SCALAR);
+    private static final double arrowDamageMult = 1.5;
 
     /**
      * Set the equipment and attributes of this kit
@@ -170,7 +170,7 @@ public class Halberdier extends CoinKit implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void weakToArrows(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow && e.getEntity() == equippedPlayer) {
-            e.setDamage(e.getDamage() * 2);
+            e.setDamage(e.getDamage() * arrowDamageMult);
         }
     }
 
