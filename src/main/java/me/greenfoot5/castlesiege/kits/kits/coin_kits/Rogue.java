@@ -84,6 +84,7 @@ public class Rogue extends CoinKit implements Listener {
     public Rogue() {
         super("Rogue", health, regen, Material.NETHERITE_BOOTS);
         super.canSeeHealth = true;
+        super.canCap = false;
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -340,9 +341,9 @@ public class Rogue extends CoinKit implements Listener {
         isShadowstepping = true;
 
         // invisibility is there for show
-        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 0));
-        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 999999, 4));
-        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 2));
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, duration, 0));
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, duration, 4));
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, 2));
 
         //Makes invisible
         mythicMobsApi.castSkill(equippedPlayer,"RogueEffect");
@@ -353,13 +354,16 @@ public class Rogue extends CoinKit implements Listener {
                     return;
 
                 Messenger.sendActionWarning("You are no longer invisible! (Strike now!)", equippedPlayer);
-                mythicMobsApi.castSkill(equippedPlayer,"RogueEffect2");
+
 
                 leaveShadowStep();
             }
         }.runTaskLater(Main.plugin, duration);
     }
 
+    /**
+     * Removes the shadowstep effect from the player
+     */
     private void leaveShadowStep() {
         isShadowstepping = false;
 
@@ -369,6 +373,8 @@ public class Rogue extends CoinKit implements Listener {
                 equippedPlayer.removePotionEffect(effect.getType());
             }
         }
+
+        mythicMobsApi.castSkill(equippedPlayer,"RogueEffectQuit");
     }
 
     /**
@@ -433,13 +439,18 @@ public class Rogue extends CoinKit implements Listener {
             return;
 
         ItemStack stick = equippedPlayer.getInventory().getItemInMainHand();
-        int cooldown = equippedPlayer.getCooldown(Material.TIPPED_ARROW);
 
         if (!stick.getType().equals(Material.TIPPED_ARROW))
             return;
+        if (equippedPlayer.getCooldown(Material.TIPPED_ARROW) != 0) {
+            e.setCancelled(true);
+            return;
+        }
 
         if (isShadowstepping) {
+            e.setCancelled(true);
             Messenger.sendActionError("You can't throw your arrow while in shadows!", equippedPlayer);
+            return;
         }
 
 
@@ -510,7 +521,6 @@ public class Rogue extends CoinKit implements Listener {
         //remove used up combo points
         removeComboPoints();
         if (isShadowstepping) {
-            mythicMobsApi.castSkill(equippedPlayer,"RogueEffectQuit");
             leaveShadowStep();
         }
 
@@ -544,7 +554,6 @@ public class Rogue extends CoinKit implements Listener {
             return;
 
         event.getEntity().getKiller().getInventory().addItem(comboPoint);
-
     }
 
 
@@ -594,6 +603,7 @@ public class Rogue extends CoinKit implements Listener {
                 }
             }
         }
+        leaveShadowStep();
     }
 
 
@@ -645,7 +655,6 @@ public class Rogue extends CoinKit implements Listener {
             event.setCancelled(true);
 
             if (isShadowstepping) {
-                mythicMobsApi.castSkill(equippedPlayer,"RogueEffectQuit");
                 leaveShadowStep();
             }
 
