@@ -36,7 +36,7 @@ public class Halberdier extends CoinKit implements Listener {
     private static final int health = 630;
     private static final double regen = 23;
     private static final double meleeDamage = 90;
-    private static final AttributeModifier scaleMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_scale"), 0.4, AttributeModifier.Operation.ADD_SCALAR);
+    private static final AttributeModifier scaleMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_scale"), 0.3, AttributeModifier.Operation.ADD_SCALAR);
     private static final AttributeModifier speedMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_speed"), -0.8, AttributeModifier.Operation.ADD_SCALAR);
     private static final AttributeModifier stepHeightMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_step"), 1, AttributeModifier.Operation.ADD_SCALAR);
     private static final AttributeModifier jumpMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_jump"), -1, AttributeModifier.Operation.ADD_SCALAR);
@@ -45,6 +45,7 @@ public class Halberdier extends CoinKit implements Listener {
     private static final AttributeModifier explosionKnockMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_explode_knock"), 0.5, AttributeModifier.Operation.ADD_NUMBER);
     private static final AttributeModifier moveEffMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_move_eff"), 1, AttributeModifier.Operation.ADD_NUMBER);
     private static final AttributeModifier sneakMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_sneak"), -0.8, AttributeModifier.Operation.ADD_NUMBER);
+    private static final AttributeModifier sneakMod = new AttributeModifier(new NamespacedKey(Main.plugin, "halb_sneak"), 1, AttributeModifier.Operation.ADD_SCALAR);
 
     /**
      * Set the equipment and attributes of this kit
