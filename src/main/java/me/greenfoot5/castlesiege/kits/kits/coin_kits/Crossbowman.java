@@ -249,13 +249,20 @@ public class Crossbowman extends CoinKit implements Listener {
             return;
         }
 
-        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.LIME_DYE)) {
-                mobilityMode();
-            }
-            else if (equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.YELLOW_DYE)) {
-                snipingMode();
-            }
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+
+        if (equippedPlayer.getCooldown(Material.GREEN_DYE) != 0 && equippedPlayer.getCooldown(Material.YELLOW_DYE) != 0) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.LIME_DYE)) {
+            mobilityMode();
+        }
+        else if (equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.YELLOW_DYE)) {
+            snipingMode();
         }
     }
 
