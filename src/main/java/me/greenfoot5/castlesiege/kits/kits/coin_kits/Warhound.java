@@ -154,8 +154,10 @@ public class Warhound extends CoinKit implements Listener {
         if (equippedPlayer.getInventory().getItemInMainHand().getType() != Material.GHAST_TEAR)
             return;
 
-        if (equippedPlayer.getCooldown(Material.GHAST_TEAR) != 0)
+        if (equippedPlayer.getCooldown(Material.GHAST_TEAR) != 0) {
+            e.setCancelled(true);
             return;
+        }
 
         //Stuns the horse which the warhound hits.
         if (e.getRightClicked() instanceof Horse h) {
@@ -176,7 +178,6 @@ public class Warhound extends CoinKit implements Listener {
         if (TeamController.getTeam(hit.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
             immobilise(hit);
         }
-
     }
 
     /**
