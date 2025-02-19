@@ -160,7 +160,7 @@ public class ChargeFlag extends Flag{
 
         if (canCapture(attackers)) {
             if (!hasBonusBeenClaimed && (additionalMinutes > 0 || additionalSeconds > 0)) {
-                return " ⏱";
+                return " ⌚";
             }
         }
         return super.getIcon();
