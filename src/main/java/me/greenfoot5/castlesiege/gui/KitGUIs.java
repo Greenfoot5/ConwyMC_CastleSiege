@@ -26,7 +26,6 @@ import me.greenfoot5.castlesiege.kits.kits.free_kits.Archer;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Shieldman;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Spearman;
 import me.greenfoot5.castlesiege.kits.kits.free_kits.Swordsman;
-import me.greenfoot5.castlesiege.kits.kits.in_development.Armourer;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.SpearKnight;

@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.kits.items;
 import me.greenfoot5.castlesiege.events.curses.CurseExpired;
 import me.greenfoot5.castlesiege.events.curses.GreaterBlindnessCurse;
 import me.greenfoot5.castlesiege.events.curses.TrueBlindnessCurse;
-import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import net.kyori.adventure.text.Component;

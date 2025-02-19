@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.data_types.CSStats;
 import me.greenfoot5.castlesiege.database.MVPStats;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
-import me.greenfoot5.conwymc.events.nametag.UpdateNameTagEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.megavex.scoreboardlibrary.api.sidebar.component.LineDrawable;

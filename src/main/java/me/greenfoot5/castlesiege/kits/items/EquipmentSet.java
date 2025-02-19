@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.kits.items;
 
 import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.conwymc.data_types.Tuple;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -10,9 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-
-import java.util.UUID;
 
 /**
  * Stores a kit's items and their locations

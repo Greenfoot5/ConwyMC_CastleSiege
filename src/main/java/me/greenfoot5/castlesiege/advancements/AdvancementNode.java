@@ -118,7 +118,7 @@ public class AdvancementNode {
     // Generates the displays for each of the nodes in the list
     private Tuple<HashMap<String, NodeDisplay>, Integer> generateDisplays(int x, int min_y) {
         int y_size = 0;
-        int y = 0;
+        int y;
         HashMap<String, NodeDisplay> displays = new HashMap<>();
         // Base Case
         if (children.isEmpty()) {
@@ -141,7 +141,6 @@ public class AdvancementNode {
                     new VanillaNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent);
             case Shown ->
                     new ShownNodeDisplay(icon, frameType, true, frameType == AdvancementFrameType.CHALLENGE, x, y, title, description, parent, maxProgress);
-            default -> throw new RuntimeException("Unknown advancement display type for " + title);
         };
         displays.put(key, display);
         return new Tuple<>(displays, y_size);

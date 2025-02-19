@@ -33,6 +33,7 @@ public abstract class Booster implements Comparable<Booster> {
     }
 
     /**
+     * Gets the type of the booster as a string
      * @return The type of the booster as an all caps string
      */
     public abstract String getBoostType();
@@ -44,11 +45,13 @@ public abstract class Booster implements Comparable<Booster> {
     public abstract String getValue();
 
     /**
+     * Gets the name of the booster
      * @return The display name of the booster
      */
     public abstract Component getName();
 
     /**
+     * Gets the lore of the booster
      * @return The lore used when displaying the booster in a gui
      */
     public List<Component> getLore() {
@@ -61,6 +64,7 @@ public abstract class Booster implements Comparable<Booster> {
     }
 
     /**
+     * Gets the duration of a booster in a nice format
      * @return Get the duration in a nice day, hour, min, sec format
      */
     public String getDurationAsString() {

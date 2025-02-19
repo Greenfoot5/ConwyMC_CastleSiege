@@ -90,7 +90,7 @@ public class Longbowman extends SignKit implements Listener {
     public void onArrowHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow &&
                 e.getEntity().getShooter() instanceof Player p &&
-                Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
+                Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
 
             if (e.getHitEntity() == null) { return; }
 

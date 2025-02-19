@@ -43,7 +43,6 @@ public class SetKitLimitCommand implements CommandExecutor {
             Messenger.sendInfo(kit.name + "'s limit has been disabled", sender);
         else
             Messenger.sendInfo(kit.name + "'s limit has been set to " + limit, sender);
-        return;
     }
 
     /**

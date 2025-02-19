@@ -34,7 +34,7 @@ public class AdvancementNode {
     private final List<AdvancementNode> children;
 
     // Additionals
-    private int maxProgress = 1;
+    private final int maxProgress;
 
     // References
     BaseAdvancement advancement;

@@ -227,15 +227,14 @@ public class Paladin extends CoinKit implements Listener {
         }
     }
     /**
-     *
      * @param e Paladin tries to block whilst the cooldown is active.
      */
     @EventHandler
     public void shielding(PlayerInteractEvent e) {
         if (e.getPlayer() == equippedPlayer) {
-            if (equippedPlayer.getCooldown(Material.SHIELD) != 0 &&
-                    (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.SHIELD
-                            || equippedPlayer.getInventory().getItemInOffHand().getType() == Material.SHIELD)) {
+            if (equippedPlayer.getCooldown(Material.SHIELD) != 0
+                    && (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.SHIELD
+                    || equippedPlayer.getInventory().getItemInOffHand().getType() == Material.SHIELD)) {
                 e.setCancelled(true);
             }
             if (!InCombat.isPlayerInCombat(equippedPlayer.getUniqueId())) {

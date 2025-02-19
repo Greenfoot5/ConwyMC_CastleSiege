@@ -126,7 +126,7 @@ public class DwarvenXbow extends SignKit implements Listener {
             if (!(e.getProjectile() instanceof Arrow a)) {
                 return;
             }
-            ((Arrow) e.getProjectile()).setPierceLevel(1);
+            a.setPierceLevel(1);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(5));
         }
     }

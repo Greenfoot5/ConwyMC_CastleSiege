@@ -1,6 +1,5 @@
 package me.greenfoot5.castlesiege.events.timed;
 
-import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import org.bukkit.Bukkit;

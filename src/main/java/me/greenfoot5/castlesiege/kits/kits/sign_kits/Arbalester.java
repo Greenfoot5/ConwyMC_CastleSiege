@@ -106,7 +106,7 @@ public class Arbalester extends SignKit implements Listener {
             }
 
             p.setCooldown(Material.CROSSBOW, 150);
-            ((Arrow) e.getProjectile()).setPierceLevel(1);
+            a.setPierceLevel(1);
             a.setKnockbackStrength(2);
             a.setVelocity(p.getLocation().getDirection().normalize().multiply(47));
         }

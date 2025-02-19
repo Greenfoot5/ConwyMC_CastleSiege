@@ -74,6 +74,7 @@ public class Timer {
 				break;
 			case ONGOING:
 				MapController.beginMap();
+				ongoingTimePassed = 0;
 				break;
 			case ENDED:
 				MapController.endMap();

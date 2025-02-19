@@ -13,9 +13,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-/**
- * Handles the secret door on Abrakhan
- */
+/// Handles the secret door on Abrakhan
 public class AbrakhanSecretDoor implements Listener {
 
     boolean isRedDoorOpen;
@@ -27,10 +25,8 @@ public class AbrakhanSecretDoor implements Listener {
 
     final Location torchLoc = new Location(Main.plugin.getServer().getWorld("Abrakhan"), 116, 39, -121);
 
-    /**
-     * Checks if the player interacted with a redstone torch
-     * @param event Called when a player interacts with anything
-     */
+    /// Checks if the player interacted with a redstone torch
+    /// @param event Called when a player interacts with anything
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
 
@@ -84,9 +80,7 @@ public class AbrakhanSecretDoor implements Listener {
     }
 
 
-    /**
-     * Opens the redstone door
-     */
+    /// Opens the redstone door
     public void openRedstoneDoor() {
 
         Bukkit.getWorld("Abrakhan").playSound(doorLoc, Sound.BLOCK_WOODEN_DOOR_OPEN , 1, 2);

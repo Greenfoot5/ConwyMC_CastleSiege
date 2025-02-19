@@ -13,7 +13,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -192,30 +191,6 @@ public class Crossbowman extends CoinKit implements Listener {
     public void onClickEnderchest(EnderchestEvent event) {
         if (event.getPlayer() == equippedPlayer)
             mobilityMode();
-    }
-
-
-    /**
-     * Handles clicking the green dye
-     * @param p The player clicking the dye
-     */
-    private void onClickGreenDye(Player p) {
-        // mode switch button
-        int cooldown = p.getCooldown(Material.LIME_DYE);
-        if (cooldown == 0 && sniping) {
-            mobilityMode();
-        }
-    }
-
-    /**
-     * Handles clicking the yellow dye
-     * @param p The player clicking the dye
-     */
-    private void onClickYellowDye(Player p) {
-        int cooldown = p.getCooldown(Material.YELLOW_DYE);
-        if (cooldown == 0 && !sniping) {
-            snipingMode();
-        }
     }
 
     /**

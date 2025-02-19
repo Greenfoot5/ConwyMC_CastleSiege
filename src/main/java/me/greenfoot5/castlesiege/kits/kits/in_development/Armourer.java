@@ -139,7 +139,7 @@ public class Armourer extends CoinKit implements Listener {
                     (i.getItemInMainHand().getType() == Material.NETHERITE_SHOVEL) &&
                     q instanceof Player r &&
                     TeamController.getTeam(uuid) == TeamController.getTeam(q.getUniqueId())
-                    && !cooldown.contains((Player) q)) {
+                    && !cooldown.contains(r)) {
 
                 // Apply cooldown
                 cooldown.add(r);
@@ -190,7 +190,6 @@ public class Armourer extends CoinKit implements Listener {
      */
     private int level (double armor) {
         return switch ((int) armor) {
-            case 2 -> 0;
             case 4 -> 1;
             case 6 -> 2;
             case 8 -> 3;

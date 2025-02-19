@@ -31,6 +31,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * The Bonecrusher class
+ */
 public class Bonecrusher extends SignKit implements Listener {
 
     /**
