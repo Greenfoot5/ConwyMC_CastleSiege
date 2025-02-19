@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -22,13 +23,17 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Handles secret item drops &amp; pickups for the server
+ */
 public class SecretItems implements Listener {
 
     public static final HashMap<Player, ArrayList<ItemStack>> secretItemHolder = new HashMap<>();
 
-    public static final ArrayList<ItemStack> secretItems = new ArrayList<>();
+    public static final HashSet<ItemStack> secretItems = new HashSet<>();
 
     /**
      * Called when a map starts and spawns all items that are supposed to spawn on that map.
@@ -62,7 +67,6 @@ public class SecretItems implements Listener {
      * @param loc location to spawn the item at
      */
     public static void spawnSecretItem(String mapName, ItemStack item, Location loc) {
-
         if (MapController.getCurrentMap().name.equalsIgnoreCase(mapName)) {
             loc.getWorld().dropItem(loc.add(+0.5, +1, +0.5), item).setVelocity(new Vector(0, 0, 0));
         }
@@ -97,7 +101,9 @@ public class SecretItems implements Listener {
         for (ItemStack item : secretItemHolder.get(player)) {
             player.getInventory().remove(item);
             player.getWorld().dropItem(player.getLocation().add(0, 1, 0), item).setVelocity(new Vector(0, 0, 0));
-            Messenger.broadcastSecret("<yellow>" + item.getItemMeta().displayName() + "§r has been dropped!");
+            Messenger.broadcastSecret(Component.empty()
+                    .append(item.getItemMeta().displayName())
+                    .append(Component.text(" has been dropped!")));
         }
 
         secretItemHolder.remove(player);
@@ -115,7 +121,10 @@ public class SecretItems implements Listener {
         if (secretItems.contains(event.getItem().getItemStack())) {
             secretItemHolder.putIfAbsent(player, new ArrayList<>());
             secretItemHolder.get(player).add(event.getItem().getItemStack());
-            Messenger.broadcastSecret(player.getName() + " has picked up " + event.getItem().getItemStack().getItemMeta().displayName());
+            Messenger.broadcastSecret(Component.empty()
+                    .append(player.name())
+                    .append(Component.text(" has picked up "))
+                    .append(event.getItem().getItemStack().getItemMeta().displayName()));
         }
     }
 
@@ -123,14 +132,12 @@ public class SecretItems implements Listener {
      * Add every item to this, so it registers in the arraylist, then it will keep track of who holds the item.
      */
     public static void registerSecretItems() {
-
         secretItems.add(herugrim());
         secretItems.add(skyCookie());
         secretItems.add(skyholdKeyDoor());
         secretItems.add(skyholdKeyInquisitor());
         secretItems.add(skyholdShield());
         secretItems.add(heraklesApple());
-
     }
 
     /**
@@ -145,6 +152,19 @@ public class SecretItems implements Listener {
         for (ItemStack item : secretItemHolder.get(player))
             player.getInventory().addItem(item);
     }
+
+
+    /**
+     * Prevent eating Hera's Golden Apple
+     * @param event Called when a player consumes an item
+     */
+    @EventHandler
+    public void onEatHeraApple(PlayerItemConsumeEvent event) {
+        if (event.getItem().getType() == Material.ENCHANTED_GOLDEN_APPLE) {
+            event.setCancelled(true);
+        }
+    }
+
 
                                                 //Secret Items\\
     //-------------------------------------------------------------------------------------------------------\\
