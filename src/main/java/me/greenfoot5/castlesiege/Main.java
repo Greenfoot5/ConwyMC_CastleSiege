@@ -1136,6 +1136,13 @@ public class Main extends JavaPlugin implements Listener {
     private void applyKitLimits() {
         Route route = Route.from("kit_limits");
         if (gameConfig.getBoolean(route.add("enabled"))) {
+            int base_limit = gameConfig.getInt(route.add("default"), -1);
+            if (base_limit >= 0) {
+                for (String kit : Kit.getKits()) {
+                    Kit.getKit(kit).setLimit(base_limit);
+                }
+            }
+
             for (String path : getPaths(gameConfig, route)) {
                 if (path.equals("enabled"))
                     continue;
