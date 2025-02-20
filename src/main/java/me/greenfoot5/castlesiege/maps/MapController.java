@@ -830,6 +830,10 @@ public class MapController {
 			Messenger.broadcastError("Not enough players for a fair vote. Map votes will not be recorded.");
 			return;
 		}
+		if (MapController.timer.ongoingTimePassed < 3000) {
+			Main.plugin.getLogger().info("Map ended too quickly for a fair vote. Votes will be ignored.");
+			return;
+		}
 
 		for (UUID uuid : TeamController.getPlayers()) {
 			Player p = getPlayer(uuid);

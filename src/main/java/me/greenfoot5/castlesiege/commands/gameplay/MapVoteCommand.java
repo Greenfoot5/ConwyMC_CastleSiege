@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.commands.gameplay;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.events.map.NextMapEvent;
+import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.command.Command;
@@ -35,6 +36,10 @@ public class MapVoteCommand implements Listener, TabExecutor {
     public void onNextMap(NextMapEvent event) {
         if (TeamController.getPlayers().size() < 4) {
             Main.plugin.getLogger().info("Not enough players for a fair map vote. Votes will be ignored.");
+            return;
+        }
+        if (MapController.timer.ongoingTimePassed < 3000) {
+            Main.plugin.getLogger().info("Map ended too quickly for a fair map vote. Votes will be ignored.");
             return;
         }
 
