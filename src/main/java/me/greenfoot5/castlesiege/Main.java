@@ -854,6 +854,7 @@ public class Main extends JavaPlugin implements Listener {
         world.setGameRule(GameRule.DO_TILE_DROPS, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
         world.setAutoSave(false);
+        world.setClearWeatherDuration(2000000);
     }
 
     /**
