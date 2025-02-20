@@ -44,6 +44,13 @@ public class Gui extends me.greenfoot5.conwymc.gui.Gui implements Listener {
         super(name, rows, shouldUnregister);
     }
 
+    /**
+     * Sets an item in a slot in the GUI
+     * @param item The item to add
+     * @param location The position in the GUI to set it
+     * @param command The command to use when clicking the item
+     * @param shouldClose If the GUI should close when the item it clicked
+     */
     public void setItem(ItemStack item, int location, String command, boolean shouldClose) {
         super.inventory.setItem(location, item);
         locationToItem.put(location, new GuiItem(command, shouldClose));

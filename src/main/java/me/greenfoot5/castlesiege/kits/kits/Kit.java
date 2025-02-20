@@ -159,6 +159,9 @@ public abstract class Kit implements CommandExecutor, Listener {
         });
     }
 
+    /**
+     * Applies the Minecraft attributes to the player when the class is equipped
+     */
     public void setAttributes() {
         // Health
         AttributeInstance healthAttribute = equippedPlayer.getAttribute(Attribute.MAX_HEALTH);
@@ -554,10 +557,18 @@ public abstract class Kit implements CommandExecutor, Listener {
         return text;
     }
 
+    /**
+     * Gets the EquipmentSet of the kit
+     * @return The EquipmentSet for the kit
+     */
     public EquipmentSet getEquipment() {
         return equipment;
     }
 
+    /**
+     * Gets the permanent potion effects the kit has
+     * @return An ArrayList of the permanent potion effects of the kit
+     */
     public ArrayList<PotionEffect> getEffects() {
         return potionEffects;
     }
