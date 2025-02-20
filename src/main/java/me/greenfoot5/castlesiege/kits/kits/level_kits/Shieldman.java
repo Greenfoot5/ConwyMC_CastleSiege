@@ -37,8 +37,10 @@ public class Shieldman extends LevelKit implements Listener {
     private static final double regen = 14;
     private static final double meleeDamage = 36;
     private static final int ladderCount = 4;
-    private static int blockAmount = 12;
+    private static final int blockAmount = 12;
     private final ItemStack shield;
+
+    private static int blocksRemaining = 12;
 
     /**
      * Set the equipment and attributes of this kit
@@ -118,34 +120,29 @@ public class Shieldman extends LevelKit implements Listener {
     }
 
     /**
-     * @param shieldman the shieldman to remove and give back the shield to.
      * This is to stop the shieldman from blocking even when the cooldown is active.
-     * Don't bother trying to change this or find another way, there is no other way provided by spigot.
      */
-    public void tempRemoveShield(Player shieldman) {
-        shieldman.getInventory().setItemInOffHand(null);
+    public void tempRemoveShield() {
+        equippedPlayer.getInventory().setItemInOffHand(null);
         new BukkitRunnable() {
             @Override
             public void run() {
-                shieldman.getInventory().setItemInOffHand(shield);
+                equippedPlayer.getInventory().setItemInOffHand(shield);
             }
         }.runTaskLater(Main.plugin, 10);
     }
 
     /**
-     * This is basically a shield cool-down mechanism/method.
-     * @param shielder the shieldman holding the shield.
+     * Allows a certain number of blocks before cooldown
      */
-    public void shieldMechanism(Player shielder) {
-        if (Objects.equals(Kit.equippedKits.get(shielder.getUniqueId()).name, name)) {
-            if (shielder.isBlocking() && blockAmount != 0) {
-                blockAmount--;
-            } else if (shielder.isBlocking() && blockAmount <= 1) {
-                shielder.setCooldown(Material.SHIELD, 300);
-                tempRemoveShield(shielder);
-                blockAmount = 12;
+    public void shieldMechanism() {
+            if (equippedPlayer.isBlocking() && blockAmount != 0) {
+                blocksRemaining--;
+            } else if (equippedPlayer.isBlocking() && blockAmount <= 1) {
+                equippedPlayer.setCooldown(Material.SHIELD, 300);
+                tempRemoveShield();
+                blocksRemaining = blockAmount;
             }
-        }
     }
 
     /**
@@ -154,11 +151,8 @@ public class Shieldman extends LevelKit implements Listener {
      */
     @EventHandler
     public void combatShielding(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player) {
-            if (Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
-                Player p = (Player) e.getEntity();
-                shieldMechanism(p);
-            }
+        if (e.getEntity() == equippedPlayer) {
+            shieldMechanism();
         }
     }
     /**
@@ -167,11 +161,8 @@ public class Shieldman extends LevelKit implements Listener {
      */
     @EventHandler
     public void combatShielding2(ProjectileHitEvent e) {
-        if (e.getHitEntity() instanceof Player) {
-            if (Objects.equals(Kit.equippedKits.get(e.getHitEntity().getUniqueId()).name, name)) {
-                Player p = (Player) e.getHitEntity();
-                shieldMechanism(p);
-            }
+        if (e.getEntity() == equippedPlayer) {
+            shieldMechanism();
         }
     }
     /**
@@ -180,17 +171,20 @@ public class Shieldman extends LevelKit implements Listener {
      */
     @EventHandler
     public void shielding(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            if (p.getCooldown(Material.SHIELD) != 0 &&
-                    (p.getInventory().getItemInMainHand().getType() == Material.SHIELD || p.getInventory().getItemInOffHand().getType() == Material.SHIELD)) {
-                e.setCancelled(true);
-            }
-            if (!InCombat.isPlayerInCombat(e.getPlayer().getUniqueId())) {
-                blockAmount = 12;
-            }
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        if (equippedPlayer.getInventory().getItemInOffHand().getType() == Material.SHIELD)
+            return;
+
+        if (equippedPlayer.getCooldown(Material.SHIELD) != 0) {
+            e.setCancelled(true);
         }
+
+        blocksRemaining = blockAmount;
     }
 
     /**

@@ -115,31 +115,29 @@ public class BattleMedic extends LevelKit implements Listener {
      */
     @EventHandler
     public void onHeal(PlayerInteractEntityEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-            // Prevent using in lobby
-            if (event.getPlayer() != equippedPlayer
-                    || InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
-                return;
-            }
+        // Prevent using in lobby
+        if (event.getPlayer() != equippedPlayer
+                || InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
+            return;
+        }
 
-            PlayerInventory i = equippedPlayer.getInventory();
-            if ((i.getItemInMainHand().getType() == Material.PAPER)
-                    && event.getRightClicked() instanceof Player patient
-                    && TeamController.getTeam(equippedPlayer.getUniqueId()) == TeamController.getTeam(patient.getUniqueId())
-                    && patient.getHealth() < Kit.equippedKits.get(patient.getUniqueId()).baseHealth
-                    && equippedPlayer.getCooldown(Material.PAPER) == 0) {
+        PlayerInventory i = equippedPlayer.getInventory();
+        if ((i.getItemInMainHand().getType() == Material.PAPER)
+                && event.getRightClicked() instanceof Player patient
+                && TeamController.getTeam(equippedPlayer.getUniqueId()) == TeamController.getTeam(patient.getUniqueId())
+                && patient.getHealth() < Kit.equippedKits.get(patient.getUniqueId()).baseHealth
+                && equippedPlayer.getCooldown(Material.PAPER) == 0) {
 
-                // Apply cooldown
-                equippedPlayer.setCooldown(Material.PAPER, BANDAGE_COOLDOWN_TICKS);
+            // Apply cooldown
+            equippedPlayer.setCooldown(Material.PAPER, BANDAGE_COOLDOWN_TICKS);
 
-                // Heal
-                addPotionEffect(patient, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
-                equippedPlayer.getInventory().getItemInMainHand().setAmount(equippedPlayer.getInventory().getItemInMainHand().getAmount() - 1);
-                Messenger.sendHealing(CSNameTag.mmUsername(equippedPlayer) + " is healing you", patient);
-                Messenger.sendHealing("You are healing " + CSNameTag.mmUsername(patient), equippedPlayer);
-                UpdateStats.addHeals(equippedPlayer.getUniqueId(), 1);
-            }
-        });
+            // Heal
+            addPotionEffect(patient, new PotionEffect(PotionEffectType.REGENERATION, 40, 9));
+            equippedPlayer.getInventory().getItemInMainHand().setAmount(equippedPlayer.getInventory().getItemInMainHand().getAmount() - 1);
+            Messenger.sendHealing(CSNameTag.mmUsername(equippedPlayer) + " is healing you", patient);
+            Messenger.sendHealing("You are healing " + CSNameTag.mmUsername(patient), equippedPlayer);
+            UpdateStats.addHeals(equippedPlayer.getUniqueId(), 1);
+        }
     }
 
     /**
