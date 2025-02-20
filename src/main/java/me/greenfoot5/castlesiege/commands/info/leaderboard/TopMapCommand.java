@@ -49,7 +49,7 @@ public class TopMapCommand implements CommandExecutor {
             Messenger.sendError("You must be on a team to check the top score!", sender);
         }
 
-        if (cmd.toString().equalsIgnoreCase("topmatch")) {
+        if (label.equalsIgnoreCase("topmatch")) {
             Messenger.sendError("Command has been renamed to <yellow><click:suggest_command:/topmap>/topmap</yellow>", sender);
             return false;
         }
