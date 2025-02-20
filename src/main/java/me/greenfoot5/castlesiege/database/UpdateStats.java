@@ -17,6 +17,19 @@ import java.util.UUID;
  */
 public class UpdateStats {
 
+    public static int[] levelRequirements = new int[] {
+        0,
+            0, 50, 200, 400, 650,
+            950, 1_300, 1_700, 2_150, 2_650,
+            3_250, 3_950, 4_750, 5_650, 6_650,
+            7_750, 8_950, 10_250, 11_700, 13_300,
+            15_050, 16_950, 19_000, 21_200, 23_600,
+            26_200, 29_000, 32_000, 35_200, 38_600,
+            42_200, 46_000, 50_000, 54_250, 58_750,
+            63_500, 68_500, 73_750, 79_250, 85_000,
+            // Current Cap is 40
+    };
+
     /**
      * Add 1 kill to the player's data
      * @param uuid The unique ID of the player
@@ -121,23 +134,8 @@ public class UpdateStats {
      * @return The score required to reach the level
      */
     public static double levelScore(int lvl) {
-
-        if (lvl >= 65) {
-            return 1.5 * lvl * lvl - 1.5 * (lvl - 1) + levelScore(lvl -1);
-        } else if (lvl >= 60) {
-            return 2 * lvl * lvl - 3 * (lvl - 1) + levelScore(lvl -1);
-        } else if (lvl >= 48) {
-            return 3 * lvl * lvl - 4 * (lvl - 1) + levelScore(lvl -1);
-        } else if (lvl >= 36) {
-            return 4 * lvl * lvl - 5 * (lvl - 1) + levelScore(lvl -1);
-        } else if (lvl >= 24) {
-            return 5 * lvl * lvl - 6 * (lvl - 1) + levelScore(lvl -1);
-        } else if (lvl >= 12) {
-            return 6 * lvl * lvl - 7 * (lvl - 1) + levelScore(lvl -1);
-        } else if (lvl > 0) {
-            return 8 * lvl * lvl - 8 * (lvl - 1) + levelScore(lvl -1);
-        }
-
-        return 0;
+        // Clamp to avoid out of bounds
+        lvl = Math.clamp(lvl, 0, 40);
+        return levelRequirements[lvl];
     }
 }
