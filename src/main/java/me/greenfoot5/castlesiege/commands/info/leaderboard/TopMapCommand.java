@@ -30,7 +30,7 @@ import static me.greenfoot5.castlesiege.commands.info.leaderboard.LeaderboardCom
 /**
  * Shows the player the leaderboard for this match
  */
-public class TopMatchCommand implements CommandExecutor {
+public class TopMapCommand implements CommandExecutor {
 
     /**
      * Print the score leaderboard to the player
@@ -47,6 +47,11 @@ public class TopMatchCommand implements CommandExecutor {
         // Can only use if playing or a player
         if (isTeam && !(sender instanceof Player player && TeamController.isPlaying(player))) {
             Messenger.sendError("You must be on a team to check the top score!", sender);
+        }
+
+        if (cmd.toString().equalsIgnoreCase("topmatch")) {
+            Messenger.sendError("Command has been renamed to <yellow><click:suggest_command:/topmap>/topmap</yellow>", sender);
+            return false;
         }
 
         // Run asynchronously because some operations might take some time

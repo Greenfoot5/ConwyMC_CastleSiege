@@ -140,10 +140,11 @@ commands:
   TopHeals:
     description: Shows the heals leaderboard
     usage: /topheals [position]
-  TopMatch:
-    description: Shows the leaderboard for the current game
-    usage: /topmatch [category] [position]
+  TopMap:
+    description: Shows the leaderboard for the current map
+    usage: /topmap [category] [position]
     aliases:
+      - topmatch
       - topgame
   TopTeam:
     description: Shows the leaderboard for your current team

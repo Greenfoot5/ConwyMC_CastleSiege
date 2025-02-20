@@ -35,7 +35,7 @@ import me.greenfoot5.castlesiege.commands.info.SecretsCommand;
 import me.greenfoot5.castlesiege.commands.info.TeamsCommand;
 import me.greenfoot5.castlesiege.commands.info.leaderboard.LeaderboardCommand;
 import me.greenfoot5.castlesiege.commands.info.leaderboard.MVPCommand;
-import me.greenfoot5.castlesiege.commands.info.leaderboard.TopMatchCommand;
+import me.greenfoot5.castlesiege.commands.info.leaderboard.TopMapCommand;
 import me.greenfoot5.castlesiege.commands.staff.GiveVoteCommand;
 import me.greenfoot5.castlesiege.commands.staff.ReloadCommand;
 import me.greenfoot5.castlesiege.commands.staff.boosters.GrantBoosterCommand;
@@ -480,8 +480,8 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("TopKDR")).setExecutor(new LeaderboardCommand());
                 Objects.requireNonNull(getCommand("TopKills")).setExecutor(new LeaderboardCommand());
                 Objects.requireNonNull(getCommand("TopSupports")).setExecutor(new LeaderboardCommand());
-                Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMatchCommand());
-                Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMatchCommand());
+                Objects.requireNonNull(getCommand("TopMatch")).setExecutor(new TopMapCommand());
+                Objects.requireNonNull(getCommand("TopTeam")).setExecutor(new TopMapCommand());
 
                 // Debug
                 Objects.requireNonNull(getCommand("GrantBooster")).setExecutor(new GrantBoosterCommand());
