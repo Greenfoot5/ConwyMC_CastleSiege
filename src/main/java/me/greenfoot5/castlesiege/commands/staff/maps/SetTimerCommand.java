@@ -1,6 +1,7 @@
 package me.greenfoot5.castlesiege.commands.staff.maps;
 
 import me.greenfoot5.castlesiege.maps.MapController;
+import me.greenfoot5.castlesiege.maps.TimerState;
 import me.greenfoot5.conwymc.util.Messenger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,6 +23,11 @@ public class SetTimerCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+		if (MapController.timer.state == TimerState.ENDED) {
+			Messenger.sendError("You can't change the timer once it's ended.", sender);
+			return true;
+		}
+
 		if (args.length == 0) {
 			Messenger.sendError("Please at least specify minutes!", sender);
 		} else if (args.length == 1) {
