@@ -8,6 +8,7 @@ import me.greenfoot5.castlesiege.data_types.KitBooster;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
+import me.greenfoot5.castlesiege.kits.kits.StaffKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.database.ActiveData;
 
@@ -103,7 +104,7 @@ public class LoadData {
 
             while (rs.next()) {
                 String kit = rs.getString("unlocked_kit");
-                if (CoinKit.getKits().contains(kit) || SignKit.getKits().contains(kit)) {
+                if (CoinKit.getKits().contains(kit) || SignKit.getKits().contains(kit) || StaffKit.getKits().contains(kit)) {
                     unlockedKits.add(kit);
                 }
             }

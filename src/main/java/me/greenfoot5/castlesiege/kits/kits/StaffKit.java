@@ -55,7 +55,6 @@ public abstract class StaffKit extends Kit {
 
         UUID uuid = ((Player) sender).getUniqueId();
         boolean hasKit = CSActiveData.getData(uuid).hasKit(getSpacelessName());
-        boolean allKitsFree = MapController.allKitsFree;
         if (!hasKit) {
             if (verbose) {
                 if (Kit.equippedKits.get(uuid) == null) {
