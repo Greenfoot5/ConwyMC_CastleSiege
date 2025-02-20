@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.kits.kits.coin_kits;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
 import me.greenfoot5.castlesiege.kits.kits.CoinKit;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -16,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -31,10 +31,13 @@ public class Viking extends CoinKit implements Listener {
 
     private static final int health = 360;
     private static final double regen = 10.5;
-    private static final double meleeDamage = 16;
+    private static final double meleeDamage = 5;
     private static final int ladderAmount = 4;
 
+    private static final double CAP = 1000;
+    private static final double MIN_HEAL = 100;
     private static final double PERCENTAGE_DAMAGE = 0.15;
+    private static final double PERCENTAGE_HEAL = 0.35;
 
     /**
      * Set the equipment and attributes of this kit
@@ -49,14 +52,14 @@ public class Viking extends CoinKit implements Listener {
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                 Component.text("Giant Battle Axe", NamedTextColor.GREEN),
                 List.of(Component.empty(),
-                        Component.text("16 Melee Damage", NamedTextColor.DARK_GREEN)),
+                        Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)),
                 null, meleeDamage);
         // Voted Weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_AXE),
                         Component.text("Giant Battle Axe", NamedTextColor.GREEN),
                         List.of(Component.empty(),
-                                Component.text("18 Melee Damage", NamedTextColor.DARK_GREEN),
+                                Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
 								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
                         Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
                 0);
@@ -113,15 +116,25 @@ public class Viking extends CoinKit implements Listener {
 
         if (e.getEntity() instanceof Player hit) {
             if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
-                int baseHealth = Kit.equippedKits.get(hit.getUniqueId()).baseHealth;
-                e.setDamage((baseHealth * PERCENTAGE_DAMAGE) + e.getDamage());
+                AttributeInstance maxHealth = hit.getAttribute(Attribute.MAX_HEALTH);
+                assert maxHealth != null;
+                e.setDamage((maxHealth.getValue() * PERCENTAGE_DAMAGE) + e.getDamage());
+                equippedPlayer.heal(maxHealth.getValue() * PERCENTAGE_HEAL, EntityRegainHealthEvent.RegainReason.CUSTOM);
             }
         } else if (e.getEntity() instanceof LivingEntity hit){
             if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.IRON_AXE) {
 
                 AttributeInstance maxHealth = hit.getAttribute(Attribute.MAX_HEALTH);
                 assert maxHealth != null;
-                if (!(maxHealth.getValue() >= 500)) {
+                // Max percentage is at 1000 health
+                // Min for healing is 100 * PERCENTAGE_HEAL health
+                if (maxHealth.getValue() >= MIN_HEAL && maxHealth.getValue() <= CAP) {
+                    e.setDamage((maxHealth.getValue() * PERCENTAGE_DAMAGE) + e.getDamage());
+                    equippedPlayer.heal(e.getDamage() * PERCENTAGE_HEAL, EntityRegainHealthEvent.RegainReason.CUSTOM);
+                } else if (maxHealth.getValue() > CAP) {
+                    e.setDamage((CAP * PERCENTAGE_DAMAGE) + e.getDamage());
+                    equippedPlayer.heal(e.getDamage() * PERCENTAGE_HEAL, EntityRegainHealthEvent.RegainReason.CUSTOM);
+                } else {
                     e.setDamage((maxHealth.getValue() * PERCENTAGE_DAMAGE) + e.getDamage());
                 }
             }
@@ -140,8 +153,8 @@ public class Viking extends CoinKit implements Listener {
         kitLore.add(Component.text("- Mining Fatigue I", NamedTextColor.GRAY));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
-        kitLore.add(Component.text("- Deals " + PERCENTAGE_DAMAGE + "% damage plus ", NamedTextColor.GRAY));
-        kitLore.add(Component.text(" " + meleeDamage + " DMG each attack", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Deals " + meleeDamage + " DMG each hit, plus " + (PERCENTAGE_DAMAGE * 100) + "% of target's health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Heal" + (PERCENTAGE_HEAL * 100) + "% of damage dealt", NamedTextColor.GRAY));
         return kitLore;
     }
 }
