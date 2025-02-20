@@ -65,10 +65,29 @@ public class Gui extends me.greenfoot5.conwymc.gui.Gui implements Listener {
      */
     public void addKitItem(Player player, Kit kit, int location, String command) {
         if (kit.canSelect(player, false, false, false)) {
-            inventory.setItem(location, CSItemCreator.item(new ItemStack(kit.material),
-                    getKitDisplayName(kit), kit.getGuiDescription(), null));
-            locationToItem.put(location, new GuiItem(command, true));
+
+            if (kit.canSelect(player, true, true, false)) {
+                // The player can select the kit with limits
+                inventory.setItem(location, CSItemCreator.item(new ItemStack(kit.material),
+                        getKitDisplayName(kit), kit.getGuiDescription(), null));
+                locationToItem.put(location, new GuiItem(command, true));
+            } else {
+
+                // The player can't select with limits
+                // Display blue stained-glass when the kit limit has been reached
+                ArrayList<Component> desc = new ArrayList<>();
+                desc.addAll(kit.getGuiDescription());
+                desc.add(Component.empty());
+                desc.add(Component.text("Kit limit reached!").color(NamedTextColor.DARK_PURPLE).decorate(TextDecoration.BOLD));
+                List<Component> lore = removeItalics(desc);
+                assert lore != null;
+                inventory.setItem(location, CSItemCreator.item(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE),
+                        getKitDisplayName(kit), lore, null));
+                locationToItem.put(location, new GuiItem(command, false));
+            }
+
         } else {
+            // Display black stained-glass when the player doesn't have the kit
             ArrayList<Component> desc = kit.getGuiDescription();
             List<Component> lore = removeItalics(desc);
             assert lore != null;
@@ -106,7 +125,7 @@ public class Gui extends me.greenfoot5.conwymc.gui.Gui implements Listener {
                     .append(Component.text(CoinKit.getPrice(uuid), NamedTextColor.YELLOW));
             Component duration = Component.text("Duration: permanent", NamedTextColor.GREEN);
 
-            List<Component> lore = removeItalics(getKitLore(price, duration, kit));
+            List<Component> lore = removeItalics(getKitLore(price, duration));
             Bukkit.getScheduler().runTask(Main.plugin, () ->
                         addItem(itemName, material, lore, location, "buykit " + kitName, false)
                     );
@@ -116,11 +135,10 @@ public class Gui extends me.greenfoot5.conwymc.gui.Gui implements Listener {
     /**
      * @param price The price of the kit
      * @param duration The length of time you receive the kit for
-     * @param kit The kit that's unlocked
      * @return The lore for an item of this kit
      */
     @NotNull
-    private static List<Component> getKitLore(Component price, Component duration, Kit kit) {
+    private static List<Component> getKitLore(Component price, Component duration) {
         ArrayList<Component> lore = new ArrayList<>();
         lore.add(price);
         lore.add(duration);
