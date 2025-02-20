@@ -81,7 +81,7 @@ public abstract class Kit implements CommandExecutor, Listener {
 
     // Player Tracking
     public static final Map<UUID, Kit> equippedKits = new HashMap<>();
-    private int limit = -1;
+    public static final Map<String, Integer> kitLimits = new HashMap<>();
 
     // Kit Tracking
     private static final Map<String, Kit> kits = new HashMap<>();
@@ -448,7 +448,7 @@ public abstract class Kit implements CommandExecutor, Listener {
             return false;
         }
 
-        if (applyLimit && limit >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
+        if (applyLimit && kitLimits.getOrDefault(getSpacelessName(), -1) >= 0 && violatesLimit(TeamController.getTeam(uuid))) {
             if (verbose)
                 Messenger.sendError("Could not select " + this.name + " as its limit has been reached!", sender);
             return false;
@@ -469,7 +469,10 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @param limit The limit to set
      */
     public void setLimit(int limit) {
-        this.limit = limit;
+        if (limit < 0)
+            kitLimits.remove(getSpacelessName());
+        else
+            kitLimits.put(getSpacelessName(), limit);
     }
 
     /**
@@ -484,7 +487,7 @@ public abstract class Kit implements CommandExecutor, Listener {
                 count.getAndIncrement();
         });
 
-        return limit <= count.get();
+        return kitLimits.getOrDefault(getSpacelessName(), -1) <= count.get();
     }
 
     /**
