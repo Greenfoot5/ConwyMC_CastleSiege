@@ -174,8 +174,8 @@ public class Vanguard extends CoinKit implements Listener, CommandExecutor {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
-        kitLore.add(Component.text("A master of camouflage and tracking. Can", NamedTextColor.GRAY));
-        kitLore.add(Component.text("become invisible and strike enemies from behind", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Run up to enemies and hit them really hard!", NamedTextColor.GRAY));
+        kitLore.add(Component.text("Just... don't die when they hit back", NamedTextColor.GRAY));
         kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderAmount));
         kitLore.add(Component.empty());
         kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
