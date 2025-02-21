@@ -1,5 +1,6 @@
 package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.UpdateStats;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
@@ -16,6 +17,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -35,13 +38,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * A kit with an Elytra with bombs and heals
+ */
 public class Elytrier extends SignKit implements Listener {
 
     private static final int POTION_COOLDOWN = 300;
 
+    /**
+     * Creates a new Elytrier instance
+     */
     public Elytrier() {
         super("Elytrier", 170, 7, Material.ELYTRA, 2000);
         super.canCap = false;
@@ -115,36 +122,33 @@ public class Elytrier extends SignKit implements Listener {
      */
     @EventHandler
     public void throwBomb(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack fist = p.getInventory().getItemInMainHand();
-
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (e.getPlayer() != equippedPlayer)
             return;
-        }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (fist.getType().equals(Material.SNOWBALL)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    e.setCancelled(true);
-                    p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount() - 1);
-                    Item item = p.getWorld().spawn(p.getLocation(), Item.class);
-                    item.setPickupDelay(99999);
-                    item.setItemStack(new ItemStack(Material.SNOWBALL));
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
 
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
+        ItemStack fist = equippedPlayer.getInventory().getItemInMainHand();
 
-                            item.getWorld().createExplosion(item.getLocation(), 2.25F, false, false, p);
+        if (!fist.getType().equals(Material.SNOWBALL))
+            return;
 
-                        }
-                    }.runTaskLater(Main.plugin, 90);
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
 
-                }
+        e.setCancelled(true);
+        fist.setAmount(fist.getAmount() - 1);
+        Item item = equippedPlayer.getWorld().spawn(equippedPlayer.getLocation(), Item.class);
+        item.setPickupDelay(2000);
+        item.setItemStack(new ItemStack(Material.SNOWBALL));
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                item.getWorld().createExplosion(item.getLocation(), 2.25F, false, false, equippedPlayer);
             }
-        }
+        }.runTaskLater(Main.plugin, 90);
+
     }
 
     /**
@@ -153,99 +157,110 @@ public class Elytrier extends SignKit implements Listener {
      */
     @EventHandler
     public void boost(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack fist = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.FIREWORK_ROCKET);
-
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (e.getPlayer() != equippedPlayer)
             return;
-        }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (fist.getType().equals(Material.FIREWORK_ROCKET)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0 && p.isGliding()) {
-                        p.setCooldown(Material.FIREWORK_ROCKET, 30);
-                        p.setVelocity(p.getVelocity().multiply(3.5));
-                    } else if (!p.isGliding()){
-                        Messenger.sendActionError("You can't launch yourself whilst not gliding!", p);
-                    } else {
-                        Messenger.sendActionError("You can't launch yourself forward yet!", p);
-                    }
-                    e.setCancelled(true);
-                }
-            }
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        ItemStack fist = equippedPlayer.getInventory().getItemInMainHand();
+        int cooldown = equippedPlayer.getCooldown(Material.FIREWORK_ROCKET);
+
+        if (!fist.getType().equals(Material.FIREWORK_ROCKET))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (cooldown == 0 && equippedPlayer.isGliding()) {
+            equippedPlayer.setCooldown(Material.FIREWORK_ROCKET, 30);
+            equippedPlayer.setVelocity(equippedPlayer.getVelocity().multiply(3.5));
+        } else if (!equippedPlayer.isGliding()){
+            Messenger.sendActionError("You can't launch yourself whilst not gliding!", equippedPlayer);
+        } else {
+            Messenger.sendActionError("You can't launch yourself forward yet!", equippedPlayer);
         }
+        e.setCancelled(true);
     }
 
 
     /**
      * Activate the Elytrier ability of throwing a health potion down
-     * @param e The event called when right-clicking with rocket star
+     * @param e The event called when right-clicking with red dye
      */
     @EventHandler
     public void healthDrop(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack fist = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.RED_DYE);
-
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (e.getPlayer() != equippedPlayer)
             return;
-        }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (fist.getType().equals(Material.RED_DYE)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0 && p.isGliding()) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
 
-                        Location loc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() - 1, p.getLocation().getZ());
-                        ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
-                        PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
-                        assert potionMeta != null;
-                        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 5), true);
-                        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0), true);
-                        itemStack.setItemMeta(potionMeta);
-                        ThrownPotion potion = (ThrownPotion) p.getWorld().spawnEntity(loc, EntityType.POTION);
-                        potion.setItem(itemStack);
-                        potion.setShooter(p);
+        ItemStack fist = equippedPlayer.getInventory().getItemInMainHand();
+        int cooldown = equippedPlayer.getCooldown(Material.RED_DYE);
 
-                        p.setCooldown(Material.RED_DYE, POTION_COOLDOWN);
-                    } else if (!p.isGliding()){
-                        Messenger.sendActionError("You can't drop a heal whilst not gliding!", p);
-                    } else {
-                        Messenger.sendActionError("You can't do a health drop just yet!", p);
-                    }
-                }
-            }
+        if (!fist.getType().equals(Material.RED_DYE))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (cooldown == 0 && equippedPlayer.isGliding()) {
+
+            Location loc = equippedPlayer.getLocation().add(0, -1, 0);
+            ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
+            PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
+            assert potionMeta != null;
+            potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 5), true);
+            potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0), true);
+            itemStack.setItemMeta(potionMeta);
+            ThrownPotion potion = (ThrownPotion) equippedPlayer.getWorld().spawnEntity(loc, EntityType.POTION);
+            potion.setItem(itemStack);
+            potion.setShooter(equippedPlayer);
+
+            equippedPlayer.setCooldown(Material.RED_DYE, POTION_COOLDOWN);
+        } else if (!equippedPlayer.isGliding()){
+            Messenger.sendActionError("You can't drop a heal whilst not gliding!", equippedPlayer);
+        } else {
+            Messenger.sendActionError("You can't do a health drop just yet!", equippedPlayer);
         }
     }
 
+    /**
+     * Applies a healing effect to all hit allies
+     * @param e Called when a thrown potion breaks
+     */
     @EventHandler
     public void onThrownPotion(PotionSplashEvent e) {
-        if (!(e.getPotion().getShooter() instanceof Player damager))
+        if (e.getPotion().getShooter() != equippedPlayer)
             return;
 
-        if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
-            e.setCancelled(true);
-            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                for (Entity entity : e.getAffectedEntities()) {
-                    if (entity instanceof Player hit) {
-                        if (TeamController.getTeam(damager.getUniqueId())
-                                == TeamController.getTeam(hit.getUniqueId())
-                                && damager != hit) {
-                            if (hit.getHealth() != Kit.equippedKits.get(hit.getUniqueId()).baseHealth)
-                                UpdateStats.addHeals(damager.getUniqueId(), 1);
-                            UpdateStats.addSupports(damager.getUniqueId(), 2);
-                            Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffects(e.getPotion().getEffects()));
-                        }
+        e.setCancelled(true);
+        Location loc = e.getHitBlock() != null ? e.getHitBlock().getLocation() : e.getHitEntity().getLocation();
+        loc.getWorld().playSound(loc, Sound.ENTITY_SPLASH_POTION_BREAK, 1, 1);
+
+        new ParticleBuilder(Particle.ENTITY_EFFECT)
+                .color(e.getPotion().getPotionMeta().getColor())
+                .location(loc.add(0.5, 1, 0.5))
+                .offset(0.2, 0.5, 0.2)
+                .count(30)
+                .allPlayers()
+                .spawn();
+
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+            for (Entity entity : e.getAffectedEntities()) {
+                if (entity instanceof Player hit) {
+                    if (TeamController.getTeam(equippedPlayer.getUniqueId())
+                            == TeamController.getTeam(hit.getUniqueId())
+                            && equippedPlayer != hit) {
+                        if (hit.getHealth() != Kit.equippedKits.get(hit.getUniqueId()).baseHealth)
+                            UpdateStats.addHeals(equippedPlayer.getUniqueId(), 1);
+                        UpdateStats.addSupports(equippedPlayer.getUniqueId(), 2);
+                        Bukkit.getScheduler().runTask(Main.plugin, () -> hit.addPotionEffects(e.getPotion().getEffects()));
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     @Override
