@@ -4,14 +4,12 @@ import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.LevelKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -25,8 +23,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * The shieldman kit
@@ -40,7 +36,7 @@ public class Shieldman extends LevelKit implements Listener {
     private static final int blockAmount = 12;
     private final ItemStack shield;
 
-    private static int blocksRemaining = 12;
+    private int blocksRemaining = 12;
 
     /**
      * Set the equipment and attributes of this kit
@@ -136,9 +132,9 @@ public class Shieldman extends LevelKit implements Listener {
      * Allows a certain number of blocks before cooldown
      */
     public void shieldMechanism() {
-            if (equippedPlayer.isBlocking() && blockAmount != 0) {
+            if (equippedPlayer.isBlocking() && blocksRemaining != 0) {
                 blocksRemaining--;
-            } else if (equippedPlayer.isBlocking() && blockAmount <= 1) {
+            } else if (equippedPlayer.isBlocking() && blocksRemaining <= 1) {
                 equippedPlayer.setCooldown(Material.SHIELD, 300);
                 tempRemoveShield();
                 blocksRemaining = blockAmount;
