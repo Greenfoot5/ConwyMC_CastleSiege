@@ -348,7 +348,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                         data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "medic"}, false);
-                        Messenger.sendCongrats("You gained Medic Kit Booster (2 hours)</green> for levelling up!", p);
+                        Messenger.sendCongrats("You gained <green>Medic Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 8:
                     case 12:
@@ -364,31 +364,31 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                         data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "maceman"}, false);
-                        Messenger.sendCongrats("You gained Maceman Kit Booster (2 hours)</green> for levelling up!", p);
+                        Messenger.sendCongrats("You gained <green>Maceman Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 11:
                         data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "berserker"}, false);
-                        Messenger.sendCongrats("You gained Berserker Kit Booster (2 hours)</green> for levelling up!", p);
+                        Messenger.sendCongrats("You gained <green>Berserker Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 13:
                         data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "vanguard"}, false);
-                        Messenger.sendCongrats("You gained Vanguard Kit Booster (2 hours)</green> for levelling up!", p);
+                        Messenger.sendCongrats("You gained <green>Vanguard Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 17:
                         data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "paladin"}, false);
-                        Messenger.sendCongrats("You gained Paladin Kit Booster (2 hours)</green> for levelling up!", p);
+                        Messenger.sendCongrats("You gained <green>Paladin Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
                     case 19:
                         data.addCoinsClean(500);
                         Messenger.sendCongrats("You gained <gold>500 coins</gold> for levelling up!", p);
                         GrantBoosterCommand.grantBooster(p, new String[]{p.getName(), "kit", "2h", "ranger"}, false);
-                        Messenger.sendCongrats("You gained Ranger Kit Booster (2 hours)</green> for levelling up!", p);
+                        Messenger.sendCongrats("You gained <green>Ranger Kit Booster (2 hours)</green> for levelling up!", p);
                         break;
 
                     // Multiples of 5
