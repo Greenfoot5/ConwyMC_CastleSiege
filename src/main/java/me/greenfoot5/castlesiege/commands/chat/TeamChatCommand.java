@@ -37,8 +37,13 @@ public class TeamChatCommand extends ToggleChatCommand {
 
 		PlayerData data = ActiveData.getData(e.getPlayer().getUniqueId());
 		// This can be overridden by changing the message before
-		if (e.originalMessage() == e.message() && data.getChatMode().equalsIgnoreCase(CHAT_MODE))
+		if (e.originalMessage() == e.message() && data.getChatMode().equalsIgnoreCase(CHAT_MODE)) {
+			// Make sure we only send to who we need to
+			e.viewers().clear();
+			e.viewers().add(getReceivers(e.getPlayer()));
+			// Render it!
 			e.renderer(this);
+		}
 	}
 
 	@Override
