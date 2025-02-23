@@ -160,7 +160,7 @@ public class Spearman extends LevelKit implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onBreakLadder(BlockBreakEvent e) {
-		if (e.getPlayer() != equippedPlayer || !InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+		if (e.getPlayer() != equippedPlayer || InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
 			return;
 
         Location loc = e.getBlock().getLocation();
