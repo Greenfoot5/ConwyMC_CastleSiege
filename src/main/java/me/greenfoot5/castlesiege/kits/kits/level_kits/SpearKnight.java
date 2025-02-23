@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.events.timed.BarCooldown;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.LevelKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -15,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Horse;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -33,9 +31,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Spear Knight kit
+ */
 public class SpearKnight extends LevelKit implements Listener {
 
     private static final int health = 330;
@@ -121,42 +120,44 @@ public class SpearKnight extends LevelKit implements Listener {
      */
     @EventHandler
     public void throwSpear(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        int cooldown = p.getCooldown(Material.STICK);
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
+        int cooldown = equippedPlayer.getCooldown(Material.STICK);
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        ItemStack stack;
+        if (equippedPlayer.getInventory().getItemInMainHand().getType().equals(Material.STICK)) {
+            stack = equippedPlayer.getInventory().getItemInMainHand();
+        } else if (equippedPlayer.getInventory().getItemInOffHand().getType().equals(Material.STICK)) {
+            stack = equippedPlayer.getInventory().getItemInOffHand();
+        } else {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            ItemStack stack = null;
-            if (p.getInventory().getItemInMainHand().getType().equals(Material.STICK)) {
-                stack = p.getInventory().getItemInMainHand();
-            } else if (p.getInventory().getItemInOffHand().getType().equals(Material.STICK)) {
-                stack = p.getInventory().getItemInOffHand();
-            }
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        Messenger.sendActionInfo("Preparing to throw your spear...", p);
-                        if(stack == null) { return; }
-                        stack.setAmount(stack.getAmount() - 1);
-                        p.setCooldown(Material.STICK, throwCooldown);
-                        BarCooldown.add(uuid, throwDelay);
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                Messenger.sendActionInfo("You threw your spear!", p);
-                                p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(throwVelocity));
-                            }
-                        }.runTaskLater(Main.plugin, throwDelay);
-                    } else {
-                        Messenger.sendActionError("You can't throw you spear yet", p);
-                    }
+        if (cooldown == 0) {
+            Messenger.sendActionInfo("Preparing to throw your spear...", equippedPlayer);
+            stack.setAmount(stack.getAmount() - 1);
+            equippedPlayer.setCooldown(Material.STICK, throwCooldown);
+            BarCooldown.add(equippedPlayer.getUniqueId(), throwDelay);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Messenger.sendActionInfo("You threw your spear!", equippedPlayer);
+                    equippedPlayer.launchProjectile(Arrow.class)
+                            .setVelocity(equippedPlayer.getLocation().getDirection().multiply(throwVelocity));
                 }
-
+            }.runTaskLater(Main.plugin, throwDelay);
+        } else {
+            Messenger.sendActionError("You can't throw you spear yet", equippedPlayer);
         }
+
     }
 
     /**
@@ -165,32 +166,27 @@ public class SpearKnight extends LevelKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void changeSpearDamage(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow arrow) {
+        if (e.getEntity().getShooter() != equippedPlayer)
+            return;
 
-            if(arrow.getShooter() instanceof Player damages){
-
-                if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    arrow.setDamage(throwDamage);
-                }
-            }
-        }
+        if (e.getEntity() instanceof Arrow arrow)
+            arrow.setDamage(throwDamage);
     }
 
     /**
+     * Bonus damage to horses
      * @param e When a player hits a horse, grants bonus damage
      */
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {
-            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
-                e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
-            }
+        if (e.getDamager() != equippedPlayer)
+            return;
+
+        if (e.getEntity() instanceof Horse) {
+            e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
         }
     }
 
-    /**
-     * @return The lore to add to the kit gui item
-     */
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> kitLore = new ArrayList<>();
