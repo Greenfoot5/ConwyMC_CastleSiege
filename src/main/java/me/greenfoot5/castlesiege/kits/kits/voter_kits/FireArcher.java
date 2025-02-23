@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.events.EnderchestEvent;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.VoterKit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
@@ -19,7 +18,6 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -39,8 +37,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -60,8 +56,7 @@ public class FireArcher extends VoterKit implements Listener {
     private static final int fireArrowCreationCooldown = 30;
     private static final int fireArrowHoldLimit = 9;
 
-
-    public static final HashMap<Player, Block> cauldrons = new HashMap<>();
+    private Block placedPit;
     private final ItemStack fireArrow;
     private final ItemStack firepit;
     private final ItemStack firepitVoted;
@@ -156,72 +151,112 @@ public class FireArcher extends VoterKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+
+        if (e.getBlockPlaced().getType() != Material.CAULDRON)
+            return;
+
+
+        // Destroy old cauldron
+        destroyFirepit();
+
+        // Place new cauldron
+        e.setCancelled(false);
+        placedPit = e.getBlockPlaced();
+        Messenger.sendActionInfo("You placed down your Firepit", equippedPlayer);
+        for (PotionEffect effect : equippedPlayer.getActivePotionEffects()) {
+            if (effect.getType().equals(PotionEffectType.SLOWNESS) && effect.getAmplifier() == 0) {
+                equippedPlayer.removePotionEffect(effect.getType());
+            }
+        }
+    }
+
+    /**
+     * Pick up your own cauldron
+     * @param e The event called when left-clicking a cauldron
+     */
+    @EventHandler
+    public void onRemoveOwn(PlayerInteractEvent e) {
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        if (e.getAction() != Action.LEFT_CLICK_BLOCK
+                || e.getClickedBlock() == null
+                || e.getClickedBlock().getType() != Material.CAULDRON) {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                e.getBlockPlaced().getType() == Material.CAULDRON) {
+        // Pick up own firepit
+        if (e.getClickedBlock() == placedPit) {
+            destroyFirepit();
+            Messenger.sendActionInfo("You took back your Firepit", equippedPlayer);
+            // Perm Potion Effect
+            equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 999999, 0));
 
-            // Destroy old cauldron
-            destroyFirepit(p);
-
-            // Place new cauldron
-            e.setCancelled(false);
-            cauldrons.put(p, e.getBlockPlaced());
-            Messenger.sendActionInfo("You placed down your Firepit", p);
-            for (PotionEffect effect : p.getActivePotionEffects()) {
-                if (effect.getType().equals(PotionEffectType.SLOWNESS) && effect.getAmplifier() == 0) {
-                    p.removePotionEffect(effect.getType());
+            // Can only hold 1 firepit at a time
+            PlayerInventory inv = equippedPlayer.getInventory();
+            if (inv.getItemInOffHand().getType() != Material.CAULDRON &&
+                    !inv.contains(Material.CAULDRON)) {
+                if (!CSActiveData.getData(equippedPlayer.getUniqueId()).hasVote("sword")) {
+                    equippedPlayer.getInventory().addItem(firepit);
+                } else {
+                    equippedPlayer.getInventory().addItem(firepitVoted);
                 }
             }
         }
     }
 
     /**
-     * Destroy a cauldron
+     * Not equippedPlayer destroying cauldron
      * @param e The event called when left-clicking a cauldron
      */
     @EventHandler
-    public void onRemove(PlayerInteractEvent e) {
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
+    public void onEnemyRemove(PlayerInteractEvent e) {
+        // Check if hit cauldron
+        if (e.getAction() != Action.LEFT_CLICK_BLOCK
+                || e.getClickedBlock() == null
+                || e.getClickedBlock().getType() != Material.CAULDRON) {
             return;
         }
 
-        if (e.getAction() == Action.LEFT_CLICK_BLOCK &&
-                e.getClickedBlock().getType() == Material.CAULDRON) {
-            Player p = e.getPlayer();
-            Player q = getPlacer(e.getClickedBlock());
+        if (TeamController.getTeam(equippedPlayer.getUniqueId()) == TeamController.getTeam(e.getPlayer().getUniqueId())) {
+            Messenger.sendActionError("You can't destroy your team's cauldron!", e.getPlayer());
+        } else if (TeamController.getTeam(equippedPlayer.getUniqueId()) != TeamController.getTeam(e.getPlayer().getUniqueId())) {
+            destroyFirepit();
+            e.getPlayer().playSound(e.getClickedBlock().getLocation(), Sound.ENTITY_ZOMBIE_INFECT , 5, 1);
+            Messenger.sendActionSuccess("You kicked over " + CSNameTag.mmUsername(equippedPlayer) + "'s Firepit!", e.getPlayer());
+            Messenger.sendWarning("Your firepit was kicked over!", equippedPlayer);
+        } else {
+            Messenger.sendActionError("That cauldron looks like it's been there a while, best to leave it there...", e.getPlayer());
+        }
+    }
 
-            // Pick up own firepit
-            if (Objects.equals(p, q)) {
-                destroyFirepit(q);
-                Messenger.sendActionInfo("You took back your Firepit", p);
-                // Perm Potion Effect
-                q.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 999999, 0));
+    /**
+     * Prevents crafting fire arrows by enemies
+     * @param e Interact event
+     */
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
+    public void checkFriendlyFirepit(PlayerInteractEvent e) {
+        if (e.getItem() == null || e.getItem().getType() != Material.ARROW)
+            return;
 
-                // Can only hold 1 firepit at a time
-                PlayerInventory inv = p.getInventory();
-                if (inv.getItemInOffHand().getType() != Material.CAULDRON &&
-                        !inv.contains(Material.CAULDRON)) {
-                    if (!CSActiveData.getData(p.getUniqueId()).hasVote("sword")) {
-                        p.getInventory().addItem(firepit);
-                    } else {
-                        p.getInventory().addItem(firepitVoted);
-                    }
-                }
+        if (placedPit == null)
+            return;
 
-            // Destroy enemy firepit
-            } else if (q != null &&
-                    TeamController.getTeam(p.getUniqueId()) != TeamController.getTeam(q.getUniqueId())){
-                destroyFirepit(q);
-                p.playSound(e.getClickedBlock().getLocation(), Sound.ENTITY_ZOMBIE_INFECT , 5, 1);
-                Messenger.sendActionSuccess("You kicked over " + CSNameTag.mmUsername(q) + "'s Firepit!", p);
-            }
+        if (TeamController.getTeam(e.getPlayer().getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId()))
+        {
+            Messenger.sendActionError("This is an enemy fire pit! Smack it!", e.getPlayer());
+            e.setCancelled(true);
         }
     }
 
@@ -229,45 +264,43 @@ public class FireArcher extends VoterKit implements Listener {
      * Light an arrow
      * @param e The event called when right-clicking a cauldron with an arrow
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onUseFirepit(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        if (e.getItem() == null) { return; }
-        ItemStack usedItem = e.getItem();
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
+        if (e.getItem() == null || e.getItem().getType() != Material.ARROW)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
+            return;
+        }
+
+        // Check if hit cauldron
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK
+                || e.getClickedBlock() == null
+                || e.getClickedBlock().getType() != Material.CAULDRON) {
             return;
         }
 
         // Check if a fire archer tries to light an arrow, while off-cooldown
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name) &&
-                e.getAction() == Action.RIGHT_CLICK_BLOCK &&
-                e.getClickedBlock().getType() == Material.CAULDRON &&
-                usedItem != null &&
-                usedItem.getType() == Material.ARROW &&
-                p.getCooldown(Material.ARROW) == 0) {
+        if (equippedPlayer.getCooldown(Material.ARROW) != 0)
+            return;
 
-            // Check if the player may light an arrow using this cauldron
-            Player q = getPlacer(e.getClickedBlock());
-            if (q != null &&
-                    TeamController.getTeam(p.getUniqueId()) == TeamController.getTeam(q.getUniqueId())) {
-
-                // Check if the player may light any more arrows
-                PlayerInventory inv = p.getInventory();
-                ItemStack offHand = inv.getItemInOffHand();
-                int fireOffHand = offHand.getType() == Material.TIPPED_ARROW ? offHand.getAmount() : 0;
-                if (!inv.contains(Material.TIPPED_ARROW, fireArrowHoldLimit - fireOffHand)) {
-                    // Light an arrow
-                    p.setCooldown(Material.ARROW, fireArrowCreationCooldown);
-                    usedItem.setAmount(usedItem.getAmount() - 1);
-                    inv.addItem(fireArrow);
-                    p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.5f);
-                    Messenger.sendActionInfo("You light an arrow.", p);
-                } else {
-                    Messenger.sendActionError("You can't hold more than " + fireArrowHoldLimit + " lit arrows at a time.", p);
-                }
-            }
+        // Check if the player may light any more arrows
+        PlayerInventory inv = equippedPlayer.getInventory();
+        ItemStack offHand = inv.getItemInOffHand();
+        int fireOffHand = offHand.getType() == Material.TIPPED_ARROW ? offHand.getAmount() : 0;
+        if (!inv.contains(Material.TIPPED_ARROW, fireArrowHoldLimit - fireOffHand)) {
+            // Light an arrow
+            equippedPlayer.setCooldown(Material.ARROW, fireArrowCreationCooldown);
+            e.getItem().setAmount(e.getItem().getAmount() - 1);
+            inv.addItem(fireArrow);
+            equippedPlayer.playSound(equippedPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.5f);
+            Messenger.sendActionInfo("You light an arrow.", equippedPlayer);
+        } else {
+            Messenger.sendActionError("You can't hold more than " + fireArrowHoldLimit + " lit arrows at a time.", equippedPlayer);
         }
     }
 
@@ -275,24 +308,17 @@ public class FireArcher extends VoterKit implements Listener {
      * Turn orange arrows into flaming arrows
      * @param e The event called when shooting an arrow with a bow
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void FlameBow(EntityShootBowEvent e) {
-        if (e.isCancelled()) {
+        if (e.getEntity() != equippedPlayer)
             return;
-        }
 
-        if (e.getEntity() instanceof Player p) {
-            if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+        if (!(e.getEntity() instanceof Arrow))
+            return;
 
-                try {
-                    Arrow a = (Arrow) e.getProjectile();
-                    if (Objects.equals(a.getColor(), Color.ORANGE)) {
-                        a.setFireTicks(260);
-                    }
-                } catch (Exception ex) {
-                    // No fire arrow was shot
-                }
-            }
+        Arrow a = (Arrow) e.getProjectile();
+        if (Objects.equals(a.getColor(), Color.ORANGE)) {
+            a.setFireTicks(260);
         }
     }
 
@@ -302,9 +328,10 @@ public class FireArcher extends VoterKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow &&
-                e.getEntity().getShooter() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
+        if (e.getEntity().getShooter() != equippedPlayer)
+            return;
+
+        if (e.getEntity() instanceof Arrow) {
             ((Arrow) e.getEntity()).setDamage(arrowDamage);
         }
     }
@@ -315,7 +342,7 @@ public class FireArcher extends VoterKit implements Listener {
      */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
-        destroyFirepit(event.getPlayer());
+        destroyFirepit();
     }
 
     /**
@@ -324,7 +351,7 @@ public class FireArcher extends VoterKit implements Listener {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        destroyFirepit(e.getEntity());
+        destroyFirepit();
     }
 
     /**
@@ -333,30 +360,17 @@ public class FireArcher extends VoterKit implements Listener {
      */
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        destroyFirepit(e.getPlayer());
+        destroyFirepit();
     }
 
     /**
      * Destroy the player's firepit if present
-     * @param p The player whose firepit to destroy
      */
-    private void destroyFirepit(Player p) {
-        if(cauldrons.containsKey(p)) {
-            cauldrons.get(p).setType(Material.AIR);
-            cauldrons.remove(p);
+    private void destroyFirepit() {
+        if (placedPit != null) {
+            placedPit.setType(Material.AIR);
+            placedPit = null;
         }
-    }
-
-    /**
-     * Get the placer of a firepit
-     * @param cauldron The firepit whose placer to find
-     * @return The placer of the firepit, null of not placed by a fire archer
-     */
-    private Player getPlacer(Block cauldron) {
-        return cauldrons.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue(), cauldron))
-                .findFirst().map(Map.Entry::getKey)
-                .orElse(null);
     }
 
     /**
