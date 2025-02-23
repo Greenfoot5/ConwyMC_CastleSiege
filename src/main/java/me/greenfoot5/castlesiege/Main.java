@@ -1082,7 +1082,7 @@ public class Main extends JavaPlugin implements Listener {
             }
 
             for (String path : getPaths(gameConfig, route)) {
-                if (path.equals("enabled"))
+                if (path.equals("enabled") || path.equals("default"))
                     continue;
 
                 Kit kit = Kit.getKit(path);
