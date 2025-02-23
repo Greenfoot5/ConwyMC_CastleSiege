@@ -1,12 +1,12 @@
 package me.greenfoot5.castlesiege.kits.kits.staff_kits;
 
+import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.StaffKit;
 import me.greenfoot5.castlesiege.events.map.RamEvent;
-import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.data_types.Tuple;
+import me.greenfoot5.conwymc.util.Messenger;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.kyori.adventure.text.Component;
@@ -25,7 +25,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -97,41 +96,35 @@ public class Warbear extends StaffKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player && e.getDamager() instanceof Player player)) {
+        if (e.getDamager() != equippedPlayer)
             return;
-        }
 
-        if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)) {
-
-            // Warbear attacked an enemy player
-            Material item = player.getInventory().getItemInMainHand().getType();
-            if (player.getCooldown(item) > 0)
-                e.setCancelled(true);
-            else if (item == Material.GHAST_TEAR)
-                bite(player, (Player) e.getEntity());
-            else if (item == Material.DEAD_HORN_CORAL_FAN)
-                scratch(player, (Player) e.getEntity());
-        }
+        // Warbear attacked an enemy player
+        Material item = equippedPlayer.getInventory().getItemInMainHand().getType();
+        if (equippedPlayer.getCooldown(item) > 0)
+            e.setCancelled(true);
+        else if (item == Material.GHAST_TEAR)
+            bite((Player) e.getEntity());
+        else if (item == Material.DEAD_HORN_CORAL_FAN)
+            scratch((Player) e.getEntity());
     }
 
     /**
      * Activate the warbear's bite ability
-     * @param bear The warbear
      * @param player The bitten player
      */
-    private void bite(Player bear, Player player) {
-        bear.setCooldown(Material.GHAST_TEAR, 280);
+    private void bite(Player player) {
+        equippedPlayer.setCooldown(Material.GHAST_TEAR, 280);
         player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 180, 0));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 80, 2));
     }
 
     /**
      * Activate the warbear's scratch ability
-     * @param bear The warbear
      * @param player The scratched player
      */
-    private void scratch(Player bear, Player player) {
-        bear.setCooldown(Material.DEAD_HORN_CORAL_FAN, 10);
+    private void scratch(Player player) {
+        equippedPlayer.setCooldown(Material.DEAD_HORN_CORAL_FAN, 10);
         int amp = 0;
         int duration = 40;
         if (player.hasPotionEffect(PotionEffectType.WITHER)) {
@@ -149,16 +142,27 @@ public class Warbear extends StaffKit implements Listener {
      */
     @EventHandler
     public void onFlee(PlayerInteractEvent e) {
-        Player player = e.getPlayer();
-        if (!TeamController.isPlaying(player.getUniqueId()))
+        if (e.getPlayer() != equippedPlayer)
             return;
-        if (Objects.equals(Kit.equippedKits.get(player.getUniqueId()).name, name)
-                && (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
-                && player.getInventory().getItemInMainHand().getType() == Material.RABBIT_FOOT
-                && player.getCooldown(Material.RABBIT_FOOT) == 0) {
-            player.setCooldown(Material.RABBIT_FOOT, 500);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 180, 4));
+
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        if ((e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)) {
+            return;
         }
+
+        if (e.getItem() == null || e.getItem().getType() != Material.RABBIT_FOOT)
+            return;
+
+        if (equippedPlayer.getCooldown(Material.RABBIT_FOOT) != 0) {
+            e.setCancelled(true);
+            Messenger.sendActionError("Can't dash yet!", equippedPlayer);
+            return;
+        }
+
+        equippedPlayer.setCooldown(Material.RABBIT_FOOT, 500);
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 180, 4));
     }
 
     /**
@@ -168,8 +172,8 @@ public class Warbear extends StaffKit implements Listener {
     @EventHandler
     public void onPunchGate(RamEvent e) {
         for (UUID uuid : e.getPlayerUUIDs()) {
-            if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-            e.getRamType() == RamEvent.RamType.FIST) {
+            if (uuid == equippedPlayer.getUniqueId()
+                    && e.getRamType() == RamEvent.RamType.FIST) {
                 e.setDamageDealt((int) (e.getDamageDealt() * 1.5));
             }
         }
