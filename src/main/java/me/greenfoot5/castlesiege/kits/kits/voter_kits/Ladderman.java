@@ -3,14 +3,12 @@ package me.greenfoot5.castlesiege.kits.kits.voter_kits;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.VoterKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -21,8 +19,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * The ladderman kit
@@ -87,17 +83,15 @@ public class Ladderman extends VoterKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBreakLadder(BlockBreakEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
             return;
-        }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                e.getBlock().getType() == Material.LADDER) {
-            p.getInventory().addItem(new ItemStack(Material.LADDER));
+        if (e.getBlock().getType() == Material.LADDER) {
+            equippedPlayer.getInventory().addItem(new ItemStack(Material.LADDER));
         }
     }
 
