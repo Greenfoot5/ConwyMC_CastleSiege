@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.events.EnderchestEvent;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.LevelKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
@@ -19,6 +18,7 @@ import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -36,22 +36,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Hypaspist Kit
+ */
 public class Hypaspist extends LevelKit implements Listener {
 
-    public static final HashMap<Player, Entity> tridents = new HashMap<>();
+    private Entity trident;
     private static final int health = 460;
     private static final double regen = 10.5;
     private static final double meleeDamage = 30;
     private static final double throwDamage = 72;
     private static final int ladderCount = 4;
     private static final int level = 20;
-    private static int blockAmount = 10;
+
     private final ItemStack shield;
+
+    private static final int blockAmount = 10;
+    private int blocksLeft = blockAmount;
 
     /**
      * Creates a new Hypaspist
@@ -144,80 +147,82 @@ public class Hypaspist extends LevelKit implements Listener {
     }
 
     /**
-     * @param hypaspist the hypaspist to remove and give back the shield to.
-     * This is to stop the hypaspist from blocking even when the cooldown is active.
-     * Don't bother trying to change this or find another way, there is no other way provided by spigot.
+     * Stops player from blocking when the cooldown starts
      */
-    public void tempRemoveShield(Player hypaspist) {
-        hypaspist.getInventory().setItemInOffHand(null);
-        hypaspist.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 1));
+    public void tempRemoveShield() {
+        equippedPlayer.getInventory().setItemInOffHand(null);
+        equippedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 1));
         new BukkitRunnable() {
             @Override
             public void run() {
-                hypaspist.getInventory().setItemInOffHand(shield);
+                equippedPlayer.getInventory().setItemInOffHand(shield);
             }
         }.runTaskLater(Main.plugin, 10);
     }
 
     /**
-     * This is basically a shield cool-down mechanism/method.
-     * @param shielder the hypaspist holding the shield.
+     * Shield cool-down mechanism/method.
      */
-    public void shieldMechanism(Player shielder) {
-        if (Objects.equals(Kit.equippedKits.get(shielder.getUniqueId()).name, name)) {
-            if (shielder.isBlocking() && blockAmount != 0) {
-                blockAmount--;
-            } else if (shielder.isBlocking() && blockAmount <= 1) {
-                shielder.setCooldown(Material.SHIELD, 300);
-                tempRemoveShield(shielder);
-                blockAmount = 10;
-            }
+    public void shieldMechanism() {
+        if (equippedPlayer.isBlocking() && blocksLeft != 0) {
+            blocksLeft--;
+        } else if (equippedPlayer.isBlocking() && blocksLeft <= 1) {
+            equippedPlayer.setCooldown(Material.SHIELD, 300);
+            tempRemoveShield();
+            blocksLeft = blockAmount;
         }
     }
 
     /**
-     *
+     * Shield ability when player is hit by entity
      * @param e when a hypaspist gets hit whilst blocking.
      */
     @EventHandler
-    public void combatShielding(EntityDamageByEntityEvent e) {
-            if (e.getEntity() instanceof Player) {
-                if (Objects.equals(Kit.equippedKits.get(e.getEntity().getUniqueId()).name, name)) {
-                Player p = (Player) e.getEntity();
-                shieldMechanism(p);
-            }
-        }
+    public void combatShieldingEntity(EntityDamageByEntityEvent e) {
+        if (e.getEntity() != equippedPlayer)
+            return;
+
+        shieldMechanism();
     }
     /**
-     *
+     *Shield ability when player is hit by projectile
      * @param e when a hypaspist gets hit by projectiles whilst blocking.
      */
     @EventHandler
-    public void combatShielding2(ProjectileHitEvent e) {
-        if (e.getHitEntity() instanceof Player) {
-            if (Objects.equals(Kit.equippedKits.get(e.getHitEntity().getUniqueId()).name, name)) {
-                Player p = (Player) e.getHitEntity();
-                shieldMechanism(p);
-            }
-        }
+    public void combatShieldingProjectile(ProjectileHitEvent e) {
+        if (e.getEntity() != equippedPlayer)
+            return;
+
+        shieldMechanism();
     }
     /**
-     *
-     * @param e hypaspist tries to block whilst the cooldown is active.
+     * Hypaspist activates items
+     * @param e Hypaspist activates items
      */
     @EventHandler
     public void shielding(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) && e.getPlayer().getInventory().getItemInMainHand().getType() != Material.TRIDENT) {
-            Player p = e.getPlayer();
-            if (p.getCooldown(Material.SHIELD) != 0 &&
-                    (p.getInventory().getItemInMainHand().getType() == Material.SHIELD || p.getInventory().getItemInOffHand().getType() == Material.SHIELD)) {
-                e.setCancelled(true);
-            }
-            if (!InCombat.isPlayerInCombat(e.getPlayer().getUniqueId())) {
-                blockAmount = 12;
-            }
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
+        if (equippedPlayer.getCooldown(Material.SHIELD) != 0
+                && equippedPlayer.getInventory().getItemInOffHand().getType() == Material.SHIELD
+                && (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+            e.setCancelled(true);
+            return;
         }
+
+
+        if (equippedPlayer.getCooldown(Material.SHIELD) != 0
+                && equippedPlayer.getInventory().getItemInMainHand().getType() == Material.SHIELD
+                && (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (InCombat.isPlayerInCombat(e.getPlayer().getUniqueId()))
+            return;
+
+        blocksLeft = blockAmount;
     }
 
     /**
@@ -226,16 +231,18 @@ public class Hypaspist extends LevelKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void onTridentHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Trident &&
-                e.getEntity().getShooter() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Trident) e.getEntity()).setDamage(throwDamage);
-            tridents.put((Player) e.getEntity().getShooter(), e.getEntity());
-            if (e.getHitEntity() instanceof Player p) {
-                p.addPotionEffect((new PotionEffect(PotionEffectType.NAUSEA, 80, 4)));
-                p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 60, 2)));
-                p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 60, 2)));
-            }
+        if (e.getEntity().getShooter() != equippedPlayer)
+            return;
+
+        if (!(e.getEntity() instanceof Trident))
+            return;
+
+        ((Trident) e.getEntity()).setDamage(throwDamage);
+        trident = e.getEntity();
+        if (e.getHitEntity() instanceof Player p) {
+            p.addPotionEffect((new PotionEffect(PotionEffectType.NAUSEA, 80, 4)));
+            p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 60, 2)));
+            p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 60, 2)));
         }
     }
 
@@ -245,9 +252,8 @@ public class Hypaspist extends LevelKit implements Listener {
      */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
-        if (tridents.containsKey(event.getPlayer())) {
-            tridents.get(event.getPlayer()).remove();
-            tridents.remove(event.getPlayer());
+        if (trident != null) {
+            trident.remove();
         }
     }
 
@@ -257,9 +263,8 @@ public class Hypaspist extends LevelKit implements Listener {
      */
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e) {
-        if (tridents.containsKey(e.getPlayer())) {
-            tridents.get(e.getPlayer()).remove();
-            tridents.remove(e.getPlayer());
+        if (trident != null) {
+            trident.remove();
         }
     }
 
@@ -269,9 +274,8 @@ public class Hypaspist extends LevelKit implements Listener {
      */
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
-        if (tridents.containsKey(e.getPlayer())) {
-            tridents.get(e.getPlayer()).remove();
-            tridents.remove(e.getPlayer());
+        if (trident != null) {
+            trident.remove();
         }
     }
 
