@@ -229,8 +229,27 @@ public class Abyssal extends SignKit implements Listener {
 
     @Override
     public ArrayList<Component> getGuiDescription() {
-        ArrayList<Component> description = new ArrayList<>();
-        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
-        return description;
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("True wizards only have one spell:", NamedTextColor.GRAY));
+        kitLore.add(Component.text("FIREBALL!", NamedTextColor.GRAY));
+        kitLore.addAll(getBaseStats(this.baseHealth, this.regenAmount, 30.5, 0));
+        // TODO - Externalise values
+        kitLore.add(Component.text("150", color)
+                .append(Component.text(" Fireball damage", NamedTextColor.GRAY)));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Mining Fatigue III", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Resistance I", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Fire Resistance I", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can shoot an explosive fireball", NamedTextColor.GRAY));
+        kitLore.add(Component.text("that sets an area on fire", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
+        kitLore.add(Component.text("- Can see players' health", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Has 100% knockback resistance", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Cannot climb", NamedTextColor.RED));
+        return kitLore;
     }
 }
