@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
@@ -12,7 +11,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -22,7 +20,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 /**
  * A slight difference from the classic crossbow kit
@@ -93,23 +90,18 @@ public class Arbalester extends SignKit implements Listener {
      * Activate the crossbowman ability, shooting an arrow in the direction the player is looking at high speed
      * @param e The even called when shooting an arrow from a crossbow
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void shootCrossbow(EntityShootBowEvent e) {
-        if (e.isCancelled() || !(e.getEntity() instanceof Player p)) {
+        if (e.getEntity() != equippedPlayer)
+            return;
+
+        if (!(e.getProjectile() instanceof Arrow a)) {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
-
-            if (!(e.getProjectile() instanceof Arrow a)) {
-                return;
-            }
-
-            p.setCooldown(Material.CROSSBOW, 150);
-            a.setPierceLevel(1);
-            a.setKnockbackStrength(2);
-            a.setVelocity(p.getLocation().getDirection().normalize().multiply(47));
-        }
+        equippedPlayer.setCooldown(Material.CROSSBOW, 150);
+        a.setPierceLevel(1);
+        a.setVelocity(a.getVelocity().multiply(47));
     }
 
     @Override
