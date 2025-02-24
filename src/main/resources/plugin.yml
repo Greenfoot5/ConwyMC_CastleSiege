@@ -395,6 +395,9 @@ commands:
   DwarvenX-bow:
     description: Selects the Dwarven Xbow kit on Moria
     usage: /DwarvenX-bow
+#  DwarvenX-bow:
+#    description: Selects the Dwarven Xbow kit on Moria
+#    usage: /DwarvenX-bow
   Elytrier:
     description: Selects the Elytrier kit
     usage: /thunderstoneelytrier
