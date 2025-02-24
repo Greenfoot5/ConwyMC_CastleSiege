@@ -1,4 +1,4 @@
-package me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria;
+package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.UpdateStats;
@@ -34,13 +34,16 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Overseer kit
+ */
 public class Overseer extends SignKit implements Listener {
 
     /**
-     * Creates a new Moria Overseer
+     * Creates a new Overseer
      */
     public Overseer() {
-        super("Moria Overseer", 380, 10, Material.GOAT_HORN, 2000);
+        super("Overseer", 380, 10, Material.GOAT_HORN, 2000);
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -57,7 +60,7 @@ public class Overseer extends SignKit implements Listener {
                 0);
 
         es.offhand = CSItemCreator.weapon(new ItemStack(Material.GOAT_HORN),
-                Component.text("Dwarven Horn", NamedTextColor.GREEN), null, null, 1);
+                Component.text("Horn", NamedTextColor.GREEN), null, null, 1);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
