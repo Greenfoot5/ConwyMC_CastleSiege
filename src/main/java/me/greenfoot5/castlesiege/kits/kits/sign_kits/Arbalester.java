@@ -107,7 +107,16 @@ public class Arbalester extends SignKit implements Listener {
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> description = new ArrayList<>();
-        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        description.add(Component.text("Like crossbowman, but with punch", NamedTextColor.GRAY));
+        description.addAll(getBaseStats(this.baseHealth, this.regenAmount, 3, 4));
+        description.add(Component.empty());
+        description.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        description.add(Component.text("- Slowness II", NamedTextColor.GRAY));
+        description.add(Component.text("- Mining Fatigue IV", NamedTextColor.GRAY));
+        description.add(Component.empty());
+        description.add(Component.text("Active:", NamedTextColor.GOLD));
+        description.add(Component.text("- Fire crossbows with extreme velocity", NamedTextColor.GRAY));
+        description.add(Component.text("- Arrows pierce 1 target", NamedTextColor.GRAY));
         return description;
     }
 }
