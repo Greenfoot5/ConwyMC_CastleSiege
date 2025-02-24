@@ -1,4 +1,4 @@
-package me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria;
+package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.UpdateStats;

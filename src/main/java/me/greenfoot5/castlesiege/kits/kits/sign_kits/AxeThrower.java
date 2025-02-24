@@ -1,4 +1,4 @@
-package me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria;
+package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
