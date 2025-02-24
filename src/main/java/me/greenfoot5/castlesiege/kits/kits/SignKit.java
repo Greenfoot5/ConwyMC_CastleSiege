@@ -151,7 +151,7 @@ public abstract class SignKit extends Kit implements Listener {
 
             if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()))
                 return;
-            
+
             if (e.getHand() != EquipmentSlot.HAND) {
                 return;
             }
