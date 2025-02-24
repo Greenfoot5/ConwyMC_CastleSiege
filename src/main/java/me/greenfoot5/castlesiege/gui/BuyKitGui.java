@@ -25,14 +25,23 @@ import static java.lang.String.join;
 import static java.util.Collections.nCopies;
 import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BUYKIT_LEVEL;
 
+/**
+ * Handles creating BuyKit and Preview Kit GUIs
+ */
 public class BuyKitGui {
     private final Gui gui;
 
+    /**
+     * Creates a new buykit/preview GUI
+     * @param kit The kit to display
+     * @param cost The cost of the kit, 0 shows a preview
+     * @param player The player to display the GUI to
+     */
     public BuyKitGui(Kit kit, int cost, Player player) {
         this.gui = new Gui(Component.text(kit.name), cost > 0 ? 6 : 5);
 
         CSPlayerData data = CSActiveData.getData(player.getUniqueId());
-        if (data != null && data.getLevel() < BUYKIT_LEVEL) {
+        if (data != null && data.getLevel() < BUYKIT_LEVEL && cost > 0) {
             for (int loc = 45; loc < (54); loc++) {
                 gui.addItem(Component.text("Purchase Kit", NamedTextColor.GOLD, TextDecoration.BOLD), Material.LAPIS_BLOCK,
                         List.of(Component.text(" "),
