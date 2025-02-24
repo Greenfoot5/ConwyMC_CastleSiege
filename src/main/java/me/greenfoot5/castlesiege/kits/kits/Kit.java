@@ -403,7 +403,16 @@ public abstract class Kit implements CommandExecutor, Listener {
      * @return The kit name without spaces
      */
     public String getSpacelessName() {
-        return name.replaceAll(" ", "");
+        return getSpaceless(name);
+    }
+
+    /**
+     * Removes the spaces in text
+     * @param text The text to remove the spaces from
+     * @return Text without spaces
+     */
+    public static String getSpaceless(String text) {
+        return text.replaceAll(" ", "");
     }
 
     /**
