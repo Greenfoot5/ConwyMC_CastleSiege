@@ -129,41 +129,50 @@ public abstract class SignKit extends Kit implements Listener {
     }
 
     /**
-     * Selects the kit if the player clicks the signName
-     * @param e When a player clicks a signName
+     * Handles click sign events to grant kits
      */
-    @EventHandler
-    public void onClickSign(PlayerInteractEvent e) {
-        // Prevent spawning by physical actions, e.g. stepping on a pressure plate
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK
-        && e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_AIR )
-            return;
+    public static class SignListener implements Listener {
+        /**
+         * Selects the kit if the player clicks the signName
+         * @param e When a player clicks a signName
+         */
+        @EventHandler
+        public void onClickSign(PlayerInteractEvent e) {
+            // Prevent spawning by physical actions, e.g. stepping on a pressure plate
+            if (e.getAction() != Action.RIGHT_CLICK_BLOCK && e.getAction() != Action.LEFT_CLICK_BLOCK
+                    && e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_AIR )
+                return;
 
-        Player player = e.getPlayer();
-        Block target = player.getTargetBlockExact(50);
+            Player player = e.getPlayer();
+            Block target = player.getTargetBlockExact(50);
 
-        if (target == null || !(target.getState() instanceof Sign sign))
-            return;
+            if (target == null || !(target.getState() instanceof Sign sign))
+                return;
 
-        if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()))
-            return;
+            if (!InCombat.isPlayerInLobby(e.getPlayer().getUniqueId()))
+                return;
+            
+            if (e.getHand() != EquipmentSlot.HAND) {
+                return;
+            }
 
-        // Only allow use in lobby
-        if (e.getHand() != EquipmentSlot.HAND) {
-            return;
-        }
+            // Check if sign has sign name
+            StringBuilder content = new StringBuilder();
+            for (Component line : sign.getSide(Side.FRONT).lines()) {
+                content.append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase().replace(" ", ""));
+            }
 
-        // Check if sign has sign name
-        StringBuilder content = new StringBuilder();
-        for (Component line : sign.getSide(Side.FRONT).lines()) {
-            content.append(PlainTextComponentSerializer.plainText().serialize(line).toLowerCase().replace(" ", ""));
-        }
-
-        if (content.toString().contains(this.name.toLowerCase()) || content.toString().contains(getSpacelessName().toLowerCase())) {
-            Bukkit.getScheduler().runTask(Main.plugin, () -> e.getPlayer().performCommand(getSpacelessName()));
+            for (String name : kits) {
+                if (content.toString().contains(name.toLowerCase()) || content.toString().contains(getSpaceless(name).toLowerCase())) {
+                    Bukkit.getScheduler().runTask(Main.plugin, () -> e.getPlayer().performCommand(getSpaceless(name)));
+                }
+            }
         }
     }
 
+    /**
+     * The cost (if any) of the kit
+     */
     public enum CostType {
         free,
         coins,
