@@ -75,6 +75,8 @@ dependencies {
 
     implementation("commons-io:commons-io:2.18.0")
     implementation("dev.dejvokep:boosted-yaml:1.3.7")
+    // FAWE
+    implementation(platform("com.intellectualsites.bom:bom-newest:1.52"))
 
     // Via /lib
     compileOnly("com.github.Greenfoot5:conwymc-global:1.0.6")
@@ -82,8 +84,8 @@ dependencies {
 
     compileOnly("net.citizensnpcs:citizensapi:2.0.33-SNAPSHOT")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
-    compileOnly("com.sk89q.worldedit:worldedit-core:7.3.0")
-    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.0")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit") { isTransitive = false }
     compileOnly("io.lumine:Mythic-Dist:5.8.0-SNAPSHOT")
     compileOnly("LibsDisguises:LibsDisguises:10.0.44")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.12")

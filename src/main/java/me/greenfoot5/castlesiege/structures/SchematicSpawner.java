@@ -33,7 +33,7 @@ public class SchematicSpawner {
 	 * @param schematicName The name of the schematic to spawn
 	 */
 	public static void spawnSchematic(Location spawnLocation, String schematicName) {
-		Bukkit.getScheduler().runTask(Main.plugin, () -> {
+		Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
 			Plugin worldEditPlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
 			assert worldEditPlugin != null;
 			File schematic = new File(worldEditPlugin.getDataFolder() + File.separator + "/schematics/" + schematicName + ".schem");
