@@ -2,10 +2,8 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
-import me.greenfoot5.castlesiege.events.death.DeathEvent;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -22,7 +20,6 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Fireball;
-import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,13 +38,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Abyssal Kit
+ */
 public class Abyssal extends SignKit implements Listener {
+
+    private static final int MAGMA_DELAY = 60;
 
     private FallingBlock magma;
     private Fireball ball;
-    private Player shooter;
 
     /**
      * Creates a new Firelands Abyssal
@@ -107,59 +107,50 @@ public class Abyssal extends SignKit implements Listener {
     }
 
     /**
-     * @param p The player spawning the magma projectile
+     * Spawns the magma projectile
      */
-    public void spawnMagmaProjectile(Player p) {
-
-        if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-            return;
-        }
-
-        Location above = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 2, p.getLocation().getZ());
+    public void spawnMagmaProjectile() {
+        Location above = equippedPlayer.getLocation().add(0, 2, 0);
 
         BlockData blockData = Bukkit.createBlockData(Material.MAGMA_BLOCK);
-        magma = p.getWorld().spawnFallingBlock(above, blockData);
+        magma = equippedPlayer.getWorld().spawn(above, FallingBlock.class);
+        magma.setBlockData(blockData);
 
         //Give the abyssal slowness whilst charging the attack and mount the block on top of the abyssal
-        float walkSpeed = p.getWalkSpeed();
-        p.setWalkSpeed(0);
-        p.addPassenger(magma);
+        float walkSpeed = equippedPlayer.getWalkSpeed();
+        equippedPlayer.setWalkSpeed(0);
+        equippedPlayer.addPassenger(magma);
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.setWalkSpeed(walkSpeed);
+                equippedPlayer.setWalkSpeed(walkSpeed);
             }
-        }.runTaskLater(Main.plugin, 60);
+        }.runTaskLater(Main.plugin, MAGMA_DELAY);
 
     }
 
     /**
-     * @param p The player launching the projectile
+     * Launches the magma projectile
      */
-    public void launchProjectile(Player p) {
+    public void launchProjectile() {
+            if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+                return;
 
-        //Location above = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 2, p.getLocation().getZ());
+            if (magma == null)
+                return;
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (InCombat.isPlayerInLobby(p.getUniqueId())) {
-                    return;
-                }
-        if (magma == null) { return; }
-        Location eye = p.getEyeLocation();
-        Location loc = eye.add(eye.getDirection().multiply(1.2));
-        ball = p.getWorld().spawn(loc, Fireball.class);
-        ball.addPassenger(magma);
-        ball.setShooter(p);
-        ball.setYield(0.1F);
-        ball.setVelocity(shooter.getLocation().getDirection().normalize().multiply(1.5));
-                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
-                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
-                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
-            }
-        }.runTaskLater(Main.plugin, 60);
+            Location eye = equippedPlayer.getEyeLocation();
+            Location pos = equippedPlayer.getLocation();
+            Location loc = eye.add(eye.getDirection().multiply(1.2));
+            ball = equippedPlayer.getWorld().spawn(loc, Fireball.class);
+            ball.addPassenger(magma);
+            ball.setShooter(equippedPlayer);
+            ball.setYield(0.1F);
+            ball.setVelocity(equippedPlayer.getLocation().getDirection().normalize().multiply(1.5));
+            pos.getWorld().playSound(pos, Sound.ENTITY_BLAZE_SHOOT, 1, 1);
+            pos.getWorld().playSound(pos, Sound.ENTITY_BLAZE_SHOOT, 1, 1);
+            pos.getWorld().playSound(pos, Sound.ENTITY_BLAZE_SHOOT, 1, 1);
     }
 
     /**
@@ -169,41 +160,32 @@ public class Abyssal extends SignKit implements Listener {
     public void onImpact(ProjectileHitEvent event) {
         if (Objects.equals(ball, event.getEntity())) {
             ball.getPassengers().getFirst().remove();
-            ball.getWorld().createExplosion(ball.getLocation(), 2F, true, false, shooter);
+            ball.getWorld().createExplosion(ball.getLocation(), 2F, true, false, equippedPlayer);
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     private void FireballDamage(EntityDamageByEntityEvent e) {
-        if (e.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE) || e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)) {
-            if (e.getDamager() instanceof Fireball) {
-                LargeFireball fire = (LargeFireball) e.getDamager();
-                if (fire.getShooter() instanceof Player damager) {
-                    if (!(e.getEntity() instanceof Player hit)) {
-                        e.setDamage(200);
-                        return; }
-                    if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                            && TeamController.getTeam(damager.getUniqueId())
-                            != TeamController.getTeam(hit.getUniqueId())) {
-                        if ((hit.getHealth() - e.getDamage() > 0)) {
-                            e.setCancelled(true);
-                            hit.damage(150);
-                            return;
-                        } else {
-                            e.setCancelled(true);
-                            DeathEvent.setKiller(hit, damager);
-                            hit.setHealth(0);
-                            return;
-                        }
-                    }
-                    if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)
-                    && TeamController.getTeam(damager.getUniqueId())
-                            == TeamController.getTeam(hit.getUniqueId())) {
-                        e.setCancelled(true);
-                        e.setDamage(0);
-                    }
-                }
-            }
+        if (!(e.getDamager() instanceof Fireball fireball))
+            return;
+
+        if (!e.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE) && !e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION))
+            return;
+
+        if (fireball.getShooter() != equippedPlayer)
+            return;
+
+        if (!(e.getEntity() instanceof Player hit)) {
+            e.setDamage(200);
+            return;
+        }
+
+        e.setCancelled(true);
+        if (TeamController.getTeam(equippedPlayer.getUniqueId()) != TeamController.getTeam(hit.getUniqueId())) {
+            hit.damage(150, equippedPlayer);
+        }
+        if (TeamController.getTeam(equippedPlayer.getUniqueId()) == TeamController.getTeam(hit.getUniqueId())) {
+            e.setDamage(0);
         }
     }
 
@@ -213,31 +195,35 @@ public class Abyssal extends SignKit implements Listener {
      */
     @EventHandler
     public void throwMagma(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack fist = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.GREEN_DYE);
-
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (e.getPlayer() != equippedPlayer)
             return;
-        }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (fist.getType().equals(Material.GREEN_DYE)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        shooter = p;
-                        p.setCooldown(Material.GREEN_DYE, 400);
-                        Messenger.sendActionInfo("You are charging, aim at the right location!", p);
-                        p.getWorld().playSound(p.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, (float) 0.5);
-                        spawnMagmaProjectile(p);
-                        launchProjectile(p);
-                    } else {
-                        Messenger.sendActionError("You can't launch your magma block just yet.", p);
-                    }
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        ItemStack item = e.getItem();
+        int cooldown = equippedPlayer.getCooldown(Material.GREEN_DYE);
+
+        if (item != null && !item.getType().equals(Material.GREEN_DYE))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (cooldown == 0) {
+            equippedPlayer.setCooldown(Material.GREEN_DYE, 400);
+            Messenger.sendActionInfo("You are charging, aim at the right location!", equippedPlayer);
+            equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, (float) 0.5);
+            spawnMagmaProjectile();
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    launchProjectile();
                 }
-            }
+            }.runTaskLater(Main.plugin, MAGMA_DELAY);
+
+        } else {
+            Messenger.sendActionError("You can't launch your magma block just yet.", equippedPlayer);
         }
     }
 
