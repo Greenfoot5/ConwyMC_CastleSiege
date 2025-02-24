@@ -18,10 +18,13 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.profile.PlayerTextures;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Artillerist kit
+ */
 public class Artillerist extends SignKit {
 
     private static final int health = 320;
@@ -31,6 +34,9 @@ public class Artillerist extends SignKit {
     private static final int ballCount = 14;
     private static final int powderCount = 56;
 
+    /**
+     * Creates a new artillerist
+     */
     public Artillerist() {
         super("Artillerist", health, regen, Material.FIREWORK_STAR);
 
@@ -78,7 +84,7 @@ public class Artillerist extends SignKit {
         PlayerProfile profile = Bukkit.getServer().createProfile("Cannonball");
         try {
             PlayerTextures textures = profile.getTextures();
-            textures.setSkin(new URL("https://textures.minecraft.net/texture/17d81286281b1c7b13420f70b0f43867aa38eee109b64c3a37b699ea05e8ec05"));
+            textures.setSkin(URI.create("https://textures.minecraft.net/texture/17d81286281b1c7b13420f70b0f43867aa38eee109b64c3a37b699ea05e8ec05").toURL());
             profile.setTextures(textures);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
@@ -99,6 +105,16 @@ public class Artillerist extends SignKit {
 
     @Override
     public ArrayList<Component> getGuiDescription() {
-        return null;
+        ArrayList<Component> kitLore = new ArrayList<>();
+        kitLore.add(Component.text("Holds the knowledge (and items)", NamedTextColor.GRAY));
+        kitLore.add(Component.text("to reload cannons safely", NamedTextColor.GRAY));
+        kitLore.addAll(getBaseStats(health, regen, meleeDamage, ladderCount));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        kitLore.add(Component.text("- Jump Boost I", NamedTextColor.GRAY));
+        kitLore.add(Component.empty());
+        kitLore.add(Component.text("Active:", NamedTextColor.GOLD));
+        kitLore.add(Component.text("- Can reload cannons", NamedTextColor.GRAY));
+        return kitLore;
     }
 }
