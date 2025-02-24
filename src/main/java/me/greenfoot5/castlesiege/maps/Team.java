@@ -3,6 +3,7 @@ package me.greenfoot5.castlesiege.maps;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.data_types.CSStats;
 import me.greenfoot5.castlesiege.database.MVPStats;
+import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
@@ -44,15 +45,30 @@ public class Team implements Listener, SidebarComponent {
     // Lives (Assault)
     private final AtomicInteger lives = new AtomicInteger(-1);
 
+    /**
+     * Gets the current life count for the team
+     * @return The life count
+     */
     public int getLives() {
         return lives.get();
     }
 
+    /**
+     * Sets the life count for the team
+     * @param lives The new value of lives
+     */
     public void setLives(int lives) {
         this.lives.set(lives);
     }
 
-    public void playerDied() {
+    /**
+     * Removes a life when a player dies
+     * @param uuid The UUID of the player that died
+     */
+    public void playerDied(UUID uuid) {
+        if (InCombat.isPlayerInLobby(uuid))
+            return;
+
         // We only want to take a life if the game is ongoing
         if (MapController.timer.state != TimerState.ONGOING)
             return;
@@ -63,6 +79,10 @@ public class Team implements Listener, SidebarComponent {
         }
     }
 
+    /**
+     * Adds additional lives to a team
+     * @param amount How many lives to add
+     */
     public void grantLives(int amount) {
         lives.addAndGet(amount);
     }
@@ -90,10 +110,18 @@ public class Team implements Listener, SidebarComponent {
         Bukkit.getPluginManager().registerEvents(this, Main.plugin);
     }
 
+    /**
+     * Gets the name of the team as a string
+     * @return The string name of the team
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the name of the team as a component with colour
+     * @return The component name of the team
+     */
     public Component getDisplayName() {
         return Component.text(name, primaryChatColor);
     }

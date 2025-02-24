@@ -88,7 +88,7 @@ public class DeathEvent implements Listener {
         onCooldown.add(event.getEntity());
         event.getEntity().eject();
         if (TeamController.getTeam(event.getPlayer().getUniqueId()) != null) {
-            TeamController.getTeam(event.getPlayer().getUniqueId()).playerDied();
+            TeamController.getTeam(event.getPlayer().getUniqueId()).playerDied(event.getPlayer().getUniqueId());
         }
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
             respawn(event.getEntity());
