@@ -67,7 +67,7 @@ public class Constructor extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.STONE_AXE),
                         Component.text("Constructor's Axe", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // Chestplate

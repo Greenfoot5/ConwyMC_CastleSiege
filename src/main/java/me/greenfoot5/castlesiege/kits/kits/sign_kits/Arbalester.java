@@ -38,7 +38,8 @@ public class Arbalester extends SignKit implements Listener {
 
         // Crossbow
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
-                Component.text("Crossbow", NamedTextColor.GREEN), null, null
+                Component.text("Crossbow", NamedTextColor.GREEN), null,
+                Collections.singletonList(new Tuple<>(Enchantment.PUNCH, 2))
                 , 3);
         es.votedWeapon = new Tuple<>(CSItemCreator.weapon(new ItemStack(Material.CROSSBOW),
                 Component.text("Crossbow", NamedTextColor.GREEN),

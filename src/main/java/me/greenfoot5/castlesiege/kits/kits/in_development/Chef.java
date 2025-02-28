@@ -97,7 +97,7 @@ public class Chef extends CoinKit implements Listener {
                         Component.text("Knock enemies away with the back of a pan", NamedTextColor.AQUA),
                         Component.text("Also halves bow damage while in the main hand", NamedTextColor.AQUA),
                         Component.text("Crossbow damage is 75%", NamedTextColor.AQUA)),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), 20);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 20);
         // Weapon
         es.hotbar[0] = fryingPan;
 
@@ -108,7 +108,7 @@ public class Chef extends CoinKit implements Listener {
                         Component.text("Also halves bow damage while in the main hand", NamedTextColor.AQUA),
                         Component.text("Crossbow damage is 75%", NamedTextColor.AQUA),
                         Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), 22);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), 22);
         es.votedWeapon = new Tuple<>(fryingPanVoted, 0);
 
         ItemStack kitchenKnives = CSItemCreator.item(new ItemStack(Material.TIPPED_ARROW, knifeCount),

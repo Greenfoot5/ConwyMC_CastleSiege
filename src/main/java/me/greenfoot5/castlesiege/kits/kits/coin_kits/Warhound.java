@@ -83,7 +83,7 @@ public class Warhound extends CoinKit implements Listener {
                                 Component.empty(),
                                 Component.text("22 Melee Damage", NamedTextColor.DARK_GREEN),
 								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 22),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 22),
                 0);
 
         super.equipment = es;

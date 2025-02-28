@@ -98,7 +98,7 @@ public class Alchemist extends CoinKit implements Listener {
                         Component.empty(),
                         Component.text("28 Melee Damage", NamedTextColor.DARK_GREEN),
                         Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
-                List.of(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2);
+                List.of(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(standVoted, 0);
 
         // Chestplate

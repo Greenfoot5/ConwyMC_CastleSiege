@@ -30,10 +30,13 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Axeman kit
+ */
 public class Axeman extends SignKit implements Listener {
 
     /**
-     * Creates a new Hommet Axeman
+     * Creates a new Axeman
      */
     public Axeman() {
         super("Axeman", 300, 10, Material.STONE_AXE, 2500);
@@ -48,7 +51,7 @@ public class Axeman extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Iron Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 42),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 42),
                 0);
         // Weapon
         es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.STONE_AXE, 2),
@@ -58,7 +61,7 @@ public class Axeman extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.STONE_AXE, 3),
                         Component.text("Throwable Axe", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 42),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 42),
                 1);
 
         // Chestplate

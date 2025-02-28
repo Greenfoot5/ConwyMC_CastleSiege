@@ -113,6 +113,10 @@ import me.greenfoot5.castlesiege.kits.kits.event_kits.HallowedHorseman;
 import me.greenfoot5.castlesiege.kits.kits.event_kits.Vampire;
 import me.greenfoot5.castlesiege.kits.kits.event_kits.Werewolf;
 import me.greenfoot5.castlesiege.kits.kits.free_kits.Archer;
+import me.greenfoot5.castlesiege.kits.kits.in_development.Armourer;
+import me.greenfoot5.castlesiege.kits.kits.in_development.Bannerman;
+import me.greenfoot5.castlesiege.kits.kits.in_development.Chef;
+import me.greenfoot5.castlesiege.kits.kits.in_development.Hunter;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Hypaspist;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.Shieldman;
 import me.greenfoot5.castlesiege.kits.kits.level_kits.SpearKnight;
@@ -122,30 +126,7 @@ import me.greenfoot5.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Abyssal;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Arbalester;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Artillerist;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Axeman;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Buccaneer;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.CamelRider;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Constructor;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Elytrier;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Fallen;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Gunner;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Hellsteed;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Lancer;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Longbowman;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.AxeThrower;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.Bonecrusher;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.CaveTroll;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.DwarvenXbow;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.Guardian;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.Hammerguard;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.MoriaOrc;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.OrcPikeman;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.Overseer;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Moria.Skullcrusher;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Pirate;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.RangedCavalry;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.RoyalKnight;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.UrukBerserker;
 import me.greenfoot5.castlesiege.kits.kits.staff_kits.Warbear;
 import me.greenfoot5.castlesiege.kits.kits.voter_kits.FireArcher;
 import me.greenfoot5.castlesiege.kits.kits.voter_kits.Ladderman;
@@ -445,70 +426,75 @@ public class Main extends JavaPlugin implements Listener {
                 // Kits
                 Objects.requireNonNull(getCommand("Kit")).setExecutor(new KitCommand());
                 Objects.requireNonNull(getCommand("Random")).setExecutor(new RandomKitCommand());
-                Objects.requireNonNull(getCommand("Abyssal")).setExecutor(new Abyssal());
+
+                // Coin
                 Objects.requireNonNull(getCommand("Alchemist")).setExecutor(new Alchemist());
-                Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
-                Objects.requireNonNull(getCommand("Artillerist")).setExecutor(new Artillerist());
-                //Objects.requireNonNull(getCommand("Armourer")).setExecutor(new Armourer());
-                Objects.requireNonNull(getCommand("Battlemedic")).setExecutor(new BattleMedic());
-                //Objects.requireNonNull(getCommand("Bannerman")).setExecutor(new Bannerman());
-                Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("Barbarian")).setExecutor(new Barbarian());
-                Objects.requireNonNull(getCommand("Buccaneer")).setExecutor(new Buccaneer());
-                Objects.requireNonNull(getCommand("Constructor")).setExecutor(new Constructor());
-                Objects.requireNonNull(getCommand("Arbalester")).setExecutor(new Arbalester());
-                Objects.requireNonNull(getCommand("Longbowman")).setExecutor(new Longbowman());
-                Objects.requireNonNull(getCommand("RoyalKnight")).setExecutor(new RoyalKnight());
+                Objects.requireNonNull(getCommand("Berserker")).setExecutor(new Berserker());
                 Objects.requireNonNull(getCommand("Cavalry")).setExecutor(new Cavalry());
-                Objects.requireNonNull(getCommand("CamelRider")).setExecutor(new CamelRider());
-                //Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
-                Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
-//                Objects.requireNonNull(getCommand("DwarvenX-bow")).setExecutor(new DwarvenXbow());
-                Objects.requireNonNull(getCommand("Fallen")).setExecutor(new Fallen());
                 Objects.requireNonNull(getCommand("Crossbowman")).setExecutor(new Crossbowman());
                 Objects.requireNonNull(getCommand("Engineer")).setExecutor(new Engineer());
-                Objects.requireNonNull(getCommand("Elytrier")).setExecutor(new Elytrier());
                 Objects.requireNonNull(getCommand("Executioner")).setExecutor(new Executioner());
-                Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
-                Objects.requireNonNull(getCommand("Gunner")).setExecutor(new Gunner());
-                Objects.requireNonNull(getCommand("HallowedHorseman")).setExecutor(new HallowedHorseman());
-                Objects.requireNonNull(getCommand("Hammerguard")).setExecutor(new Hammerguard());
-                Objects.requireNonNull(getCommand("Hellsteed")).setExecutor(new Hellsteed());
                 Objects.requireNonNull(getCommand("Halberdier")).setExecutor(new Halberdier());
-                Objects.requireNonNull(getCommand("Hypaspist")).setExecutor(new Hypaspist());
-                Objects.requireNonNull(getCommand("UrukBerserker")).setExecutor(new UrukBerserker());
-                Objects.requireNonNull(getCommand("Lancer")).setExecutor(new Lancer());
-                Objects.requireNonNull(getCommand("RangedCavalry")).setExecutor(new RangedCavalry());
-                Objects.requireNonNull(getCommand("Axeman")).setExecutor(new Axeman());
-                Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
                 Objects.requireNonNull(getCommand("Maceman")).setExecutor(new Maceman());
                 Objects.requireNonNull(getCommand("Medic")).setExecutor(new Medic());
-                Objects.requireNonNull(getCommand("Guardian")).setExecutor(new Guardian());
-                Objects.requireNonNull(getCommand("CaveTroll")).setExecutor(new CaveTroll());
-                Objects.requireNonNull(getCommand("Bonecrusher")).setExecutor(new Bonecrusher());
-                Objects.requireNonNull(getCommand("AxeThrower")).setExecutor(new AxeThrower());
-                Objects.requireNonNull(getCommand("MoriaOrc")).setExecutor(new MoriaOrc());
-                Objects.requireNonNull(getCommand("MoriaOverseer")).setExecutor(new Overseer());
-                Objects.requireNonNull(getCommand("OrcPikeman")).setExecutor(new OrcPikeman());
                 Objects.requireNonNull(getCommand("Paladin")).setExecutor(new Paladin());
-                Objects.requireNonNull(getCommand("Pirate")).setExecutor(new Pirate());
                 Objects.requireNonNull(getCommand("Priest")).setExecutor(new Priest());
                 Objects.requireNonNull(getCommand("Ranger")).setExecutor(new Ranger());
                 Objects.requireNonNull(getCommand("Rogue")).setExecutor(new Rogue());
-                Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
-                Objects.requireNonNull(getCommand("Skullcrusher")).setExecutor(new Skullcrusher());
-                Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
-                Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
-                Objects.requireNonNull(getCommand("Spearknight")).setExecutor(new SpearKnight());
                 Objects.requireNonNull(getCommand("Sorcerer")).setExecutor(new Sorcerer());
-                Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
                 Objects.requireNonNull(getCommand("Vanguard")).setExecutor(new Vanguard());
-                Objects.requireNonNull(getCommand("Vampire")).setExecutor(new Vampire());
                 Objects.requireNonNull(getCommand("Viking")).setExecutor(new Viking());
-                Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
                 Objects.requireNonNull(getCommand("Warhound")).setExecutor(new Warhound());
-                Objects.requireNonNull(getCommand("Werewolf")).setExecutor(new Werewolf());
                 Objects.requireNonNull(getCommand("Warlock")).setExecutor(new Warlock());
+
+                // Free
+                Objects.requireNonNull(getCommand("Archer")).setExecutor(new Archer());
+                Objects.requireNonNull(getCommand("Swordsman")).setExecutor(new Swordsman());
+
+                // Vote Kits
+                Objects.requireNonNull(getCommand("FireArcher")).setExecutor(new FireArcher());
+                Objects.requireNonNull(getCommand("Ladderman")).setExecutor(new Ladderman());
+                Objects.requireNonNull(getCommand("Scout")).setExecutor(new Scout());
+                Objects.requireNonNull(getCommand("Skirmisher")).setExecutor(new Skirmisher());
+
+                // Level
+                Objects.requireNonNull(getCommand("BattleMedic")).setExecutor(new BattleMedic());
+                Objects.requireNonNull(getCommand("Hypaspist")).setExecutor(new Hypaspist());
+                Objects.requireNonNull(getCommand("Shieldman")).setExecutor(new Shieldman());
+                Objects.requireNonNull(getCommand("SpearKnight")).setExecutor(new SpearKnight());
+                Objects.requireNonNull(getCommand("Spearman")).setExecutor(new Spearman());
+
+                // Staff
+                Objects.requireNonNull(getCommand("Warbear")).setExecutor(new Warbear());
+
+                // Sign Kits
+                registerListener(new SignKit.SignListener());
+                Objects.requireNonNull(getCommand("Abyssal")).setExecutor(new Abyssal());
+                Objects.requireNonNull(getCommand("Arbalester")).setExecutor(new Arbalester());
+                Objects.requireNonNull(getCommand("Artillerist")).setExecutor(new Artillerist());
+                Objects.requireNonNull(getCommand("Elytrier")).setExecutor(new Elytrier());
+
+                // Event Kits
+                // Halloween
+                if (getCommand("HallowedHorseman") != null)
+                    Objects.requireNonNull(getCommand("HallowedHorseman")).setExecutor(new HallowedHorseman());
+                if (getCommand("Vampire") != null)
+                    Objects.requireNonNull(getCommand("Vampire")).setExecutor(new Vampire());
+                if (getCommand("Werewolf") != null)
+                    Objects.requireNonNull(getCommand("Werewolf")).setExecutor(new Werewolf());
+
+                // In Development
+                if (getCommand("Armourer") != null)
+                    Objects.requireNonNull(getCommand("Armourer")).setExecutor(new Armourer());
+                if (getCommand("Bannerman") != null)
+                    Objects.requireNonNull(getCommand("Bannerman")).setExecutor(new Bannerman());
+                if (getCommand("Chef") != null)
+                    Objects.requireNonNull(getCommand("Chef")).setExecutor(new Chef());
+                if (getCommand("Hunter") != null)
+                    Objects.requireNonNull(getCommand("Hunter")).setExecutor(new Hunter());
+
+
                 applyKitLimits();
 
                 //Helm's Deep

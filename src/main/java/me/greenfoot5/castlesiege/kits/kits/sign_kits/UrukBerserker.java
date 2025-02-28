@@ -54,7 +54,7 @@ public class UrukBerserker extends SignKit implements Listener {
                         Component.text("Cleaver", NamedTextColor.GREEN),
                         Arrays.asList(Component.text("Deals AOE damage but has a cooldown.", NamedTextColor.AQUA),
                                 Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 52.0),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 52.0),
                 0);
 
         // Leggings

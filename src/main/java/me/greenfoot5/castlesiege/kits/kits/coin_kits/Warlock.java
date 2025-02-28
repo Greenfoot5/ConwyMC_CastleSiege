@@ -87,7 +87,7 @@ public class Warlock extends CoinKit implements Listener {
                                 Component.text("slowness I for 5 seconds.", NamedTextColor.GRAY),
                                 Component.text("Direct hits give a soul shard and have", NamedTextColor.GRAY),
                                 Component.text("a 10% chance to give a health stone.", NamedTextColor.GRAY)),
-                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamage + 2),
                 0);
 
         // 1st ability

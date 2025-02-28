@@ -59,7 +59,7 @@ public class Hellsteed extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.GRAY_DYE),
                         Component.text("Horseshoe", NamedTextColor.RED),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 22),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 22),
                 0);
 
         // stomp

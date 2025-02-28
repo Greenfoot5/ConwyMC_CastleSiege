@@ -50,7 +50,7 @@ public class Bannerman extends FreeKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Short-sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamage + 2),
                 0);
 
         // Chestplate

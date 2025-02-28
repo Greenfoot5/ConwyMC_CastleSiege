@@ -60,7 +60,7 @@ public class CaveTroll extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.STONE_SHOVEL),
                         Component.text("Troll Fist", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 45),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 45),
                 0);
 
         // Ability

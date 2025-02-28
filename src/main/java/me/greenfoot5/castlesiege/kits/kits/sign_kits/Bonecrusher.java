@@ -54,7 +54,7 @@ public class Bonecrusher extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.BONE),
                         Component.text("Crushing Bone", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 40),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 40),
                 0);
 
         // Chestplate

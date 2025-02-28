@@ -75,7 +75,7 @@ public class Sorcerer extends CoinKit implements Listener {
                                 Component.text("Right click to shoot an arcane bolt.", NamedTextColor.GRAY),
                                 Component.text("- 60 Projectile DMG", NamedTextColor.GRAY),
                                 Component.text("- 60m Max Range", NamedTextColor.GRAY)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // 1st ability

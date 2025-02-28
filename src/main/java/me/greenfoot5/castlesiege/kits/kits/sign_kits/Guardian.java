@@ -46,7 +46,7 @@ public class Guardian extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 38),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 38),
                 0);
 
         // Shield

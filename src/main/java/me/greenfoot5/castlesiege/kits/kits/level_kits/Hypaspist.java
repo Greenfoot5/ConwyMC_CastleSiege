@@ -76,7 +76,7 @@ public class Hypaspist extends LevelKit implements Listener {
                         List.of(Component.empty(),
                                 Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
                                 Component.text("⁎ Voted: +2 damage", NamedTextColor.GREEN)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // Shield
@@ -88,7 +88,7 @@ public class Hypaspist extends LevelKit implements Listener {
                         Component.text("<< Right Click To Block >>", NamedTextColor.DARK_GRAY),
                         Component.text("Can block up to 10 times before", NamedTextColor.GRAY),
                         Component.text("the cooldown activates.", NamedTextColor.GRAY)),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)) , 10);
         es.offhand = shield;
 
         // Weapon

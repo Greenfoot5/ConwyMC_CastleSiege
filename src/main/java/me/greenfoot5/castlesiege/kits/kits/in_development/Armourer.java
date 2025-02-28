@@ -71,7 +71,7 @@ public class Armourer extends CoinKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.NETHERITE_SHOVEL),
                         Component.text("Smith's Hammer", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)), meleeDamage + 2),
                 0);
 
         // Chestplate

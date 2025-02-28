@@ -50,7 +50,7 @@ public class MoriaOrc extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.STONE_SWORD),
                         Component.text("Dagger", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 31),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 31),
                 0);
 
         // Chestplate

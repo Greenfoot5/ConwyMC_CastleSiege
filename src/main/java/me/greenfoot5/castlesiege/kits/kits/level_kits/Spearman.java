@@ -69,7 +69,7 @@ public class Spearman extends LevelKit implements Listener {
 						Component.text("Spear", NamedTextColor.GREEN),
 						Arrays.asList(Component.text("Right-click to throw a spear.", NamedTextColor.AQUA),
 								Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-						Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
+						Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
 				0);
 
 		// Chestplate

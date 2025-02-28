@@ -61,7 +61,7 @@ public class Viking extends CoinKit implements Listener {
                         List.of(Component.empty(),
                                 Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
 								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // Chestplate

@@ -78,7 +78,7 @@ public class Paladin extends CoinKit implements Listener {
                         List.of(Component.empty(),
                                 Component.text("35 Melee Damage", NamedTextColor.DARK_GREEN),
 								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GOLD)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, -1)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // Weapon
@@ -92,7 +92,7 @@ public class Paladin extends CoinKit implements Listener {
                         Component.text("the cooldown activates.", NamedTextColor.GRAY),
                         Component.text("Blesses you and your nearby", NamedTextColor.GRAY),
                         Component.text("allies, when the cooldown activates.", NamedTextColor.GRAY)),
-                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)) , 10);
+                Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 1)) , 10);
         es.offhand = shield;
 
         // Chestplate

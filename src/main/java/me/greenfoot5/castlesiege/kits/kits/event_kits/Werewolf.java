@@ -73,7 +73,7 @@ public class Werewolf extends EventKit implements Listener {
                         List.of(Component.empty(),
                                 Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.RED),
                                 Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GOLD)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2);
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2);
 
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 

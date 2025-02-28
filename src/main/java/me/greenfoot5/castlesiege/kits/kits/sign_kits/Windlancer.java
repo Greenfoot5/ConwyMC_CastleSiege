@@ -51,7 +51,7 @@ public class Windlancer extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.STICK, 20),
                         Component.text("Small Hand-Windlass Spear", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 31),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 31),
                 0);
 
         // Chestplate

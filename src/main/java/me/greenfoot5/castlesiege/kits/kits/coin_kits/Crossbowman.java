@@ -70,7 +70,7 @@ public class Crossbowman extends CoinKit implements Listener {
                         Component.text("3 Melee Damage", NamedTextColor.DARK_GREEN),
                         Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA),
                         Component.text("18 Ranged Damage", NamedTextColor.DARK_GREEN)),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 3), 0);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 3), 0);
 
         // Chestplate
         es.chest = CSItemCreator.item(new ItemStack(Material.IRON_CHESTPLATE),

@@ -64,7 +64,7 @@ public class Elytrier extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 32),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 32),
                 0);
 
         // Chestplate

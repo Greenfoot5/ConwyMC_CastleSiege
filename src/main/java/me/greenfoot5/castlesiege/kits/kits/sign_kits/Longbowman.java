@@ -47,7 +47,7 @@ public class Longbowman extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Dagger", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 31.5),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 31.5),
                 0);
 
         // Regular Bow

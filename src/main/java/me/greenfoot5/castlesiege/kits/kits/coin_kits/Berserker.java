@@ -63,7 +63,7 @@ public class Berserker extends CoinKit implements Listener {
                 Component.text("Iron Sword", NamedTextColor.GREEN),
                 List.of(Component.empty(),
                         Component.text(meleeDamage + " Melee Damage", NamedTextColor.DARK_GREEN)),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage);
         es.hotbar[0] = regularSword;
         // Voted Weapon
         regularSwordVoted = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
@@ -71,7 +71,7 @@ public class Berserker extends CoinKit implements Listener {
                 List.of(Component.empty(),
                         Component.text((meleeDamage + 2) + " Melee Damage", NamedTextColor.DARK_GREEN),
                         Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN)),
-                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2);
+                Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2);
         es.votedWeapon = new Tuple<>(regularSwordVoted, 0);
 
         // Ladders

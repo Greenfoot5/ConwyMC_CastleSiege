@@ -53,7 +53,7 @@ public class AxeThrower extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Throwable Axe", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 42),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 42),
                 0);
 
         es.offhand = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE, 3),
@@ -62,7 +62,7 @@ public class AxeThrower extends SignKit implements Listener {
         es.votedOffhand = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE, 4),
                         Component.text("Throwable Axe", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 42);
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 42);
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),

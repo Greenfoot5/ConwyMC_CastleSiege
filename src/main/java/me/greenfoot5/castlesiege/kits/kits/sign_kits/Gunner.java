@@ -90,11 +90,12 @@ public class Gunner extends SignKit {
                         List.of(Component.empty(),
                                 Component.text("Uses bullets as ammo to shoot.", NamedTextColor.BLUE),
                                 Component.empty(),
-                                Component.text((meleeDamage + 2) + " melee DMG (voted)", NamedTextColor.DARK_GREEN),
+                                Component.text((meleeDamage + 2) + " melee DMG", NamedTextColor.DARK_GREEN),
                                 Component.text("80 DMG per shot", NamedTextColor.DARK_GREEN),
                                 Component.text("60m max range", NamedTextColor.DARK_GREEN),
-                                Component.text("9s cooldown", TextColor.color(49, 171, 189))),
-                        null, meleeDamage),
+                                Component.text("9s cooldown", TextColor.color(49, 171, 189)),
+                                Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // Bullet Item

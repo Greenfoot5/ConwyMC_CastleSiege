@@ -72,7 +72,7 @@ public class HallowedHorseman extends EventKit implements Listener {
                                 Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
                                 Component.text("Hitting an enemy with less than", NamedTextColor.GRAY),
                                 Component.text("20% HP, instantly kills them.", NamedTextColor.GRAY)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // Chestplate

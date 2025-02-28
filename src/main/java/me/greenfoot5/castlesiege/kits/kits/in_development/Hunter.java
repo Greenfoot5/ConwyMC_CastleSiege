@@ -48,7 +48,7 @@ public class Hunter extends CoinKit implements Listener {
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Hunter's Knife", NamedTextColor.DARK_PURPLE), null,
-                        Collections.singletonList(new Tuple<>(Enchantment.KNOCKBACK, 0)), meleeDamage + 2), 0);
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2), 0);
 
         // Regular Bow
         es.hotbar[1] = CSItemCreator.item(new ItemStack(Material.BOW),

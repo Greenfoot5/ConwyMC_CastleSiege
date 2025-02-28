@@ -152,7 +152,7 @@ public class LoadData {
             String[] voteArray = rs.getString(1).split("%line%");
             for (String vote : voteArray) {
                 if (Long.parseLong(vote.split("//")[1]) > System.currentTimeMillis() - 24 * 60 * 60 * 1000) {
-                    votes.put(vote.split("//")[0], Long.parseLong(vote.split("//")[1]));
+                    votes.put(vote.split("//")[0].toLowerCase(), Long.parseLong(vote.split("//")[1]));
                 }
             }
         }

@@ -48,7 +48,7 @@ public class Fallen extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Fallen Sword", NamedTextColor.GRAY),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 39),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 39),
                 0);
 
         super.equipment = es;

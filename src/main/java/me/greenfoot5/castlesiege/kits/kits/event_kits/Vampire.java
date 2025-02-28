@@ -69,7 +69,7 @@ public class Vampire extends EventKit implements Listener {
                                 Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GOLD),
                                 Component.text("<< Right Click An Enemy >>", NamedTextColor.DARK_GRAY),
                                 Component.text("Deals 50 DMG & Heals 50 HP.", NamedTextColor.GRAY)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // Chestplate

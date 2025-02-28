@@ -63,7 +63,7 @@ public class Barbarian extends CoinKit implements Listener {
                                 Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.GREEN),
                                 Component.text("<< Passive Ability >>", NamedTextColor.DARK_GRAY),
                                 Component.text("Damage done increases with lower health.", NamedTextColor.GRAY)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), minDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), minDamage + 2),
                 0);
 
         // Chestplate

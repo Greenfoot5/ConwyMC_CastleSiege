@@ -53,7 +53,7 @@ public class OrcPikeman extends SignKit implements Listener {
                 CSItemCreator.weapon(new ItemStack(Material.NETHERITE_HOE),
                         Component.text("Orcish Pike", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 0)), 40),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 40),
                 0);
 
         // Chestplate

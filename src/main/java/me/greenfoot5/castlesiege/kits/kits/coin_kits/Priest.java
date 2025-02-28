@@ -88,7 +88,7 @@ public class Priest extends CoinKit implements Listener {
                                 Component.empty(),
                                 Component.text("55 Melee Damage", NamedTextColor.DARK_GREEN),
 								Component.text("⁎ Voted: +2 Melee Damage", NamedTextColor.DARK_AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.SMITE, 5)), meleeDamage + 2),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         // Chestplate
