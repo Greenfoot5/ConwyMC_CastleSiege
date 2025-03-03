@@ -38,7 +38,7 @@ import me.greenfoot5.castlesiege.commands.info.leaderboard.TopMapCommand;
 import me.greenfoot5.castlesiege.commands.staff.GiveVoteCommand;
 import me.greenfoot5.castlesiege.commands.staff.ReloadCommand;
 import me.greenfoot5.castlesiege.commands.staff.boosters.GrantBoosterCommand;
-import me.greenfoot5.castlesiege.commands.staff.donations.SetKitCommand;
+import me.greenfoot5.castlesiege.commands.staff.maps.SetKitCommand;
 import me.greenfoot5.castlesiege.commands.staff.donations.UnlockedKitCommand;
 import me.greenfoot5.castlesiege.commands.staff.maps.NextMapCommand;
 import me.greenfoot5.castlesiege.commands.staff.maps.SetKitLimitCommand;

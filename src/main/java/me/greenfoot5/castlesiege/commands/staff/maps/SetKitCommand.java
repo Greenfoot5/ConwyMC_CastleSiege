@@ -1,4 +1,4 @@
-package me.greenfoot5.castlesiege.commands.staff.donations;
+package me.greenfoot5.castlesiege.commands.staff.maps;
 
 import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.conwymc.util.Messenger;
