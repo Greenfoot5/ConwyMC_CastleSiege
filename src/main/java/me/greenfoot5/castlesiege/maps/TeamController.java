@@ -82,6 +82,7 @@ public class TeamController implements FactionProvider {
 
     /**
      * Gets all the players current playing
+     * @return A set of UUIDs, one for each player
      */
     public static Set<UUID> getPlayers() {
         return uuidToTeam.keySet();
@@ -89,6 +90,7 @@ public class TeamController implements FactionProvider {
 
     /**
      * Gets all the players not in their spawn
+     * @return A set of UUIDs, one for each player not in their lobby
      */
     public static Set<UUID> getActivePlayers() {
         Set<UUID> activePlayers = new HashSet<>();
@@ -100,6 +102,10 @@ public class TeamController implements FactionProvider {
         return activePlayers;
     }
 
+    /**
+     * Gets all the spectators
+     * @return A set of UUIDs, one for each spectator
+     */
     public static Set<UUID> getSpectators() {
         return spectators;
     }
@@ -107,6 +113,7 @@ public class TeamController implements FactionProvider {
 
     /**
      * Get all players and spectators
+     * @return A set of UUIDs, one for each player/spectator
      */
     public static Set<UUID> getEveryone() {
         Set<UUID> everyone = new HashSet<>();
@@ -140,8 +147,9 @@ public class TeamController implements FactionProvider {
     }
 
     /**
-     * Adds a player to a team on the current map
+     * Adds a player to a team on a map
      * @param uuid the player to add to a team
+     * @param map The map to add players to
      */
     public static void joinSmallestTeam(UUID uuid, Map map) {
         joinTeam(uuid, map.smallestTeam());
@@ -249,6 +257,9 @@ public class TeamController implements FactionProvider {
         }
     }
 
+    /**
+     * Teleports all players to the current map
+     */
     public static void teleportPlayers() {
         for (UUID uuid : getPlayers()) {
             Player player = Bukkit.getPlayer(uuid);
