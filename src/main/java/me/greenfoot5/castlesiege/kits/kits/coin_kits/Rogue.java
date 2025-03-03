@@ -690,11 +690,11 @@ public class Rogue extends CoinKit implements Listener {
         // TODO - Improve passive descriptions
         kitLore.add(Component.text("Passive:", NamedTextColor.DARK_GREEN));
         kitLore.add(Component.text("- Can see player health.", NamedTextColor.GRAY));
-        kitLore.add(Component.text("- Can use gauge whilst invisible", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Uses combo points to perform more", NamedTextColor.GRAY));
         kitLore.add(Component.text("powerful gauges", NamedTextColor.GRAY));
         kitLore.add(Component.text("- Killing opponents and hitting them", NamedTextColor.GRAY));
         kitLore.add(Component.text("with track arrows generates combo-points", NamedTextColor.GRAY));
+        kitLore.add(Component.text("- Cannot cap flags", NamedTextColor.RED));
         return kitLore;
     }
 }
