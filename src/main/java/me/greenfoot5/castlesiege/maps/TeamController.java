@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.maps;
 import io.lumine.mythic.api.adapters.AbstractPlayer;
 import io.lumine.mythic.core.players.factions.FactionProvider;
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.database.CSActiveData;
 import me.greenfoot5.castlesiege.database.MVPStats;
 import me.greenfoot5.castlesiege.database.StoreData;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
@@ -291,8 +290,7 @@ public class TeamController implements FactionProvider {
             return;
 
         if (kit instanceof SignKit signKit && !signKit.canSelect(player, true, false, false)) {
-            Kit.equippedKits.put(player.getUniqueId(), new Swordsman());
-            CSActiveData.getData(player.getUniqueId()).setKit("swordsman");
+            new Swordsman().equip(player.getUniqueId(), false);
         }
 
         Kit.equippedKits.get(player.getUniqueId()).setItems(true);
