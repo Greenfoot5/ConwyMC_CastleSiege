@@ -104,10 +104,18 @@ public class Flag implements SidebarComponent {
         this.startingTeam = currentOwners;
     }
 
+    /**
+     * Gets the name of the flag
+     * @return The flag's name as a string
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the name of the flag
+     * @return The flag's name as a component
+     */
     public Component getDisplayName() {
         return Component.text(name, getColor());
     }
@@ -663,10 +671,9 @@ public class Flag implements SidebarComponent {
     /**
      * @param flag      the flag to create the bossbar for
      * @param barColour the colour of the bar, should be the team colour.
-     * @param text      this is actually just the flag name
      * @param progress  the amount of progress done on the bossbar, should be (index / max caps)
      */
-    private static void createFlagBossbar(Flag flag, BossBar.Color barColour, String text, float progress) {
+    private static void createFlagBossbar(Flag flag, BossBar.Color barColour, float progress) {
         BossBar bar = BossBar.bossBar(Component.text(flag.getName()), progress, barColour, BossBar.Overlay.PROGRESS);
         bars.putIfAbsent(flag, bar);
     }
@@ -716,10 +723,15 @@ public class Flag implements SidebarComponent {
      */
     public static void registerBossbars() {
         for (Flag flag : MapController.getCurrentMap().flags) {
-            createFlagBossbar(flag, getBarColour(flag.getColor()), flag.name, (float) flag.animationIndex/flag.maxCap);
+            createFlagBossbar(flag, getBarColour(flag.getColor()), (float) flag.animationIndex/flag.maxCap);
         }
     }
 
+    /**
+     * Checks if a team can capture the flag
+     * @param team The team to check for
+     * @return true if the team can currently cap the flag
+     */
     public boolean canCapture(@Nullable Team team) {
         if (progressAmount == 0)
             return false;
@@ -732,6 +744,10 @@ public class Flag implements SidebarComponent {
         return true;
     }
 
+    /**
+     * Gets the icon for the flag
+     * @return The icon for the flag (if any)
+     */
     public String getIcon() {
         // Get a non-owner team, it doesn't matter which one
         Team attackers = Objects.equals(MapController.getCurrentMap().teams[0].getName(), currentOwners) ? MapController.getCurrentMap().teams[1] : MapController.getCurrentMap().teams[0];
@@ -739,7 +755,6 @@ public class Flag implements SidebarComponent {
         if (!canCapture(attackers)) {
             return " \uD83D\uDD12";
         }
-        // return "⓪";
         return "";
     }
 
