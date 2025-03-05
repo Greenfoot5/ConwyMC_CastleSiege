@@ -68,30 +68,26 @@ public class ChargeFlag extends Flag{
         return spawnPoint;
     }
 
+    @Override
+    protected synchronized void captureProgress() {
+        Team largestTeam = MapController.getCurrentMap().getTeam(getLargestTeam());
+        if (!canCapture(largestTeam)) {
+            for (UUID uuid : players) {
+                if (!Objects.equals(TeamController.getTeam(uuid).getName(), currentOwners)) {
+                    Messenger.sendActionError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
+                            Objects.requireNonNull(Bukkit.getPlayer(uuid)));
+                }
+            }
+            return;
+        }
+
+        super.captureProgress();
+    }
+
     /**
      * Function to make progress on the charge flag
      */
     protected void captureFlag() {
-        // Find the position of the current flag in the order
-        Flag[] flags = MapController.getCurrentMap().flags;
-        for (int i = 0; i < flags.length; i++) {
-            if (Objects.equals(flags[i].name, name)) {
-                // Get the previous flag
-                Flag previousFlag = getPreviousFlag(i, getLargestTeam(), flags);
-
-                if (previousFlag != null && !Objects.equals(previousFlag.getCurrentOwners(), getLargestTeam())) {
-                    for (UUID uuid : players)
-                    {
-                        if (!Objects.equals(TeamController.getTeam(uuid).getName(), currentOwners)) {
-                            Messenger.sendActionError("You must capture flags in order on this map, and the previous one doesn't belong to your team!",
-                                    Objects.requireNonNull(Bukkit.getPlayer(uuid)));
-                        }
-                    }
-                    return;
-                }
-            }
-        }
-
         super.captureFlag();
 
         if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
@@ -107,17 +103,27 @@ public class ChargeFlag extends Flag{
         }
     }
 
-    private Flag getPreviousFlag(int i, String teamName, Flag[] flags) {
+    /**
+     * Get the previous flag in the order
+     * @param index The index of the flag in flags
+     * @param teamName The team to get the previous flag for
+     * @param flags The array of flags to check in
+     * @return The previous flag on the scoreboard
+     */
+    private Flag getPreviousFlag(int index, String teamName, Flag[] flags) {
         // Get previous flag based on if defenders or not
         if (Objects.equals(teamName, startingTeam)) {
             // If it's the last flag, there is no previous flag for the defenders
-            if (i + 1 == flags.length)
+            if (index + 1 >= flags.length) {
                 return null;
-            else {
-                return flags[i + 1];
+            } else {
+                return flags[index + 1];
             }
         }
-        return flags[i -1];
+        if (index == 0) {
+            return null;
+        }
+        return flags[index - 1];
     }
 
     @Override
@@ -134,10 +140,12 @@ public class ChargeFlag extends Flag{
                     // Get the previous flag
                     Flag previousFlag = getPreviousFlag(i, team.getName(), flags);
 
-                    if (previousFlag != null && !Objects.equals(previousFlag.getCurrentOwners(), team.getName())) {
+                    if (previousFlag == null || !Objects.equals(previousFlag.getCurrentOwners(), team.getName())) {
                         return false;
                     }
-                } else {
+                }
+                // Flag is neutral
+                else {
                     // Get the previous flag
                     Flag previousAttackerFlag = getPreviousFlag(i, MapController.getCurrentMap().teams[0].getName(), flags);
                     Flag previousDefenderFlag = getPreviousFlag(i, MapController.getCurrentMap().teams[1].getName(), flags);
@@ -148,6 +156,8 @@ public class ChargeFlag extends Flag{
                         return false;
                     }
                 }
+
+                return true;
             }
         }
 
