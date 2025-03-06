@@ -38,7 +38,7 @@ public class SuicideCommand implements CommandExecutor {
 
 				if (MapController.isOngoing() && !InCombat.isPlayerInLobby(p.getUniqueId())) {
 					Messenger.sendInfo("You have committed suicide <dark_aqua>(+2 deaths)", p);
-					UpdateStats.addDeaths(p.getUniqueId(), 2);
+					UpdateStats.addDeaths(p.getUniqueId(), 1);
 				} else
 					Messenger.sendInfo("You have committed suicide.", p);
 			}

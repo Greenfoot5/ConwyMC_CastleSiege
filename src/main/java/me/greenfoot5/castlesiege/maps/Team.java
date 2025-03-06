@@ -57,11 +57,11 @@ public class Team implements Listener, SidebarComponent {
 
     /**
      * Sets the life count for the team
-     * @param lives The new value of lives
+     * @param amount The new value of lives
      */
-    public void setLives(int lives) {
-        this.lives.set(lives);
-        this.startingLives = lives;
+    public void setLives(int amount) {
+        this.lives.set(amount);
+        this.startingLives = amount;
     }
 
     /**
@@ -76,24 +76,41 @@ public class Team implements Listener, SidebarComponent {
         if (MapController.timer.state != TimerState.ONGOING)
             return;
 
-        int left = lives.decrementAndGet();
+        int maxPlayers = 100 / MapController.getCurrentMap().teams.length;
+        int amountLost = maxPlayers / players.size();
+
+        System.out.println("Losing " + amountLost + " lives");
+
+        // Take amountLost if > 5 lives, otherwise only 1
+        int left = lives.updateAndGet(v -> {
+            if (v <= 5)
+                return v - 1;
+            return Math.max(v - amountLost, 5);
+        });
+
+        System.out.println(left + " lives left");
+
         if (left == 5) {
             Messenger.broadcast(Component.empty().color(NamedTextColor.RED)
                     .append(Component.text("[!] ", NamedTextColor.GOLD))
                     .append(getDisplayName())
                     .append(Component.text(" has " + left + " lives left!")));
-        }
-        if (left == 0) {
+        } else if (left <= 0) {
             MapController.endMap();
         }
     }
 
     /**
      * Adds additional lives to a team
-     * @param amount How many lives to add
+     * @param amount How many lives to add per person
+     * @return How many lives were added
      */
-    public void grantLives(int amount) {
-        lives.addAndGet(amount);
+    public int grantLives(double amount) {
+        int maxPlayers = 100 / MapController.getCurrentMap().teams.length;
+        int granted = (int) Math.ceil(amount * ((double) maxPlayers / players.size()));
+        System.out.println("Gaining " + granted + " lives");
+        System.out.println(lives.addAndGet(granted) + " lives left");
+        return granted;
     }
 
     /**

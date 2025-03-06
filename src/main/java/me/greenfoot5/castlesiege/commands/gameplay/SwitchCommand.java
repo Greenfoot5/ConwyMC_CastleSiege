@@ -109,6 +109,7 @@ public class SwitchCommand implements CommandExecutor {
 
 		// If the player is a donator
 		if (p.hasPermission("conwymc.esquire")) {
+
 			// If the player hasn't specified a team, swap to the next one
 			if (args.length == 0) {
 				switchToNextTeam(p);
@@ -174,7 +175,6 @@ public class SwitchCommand implements CommandExecutor {
 
 		// Respawn the player
 		Bukkit.getScheduler().runTask(Main.plugin, () -> p.setHealth(0));
-		team.grantLives(1);
 	}
 
 	/**

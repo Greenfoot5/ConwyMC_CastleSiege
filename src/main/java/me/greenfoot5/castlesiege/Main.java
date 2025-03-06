@@ -1233,7 +1233,7 @@ public class Main extends JavaPlugin implements Listener {
                         maxCap,
                         flagConfig.getInt(flagRoute.add("progress_amount")),
                         flagConfig.getInt(flagRoute.add("start_amount"), maxCap),
-                        flagConfig.getInt(flagRoute.add("additional_lives"), -1)
+                        flagConfig.getDouble(flagRoute.add("additional_lives"), -1d)
                 ).setSpawns(
                         getLocation(flagRoute.add("attackers_spawn_point"), map.worldName, flagConfig),
                         getLocation(flagRoute.add("defenders_spawn_point"), map.worldName, flagConfig)
@@ -1326,7 +1326,9 @@ public class Main extends JavaPlugin implements Listener {
         team.secondaryWool = colors.getFirst();
         team.secondaryChatColor = colors.getSecond();
 
-        team.setLives(config.getInt(teamPath.add("lives"), -1));
+        int maxPlayers = 100 / map.teams.length;
+        double lives = config.getDouble(teamPath.add("lives"), -1d);
+        team.setLives((int) (maxPlayers * lives));
 
         // Add team/map kits
         if (config.contains(teamPath.add("kits"))) {

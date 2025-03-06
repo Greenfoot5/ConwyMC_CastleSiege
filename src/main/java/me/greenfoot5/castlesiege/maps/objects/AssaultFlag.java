@@ -1,6 +1,5 @@
 package me.greenfoot5.castlesiege.maps.objects;
 
-import me.greenfoot5.castlesiege.maps.Gamemode;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -15,7 +14,7 @@ import java.util.Objects;
  * A flag specific to the Charge Gamemode
  */
 public class AssaultFlag extends Flag {
-    public final int additionalLives;
+    public final double additionalLives;
     public boolean livesClaimed = false;
 
     protected Location attackersSpawnPoint;
@@ -25,14 +24,15 @@ public class AssaultFlag extends Flag {
     /**
      * Creates a new flag
      *
-     * @param name           the name of the flag
-     * @param secret         whether the flag is a secret flag
-     * @param startingTeam   the team that controls the flag at the beginning of the game
-     * @param maxCapValue    the maximum blockAnimation amount
-     * @param progressAmount How much progress is made by a single person
-     * @param startAmount    the starting blockAnimation amount
+     * @param name            the name of the flag
+     * @param secret          whether the flag is a secret flag
+     * @param startingTeam    the team that controls the flag at the beginning of the game
+     * @param maxCapValue     the maximum blockAnimation amount
+     * @param progressAmount  How much progress is made by a single person
+     * @param startAmount     the starting blockAnimation amount
+     * @param additionalLives the amount of lives to grant when fully captured
      */
-    public AssaultFlag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount, int startAmount, int additionalLives) {
+    public AssaultFlag(String name, boolean secret, String startingTeam, int maxCapValue, int progressAmount, int startAmount, double additionalLives) {
         super(name, secret, startingTeam, maxCapValue, progressAmount, startAmount);
         this.additionalLives = additionalLives;
     }
@@ -67,19 +67,15 @@ public class AssaultFlag extends Flag {
      * Function to make progress on the charge flag
      */
     protected void captureFlag() {
-        // If the game mode is Charge,
-        if (MapController.getCurrentMap().gamemode.equals(Gamemode.Assault)) {
-            // You can't recap a flag
-            if (!Objects.equals(startingTeam, currentOwners) && animationIndex == maxCap && !MapController.getCurrentMap().canRecap)
-                return;
-        }
-
         super.captureFlag();
 
         if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
             if (additionalLives > 0 && !livesClaimed) {
-                Messenger.broadcastInfo(Component.empty().append(Component.text(additionalLives + " lives", NamedTextColor.AQUA)).append(Component.text(" have been added to ")).append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
-                MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
+                int granted = MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
+                Messenger.broadcastInfo(Component.empty()
+                        .append(Component.text(granted + " lives", NamedTextColor.AQUA))
+                        .append(Component.text(" have been added to "))
+                        .append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
                 livesClaimed = true;
             } else if (additionalLives > 0) {
                 Messenger.broadcastInfo("No additional lives were granted as they have already been claimed");
