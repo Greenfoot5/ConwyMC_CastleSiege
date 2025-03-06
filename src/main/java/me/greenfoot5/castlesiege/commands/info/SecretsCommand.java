@@ -29,6 +29,7 @@ public class SecretsCommand implements CommandExecutor {
         String skyhold = getSkyholdSecrets(p);
         String abraham = getAbrakhanSecrets(p);
         String hallOfHerakles = getHallOfHeraklesSecrets(p);
+        String edoras = getEdorasSecrets(p);
 
         p.sendMessage(Messenger.mm.deserialize("<dark_aqua> <st>━━━━━</st>Secrets<st>━━━━━</st> </dark_aqua>"));
         p.sendMessage(ChatColor.DARK_AQUA + " Abrakhan: " + abraham);
@@ -38,6 +39,7 @@ public class SecretsCommand implements CommandExecutor {
         p.sendMessage(ChatColor.DARK_AQUA + " Skyhold: " + skyhold);
         p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
         p.sendMessage(ChatColor.DARK_AQUA + " Hall Of Herakles: " + hallOfHerakles);
+        p.sendMessage(ChatColor.DARK_AQUA + " Edoras: " + edoras);
 
 
 
@@ -240,6 +242,19 @@ public class SecretsCommand implements CommandExecutor {
 
         for (String secret : secrets) if (data.hasSecret(secret)) foundAmount++;
 
-        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/6)";
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/" + secrets.length + ")";
+    }
+
+    private String getEdorasSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        CSPlayerData data = CSActiveData.getData(uuid);
+
+        int foundAmount = 0;
+        String[] secrets = {"Edoras_Statue"};
+
+        for (String secret : secrets) if (data.hasSecret(secret)) foundAmount++;
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/" + secrets.length + ")";
     }
 }
