@@ -737,7 +737,7 @@ public class Flag implements SidebarComponent {
             return false;
 
         // Prevent recaps if disabled
-        if (animationIndex == maxCap && MapController.getCurrentMap().canRecap) {
+        if (animationIndex == maxCap && !MapController.getCurrentMap().canRecap) {
             return Objects.equals(currentOwners, startingTeam);
         }
 
