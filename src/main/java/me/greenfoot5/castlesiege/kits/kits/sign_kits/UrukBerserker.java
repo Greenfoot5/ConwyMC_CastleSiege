@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
@@ -27,15 +26,17 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.UUID;
 
 
+/**
+ * Uruk Berserker class
+ */
 public class UrukBerserker extends SignKit implements Listener {
 
 
     /**
-     * Creates a new Helms Deep Berserker
+     * Creates a new Uruk Berserker
      */
     public UrukBerserker() {
         super("Uruk Berserker", 220, 6, Material.REDSTONE, 1000);
@@ -93,35 +94,37 @@ public class UrukBerserker extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onCleave(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player damager && event.getEntity() instanceof Player hit) {
+        if (event.getDamager() !=  equippedPlayer)
+            return;
+
+        if (event.getEntity() instanceof Player hit) {
 
             // Uruk Berserker tries to cleave every enemy player around them
-            if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name) &&
-                    damager.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
-                    damager.getCooldown(Material.IRON_SWORD) == 0) {
-                damager.setCooldown(Material.IRON_SWORD, 60);
+            if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD
+                    && equippedPlayer.getCooldown(Material.IRON_SWORD) == 0) {
+                equippedPlayer.setCooldown(Material.IRON_SWORD, 60);
 
                 // Enemy blocks cleave
                 if (hit.isBlocking()) {
-                    Messenger.sendActionInfo("You blocked " + CSNameTag.mmUsername(damager) + "'s cleave", hit);
+                    Messenger.sendActionInfo("You blocked " + CSNameTag.mmUsername(equippedPlayer) + "'s cleave", hit);
                 } else {
                     hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_PLAYER_BIG_FALL, 1, 1);
                     event.setDamage(event.getDamage() * 2);
 
                     if (hit.getVehicle() != null && hit.getVehicle() instanceof Horse horse) {
-                        horse.damage(event.getDamage() * 2, damager);
+                        horse.damage(event.getDamage() * 2, equippedPlayer);
                     }
 
                     for (UUID uuid : TeamController.getActivePlayers()) {
                         Player player = Bukkit.getPlayer(uuid);
                         assert player != null;
-                        if (hit.getWorld() != player.getWorld() || player == hit || player == damager)
+                        if (hit.getWorld() != player.getWorld() || player == hit || player == equippedPlayer)
                             continue;
 
-                        if (player.getLocation().distanceSquared(damager.getLocation()) < 2.6 * 2.6
+                        if (player.getLocation().distanceSquared(equippedPlayer.getLocation()) < 2.6 * 2.6
                                 && TeamController.getTeam(player.getUniqueId())
-                                        != TeamController.getTeam(damager.getUniqueId()))
-                            player.damage(event.getDamage(), damager);
+                                        != TeamController.getTeam(equippedPlayer.getUniqueId()))
+                            player.damage(event.getDamage(), equippedPlayer);
                     }
                 }
             }
