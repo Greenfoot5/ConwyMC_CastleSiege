@@ -37,7 +37,7 @@ public class Viking extends CoinKit implements Listener {
     private static final double CAP = 1000;
     private static final double MIN_HEAL = 100;
     private static final double PERCENTAGE_DAMAGE = 0.15;
-    private static final double PERCENTAGE_HEAL = 0.35;
+    private static final double PERCENTAGE_HEAL = 0.1;
 
     /**
      * Set the equipment and attributes of this kit
