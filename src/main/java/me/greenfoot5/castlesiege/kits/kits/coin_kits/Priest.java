@@ -270,7 +270,7 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
-        if (blessing != null) {
+        if (blessing != null && event.getPlayer() != equippedPlayer) {
             assignBook(holyBook);
             event.getPlayer().getInventory().setItem(1, holyBook);
         }
@@ -282,12 +282,12 @@ public class Priest extends CoinKit implements Listener {
      */
     private void assignBook(ItemStack book) {
         if (blessing != null) {
-            ItemMeta bootMeta = book.getItemMeta();
-            assert bootMeta != null;
-            bootMeta.displayName(Objects.requireNonNull(holyBook.getItemMeta().displayName())
+            ItemMeta bookMeta = book.getItemMeta();
+            assert bookMeta != null;
+            bookMeta.displayName((Component.text("Holy Bible", NamedTextColor.GREEN))
                     .append(Component.text(" : ", NamedTextColor.GREEN))
                     .append(Bukkit.getPlayer(blessed).displayName().color(NamedTextColor.AQUA)));
-            book.setItemMeta(bootMeta);
+            book.setItemMeta(bookMeta);
         }
     }
 
