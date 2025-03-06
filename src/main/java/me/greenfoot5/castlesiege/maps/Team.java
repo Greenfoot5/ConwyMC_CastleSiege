@@ -6,6 +6,7 @@ import me.greenfoot5.castlesiege.database.MVPStats;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
+import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.megavex.scoreboardlibrary.api.sidebar.component.LineDrawable;
@@ -44,6 +45,7 @@ public class Team implements Listener, SidebarComponent {
 
     // Lives (Assault)
     private final AtomicInteger lives = new AtomicInteger(-1);
+    private int startingLives = 0;
 
     /**
      * Gets the current life count for the team
@@ -59,6 +61,7 @@ public class Team implements Listener, SidebarComponent {
      */
     public void setLives(int lives) {
         this.lives.set(lives);
+        this.startingLives = lives;
     }
 
     /**
@@ -74,6 +77,12 @@ public class Team implements Listener, SidebarComponent {
             return;
 
         int left = lives.decrementAndGet();
+        if (left == 5) {
+            Messenger.broadcast(Component.empty().color(NamedTextColor.RED)
+                    .append(Component.text("[!] ", NamedTextColor.GOLD))
+                    .append(getDisplayName())
+                    .append(Component.text(" has " + left + " lives left!")));
+        }
         if (left == 0) {
             MapController.endMap();
         }
@@ -212,7 +221,13 @@ public class Team implements Listener, SidebarComponent {
 
     @Override
     public void draw(@NotNull LineDrawable lineDrawable) {
-        if (getLives() >= 0) {
+        if (getLives() > 5) {
+            int lives = (int) ((getLives() / (float) startingLives) * 100);
+            lineDrawable.drawLine(getDisplayName()
+                    .append(Component.text(": "))
+                    .append(Component.text(lives, NamedTextColor.WHITE))
+                    .append(Component.text("%", NamedTextColor.WHITE)));
+        } else if (getLives() >= 0) {
             lineDrawable.drawLine(getDisplayName()
                     .append(Component.text(": "))
                     .append(Component.text(getLives(), NamedTextColor.WHITE)));
