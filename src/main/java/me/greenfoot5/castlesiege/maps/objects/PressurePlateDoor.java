@@ -24,7 +24,7 @@ public class PressurePlateDoor extends Door {
     public static final int defaultTimer = 2;
 
     /** The maximum distance a player is allowed to be from the centre of the door to open it */
-    private static final int maxDistance = 4;
+    private static final int maxDistance = 6;
 
     /**
      * Creates a new pressure plate door
