@@ -1,4 +1,4 @@
-package me.greenfoot5.castlesiege.kits.kits.sign_kits;
+package me.greenfoot5.castlesiege.kits.kits.scrapped;
 
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
@@ -32,9 +32,13 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Axe thrower kit
+ */
 public class AxeThrower extends SignKit implements Listener {
+
+    private static final int meleeDamage = 40;
 
     /**
      * Creates a new Moria Axe Thrower
@@ -47,13 +51,13 @@ public class AxeThrower extends SignKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
-                Component.text("Throwable Axe", NamedTextColor.GREEN), null, null, 40);
+                Component.text("Throwable Axe", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE),
                         Component.text("Throwable Axe", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 42),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
 
         es.offhand = CSItemCreator.weapon(new ItemStack(Material.NETHERITE_AXE, 3),
@@ -126,30 +130,34 @@ public class AxeThrower extends SignKit implements Listener {
      */
     @EventHandler
     public void throwAxe(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
+
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
-        Player p = e.getPlayer();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            ItemStack axe = p.getInventory().getItemInOffHand();
-            if (axe.getType().equals(Material.NETHERITE_AXE)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    //Not allowed to throw whilst clicking on enderchests or cakes.
-                    if (e.getClickedBlock() != null) {
-                        if (interactableBlock(e.getClickedBlock()) || p.getInventory().getItemInMainHand().getType() == Material.LADDER) {
-                            return;
-                        }
-                    }
-                    int cooldown = p.getCooldown(Material.NETHERITE_AXE);
-                    if (cooldown == 0) {
-                        axe.setAmount(axe.getAmount() - 1);
-                        p.setCooldown(Material.NETHERITE_AXE, 15);
-                        p.launchProjectile(Snowball.class).setVelocity(p.getLocation().getDirection().multiply(2.5));
-                    }
-                }
+
+
+        ItemStack axe = equippedPlayer.getInventory().getItemInOffHand();
+        if (!axe.getType().equals(Material.NETHERITE_AXE))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        //Not allowed to throw whilst clicking on enderchests or cakes.
+        if (e.getClickedBlock() != null) {
+            if (interactableBlock(e.getClickedBlock()) || equippedPlayer.getInventory().getItemInMainHand().getType() == Material.LADDER) {
+                return;
             }
+        }
+        int cooldown = equippedPlayer.getCooldown(Material.NETHERITE_AXE);
+        if (cooldown == 0) {
+            axe.setAmount(axe.getAmount() - 1);
+            equippedPlayer.setCooldown(Material.NETHERITE_AXE, 15);
+            equippedPlayer.launchProjectile(Snowball.class).setVelocity(equippedPlayer.getLocation().getDirection().multiply(2.5));
         }
     }
 

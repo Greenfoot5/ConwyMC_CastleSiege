@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -27,13 +26,14 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Axeman kit
  */
 public class Axeman extends SignKit implements Listener {
+
+    private static final int meleeDamage = 40;
+    private static final int ladders = 4;
 
     /**
      * Creates a new Axeman
@@ -45,24 +45,17 @@ public class Axeman extends SignKit implements Listener {
 
         // Weapon
         es.hotbar[0] = CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
-                Component.text("Iron Sword", NamedTextColor.GREEN), null, null, 40);
+                Component.text("Iron Sword", NamedTextColor.GREEN), null, null, meleeDamage);
         // Voted weapon
         es.votedWeapon = new Tuple<>(
                 CSItemCreator.weapon(new ItemStack(Material.IRON_SWORD),
                         Component.text("Iron Sword", NamedTextColor.GREEN),
                         Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 42),
+                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), meleeDamage + 2),
                 0);
         // Weapon
         es.hotbar[1] = CSItemCreator.weapon(new ItemStack(Material.STONE_AXE, 2),
-                Component.text("Throwable Axe", NamedTextColor.GREEN), null, null, 40);
-        // Voted weapon
-        es.votedWeapon = new Tuple<>(
-                CSItemCreator.weapon(new ItemStack(Material.STONE_AXE, 3),
-                        Component.text("Throwable Axe", NamedTextColor.GREEN),
-                        Collections.singletonList(Component.text("⁎ Voted: +2 damage", NamedTextColor.AQUA)),
-                        Collections.singletonList(new Tuple<>(Enchantment.LOOTING, 1)), 42),
-                1);
+                Component.text("Throwable Axe", NamedTextColor.GREEN), null, null, meleeDamage);
 
         // Chestplate
         es.chest = CSItemCreator.leatherArmor(new ItemStack(Material.LEATHER_CHESTPLATE),
@@ -101,30 +94,28 @@ public class Axeman extends SignKit implements Listener {
      */
     @EventHandler
     public void throwAxe(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
             return;
-        }
 
-        ItemStack axe = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.STONE_AXE);
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (axe.getType().equals(Material.STONE_AXE)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        axe.setAmount(axe.getAmount() - 1);
-                        p.setCooldown(Material.STONE_AXE, 60);
-                        Messenger.sendActionInfo("You threw your Axe!", p);
-                        p.launchProjectile(Snowball.class).setVelocity(p.getLocation().getDirection().multiply(2.5));
+        ItemStack axe = equippedPlayer.getInventory().getItemInMainHand();
+        if (!axe.getType().equals(Material.STONE_AXE))
+            return;
 
-                    } else {
-                        Messenger.sendActionError("You can't throw your Axe yet.", p);
-                    }
-                }
-            }
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (equippedPlayer.getCooldown(Material.STONE_AXE) == 0) {
+            axe.add(-1);
+            equippedPlayer.setCooldown(Material.STONE_AXE, 60);
+            Messenger.sendActionInfo("You threw your Axe!", equippedPlayer);
+            equippedPlayer.launchProjectile(Snowball.class).setVelocity(equippedPlayer.getLocation().getDirection().multiply(2.5));
+
+        } else {
+            Messenger.sendActionError("You can't throw your Axe yet.", equippedPlayer);
         }
     }
 
@@ -135,25 +126,31 @@ public class Axeman extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void changeAxeDamage(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Snowball ball) {
+        if (!(e.getEntity() instanceof Snowball ball))
+            return;
 
-            if (ball.getShooter() instanceof Player damager){
+        if (ball.getShooter() == equippedPlayer)
+            return;
 
-                if (Objects.equals(Kit.equippedKits.get(damager.getUniqueId()).name, name)) {
-                    if (e.getHitEntity() instanceof Player hit) {
-                        hit.damage(105, damager);
-                    } else if (e.getHitEntity() instanceof Horse horse) {
-                        horse.damage(125, damager);
-                    }
-                }
-            }
+        if (e.getHitEntity() instanceof Player hit) {
+            hit.damage(105, equippedPlayer);
+        } else if (e.getHitEntity() instanceof Horse horse) {
+            horse.damage(125, equippedPlayer);
         }
     }
 
     @Override
     public ArrayList<Component> getGuiDescription() {
         ArrayList<Component> description = new ArrayList<>();
-        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        description.add(Component.text("Has a sword to stab and slash in one hand", NamedTextColor.GRAY));
+        description.add(Component.text("Axes to throw in the other", NamedTextColor.GRAY));
+        description.addAll(getBaseStats(this.baseHealth, this.regenAmount, meleeDamage, ladders));
+        description.add(Component.empty());
+        description.add(Component.text("Effects:", NamedTextColor.DARK_PURPLE));
+        description.add(Component.text("- Haste I", NamedTextColor.GRAY));
+        description.add(Component.empty());
+        description.add(Component.text("Active:", NamedTextColor.GOLD));
+        description.add(Component.text("- Can throw their axe", NamedTextColor.GRAY));
         return description;
     }
 }
