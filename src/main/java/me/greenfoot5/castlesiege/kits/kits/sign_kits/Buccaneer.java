@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
@@ -11,15 +10,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Boat;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.vehicle.VehicleDestroyEvent;
+import org.bukkit.event.entity.EntityPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,9 +22,10 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Buccaneer class
+ */
 public class Buccaneer extends SignKit {
 
     private static final int health = 360;
@@ -39,6 +33,11 @@ public class Buccaneer extends SignKit {
     private static final double meleeDamage = 40.5;
     private static final int ladderCount = 4;
 
+    private Boat boat;
+
+    /**
+     * Create a new buccaneer
+     */
     public Buccaneer() {
         super("Buccaneer", health, regen, Material.OAK_BOAT);
 
@@ -89,61 +88,26 @@ public class Buccaneer extends SignKit {
     }
 
 
+    /**
+     * Allows a user to place a boat
+     * @param e Event called when a player tried to place a boat
+     */
     @EventHandler
-    public void onPlaceBoat(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
+    public void onPlaceBoat(EntityPlaceEvent e) {
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
-                e.setCancelled(true);
-                return;
-            }
-
-            if (p.getInventory().getItemInMainHand().getType() == Material.OAK_BOAT
-                    || p.getInventory().getItemInOffHand().getType() == Material.OAK_BOAT) {
-                if (e.getAction() == Action.RIGHT_CLICK_BLOCK && Objects.requireNonNull(e.getClickedBlock()).getType() == Material.WATER) {
-                    e.setCancelled(false);
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void onKillBoat(VehicleDestroyEvent e) {
-        if (!(e.getAttacker() instanceof Player p)) {
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
+            e.setCancelled(true);
             return;
         }
-        UUID uuid = p.getUniqueId();
 
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
-                return;
-            }
-            //no boat? no action!
-            if (e.getVehicle().getType() != EntityType.OAK_BOAT) {
-                return;
-            }
-
-            if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-                p.getInventory().addItem(new ItemStack(Material.OAK_BOAT));
-                e.getVehicle().remove();
-            } else {
-                e.getVehicle().remove();
-            }
-    }
-    @EventHandler
-        public void onSpawnBoatItem(EntityDropItemEvent e) {
-        // Get the entity that dropped the item
-        Entity entity = e.getEntity();
-
-        // Check if the entity is a boat and the dropped item is a boat
-        if (entity.getType() == EntityType.OAK_BOAT) {
-            Item droppedItem = e.getItemDrop();
+        if (!(e.getEntity() instanceof Boat)) {
             e.setCancelled(true);
         }
+
+        e.getEntity().addPassenger(equippedPlayer);
     }
 
     @Override
