@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -27,9 +26,11 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Hammerguard kit
+ */
 public class Hammerguard extends SignKit implements Listener {
 
     /**
@@ -114,30 +115,32 @@ public class Hammerguard extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onStun(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
+        if (e.getDamager() != equippedPlayer)
+            return;
+
+        if (e.getEntity() instanceof Player hit) {
 
             // Hammerer tries to use stun on an enemy
-            if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.IRON_AXE &&
-                    q.getCooldown(Material.IRON_AXE) == 0) {
-                q.setCooldown(Material.IRON_AXE, 180);
+            if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.IRON_AXE &&
+                    equippedPlayer.getCooldown(Material.IRON_AXE) == 0) {
+                equippedPlayer.setCooldown(Material.IRON_AXE, 180);
 
                 // Enemy blocks stun
-                if (p.isBlocking()) {
-                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " blocked your stun!", q);
-                    Messenger.sendSuccess("You blocked " + CSNameTag.mmUsername(q) + "'s stun!", p);
+                if (hit.isBlocking()) {
+                    Messenger.sendWarning(CSNameTag.mmUsername(hit) + " blocked your stun!", equippedPlayer);
+                    Messenger.sendSuccess("You blocked " + CSNameTag.mmUsername(equippedPlayer) + "'s stun!", hit);
                 }
-                if (p.isSneaking() && new Random().nextInt(6) == 0) {
-                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " dodged your stun!", q);
-                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(q) + "'s stun!", p);
+                if (hit.isSneaking() && new Random().nextInt(6) == 0) {
+                    Messenger.sendWarning(CSNameTag.mmUsername(hit) + " dodged your stun!", equippedPlayer);
+                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(equippedPlayer) + "'s stun!", hit);
                 } else {
-                    Messenger.sendSuccess("You have stunned " + CSNameTag.mmUsername(p), q);
-                    Messenger.sendWarning("You have been stunned by " + CSNameTag.mmUsername(q) + "!", p);
-                    p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_BREAK , 1, 2F);
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 0)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 40, 2)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 100, 0)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 100, 2)));
+                    Messenger.sendSuccess("You have stunned " + CSNameTag.mmUsername(hit), equippedPlayer);
+                    Messenger.sendWarning("You have been stunned by " + CSNameTag.mmUsername(equippedPlayer) + "!", hit);
+                    equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.BLOCK_ANVIL_BREAK , 1, 2F);
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 0)));
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 40, 2)));
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 100, 0)));
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 100, 2)));
                     e.setDamage(e.getDamage() * 2);
                 }
             }
@@ -146,6 +149,8 @@ public class Hammerguard extends SignKit implements Listener {
 
     @Override
     public ArrayList<Component> getGuiDescription() {
-        return null;
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        return description;
     }
 }
