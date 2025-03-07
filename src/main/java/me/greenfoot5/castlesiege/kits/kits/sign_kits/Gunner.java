@@ -4,7 +4,6 @@ import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -14,7 +13,6 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -28,9 +26,10 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Gunner kit
+ */
 public class Gunner extends SignKit {
 
     private static final int health = 300;
@@ -40,9 +39,11 @@ public class Gunner extends SignKit {
     private static final int musketCooldown = 180;
     private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
+    /**
+     * Creates a new gunner kit
+     */
     public Gunner() {
         super("Gunner", health, regen, Material.NETHERITE_HOE);
-
 
         // Equipment Stuff
         EquipmentSet es = new EquipmentSet();
@@ -119,29 +120,30 @@ public class Gunner extends SignKit {
      */
     @EventHandler
     public void clickFlintlock(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack flintlock = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.NETHERITE_HOE);
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+
+        ItemStack flintlock = equippedPlayer.getInventory().getItemInMainHand();
+
+        if (!flintlock.getType().equals(Material.NETHERITE_HOE)) {
             return;
         }
 
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) || !flintlock.getType().equals(Material.NETHERITE_HOE)) {
-            return;
-        }
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (!p.getInventory().contains(Material.FIREWORK_STAR, 1)) {
-                Messenger.sendActionError("You require lead bullets to shoot the flintlock!", p);
+            if (!equippedPlayer.getInventory().contains(Material.FIREWORK_STAR, 1)) {
+                Messenger.sendActionError("You require lead bullets to shoot the flintlock!", equippedPlayer);
                 return;
             }
 
-            if (cooldown == 0) {
-                for (ItemStack item : p.getInventory().getContents()) {
-                    mythicMobsApi.castSkill(p, "GunnerMusketShot", p.getLocation());
-                    p.setCooldown(Material.NETHERITE_HOE, musketCooldown);
+            if (equippedPlayer.getCooldown(Material.NETHERITE_HOE) == 0) {
+                for (ItemStack item : equippedPlayer.getInventory().getContents()) {
+                    mythicMobsApi.castSkill(equippedPlayer, "GunnerMusketShot", equippedPlayer.getLocation());
+                    equippedPlayer.setCooldown(Material.NETHERITE_HOE, musketCooldown);
                     if (item == null) {
                         return;
                     }
@@ -155,6 +157,8 @@ public class Gunner extends SignKit {
 
     @Override
     public ArrayList<Component> getGuiDescription() {
-        return null;
+        ArrayList<Component> description = new ArrayList<>();
+        description.add(Component.text("//TODO - Add kit description", NamedTextColor.GRAY));
+        return description;
     }
 }
