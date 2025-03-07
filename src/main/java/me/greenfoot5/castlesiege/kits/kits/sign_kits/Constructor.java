@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.maps.CoreMap;
 import me.greenfoot5.castlesiege.maps.MapController;
@@ -18,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -35,8 +33,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * A kit that can build wooden defenses to help block off defenders
@@ -114,17 +110,15 @@ public class Constructor extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlacePlank(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                e.getBlock().getType() == Material.OAK_PLANKS
-                && checkPlaces(e.getBlockAgainst().getLocation(), p)) {
+        if (e.getBlock().getType() == Material.OAK_PLANKS && checkPlaces(e.getBlockAgainst().getLocation())) {
             placedPlanks.add(e.getBlockPlaced());
             e.setCancelled(false);
         }
@@ -133,14 +127,13 @@ public class Constructor extends SignKit implements Listener {
     /**
      *
      * @param placerLoc the location to check for, should in this case be a block.
-     * @param player the player to send the error message to.
      * @return Whether they can place this block here or not. True/false
      */
-    private boolean checkPlaces(Location placerLoc, Player player) {
+    private boolean checkPlaces(Location placerLoc) {
         for (Flag flag : MapController.getCurrentMap().flags) {
             if (placerLoc.distanceSquared(flag.getSpawnPoint()) <= 6 * 6 ||
                     flag.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {
-                Messenger.sendActionError("You can't place planks here!", player);
+                Messenger.sendActionError("You can't place planks here!", equippedPlayer);
                 return false;
             }
         }
@@ -148,7 +141,7 @@ public class Constructor extends SignKit implements Listener {
             for (Core core : map.getCores()) {
                 if (placerLoc.distanceSquared(core.getSpawnPoint()) <= 6 * 6 ||
                         core.region.contains((int) placerLoc.getX(), (int) placerLoc.getY(), (int) placerLoc.getZ())) {
-                    Messenger.sendActionError("You can't place planks here!", player);
+                    Messenger.sendActionError("You can't place planks here!", equippedPlayer);
                     return false;
                 }
             }
@@ -162,17 +155,13 @@ public class Constructor extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBreakPlank(BlockBreakEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(e.getPlayer().getUniqueId())) {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name) &&
-                e.getBlock().getType() == Material.OAK_PLANKS && placedPlanks.contains(e.getBlock())) {
-                p.getInventory().addItem(new ItemStack(Material.OAK_PLANKS));
+        if (e.getBlock().getType() == Material.OAK_PLANKS && placedPlanks.contains(e.getBlock())) {
+                equippedPlayer.getInventory().addItem(new ItemStack(Material.OAK_PLANKS));
                 placedPlanks.remove(e.getBlock());
                 e.getBlock().setType(Material.AIR);
         } else if (e.getBlock().getType() == Material.OAK_PLANKS && placedPlanks.contains(e.getBlock())) {
