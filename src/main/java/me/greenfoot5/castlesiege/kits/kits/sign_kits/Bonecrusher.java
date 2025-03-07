@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -28,7 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -123,28 +121,30 @@ public class Bonecrusher extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onCrush(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
+        if (e.getDamager() != equippedPlayer)
+            return;
 
-            // Bonecrusher tries to use stun an enemy
-            if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.BONE &&
-                    q.getCooldown(Material.BONE) == 0) {
-                q.setCooldown(Material.BONE, 160);
+        if (!(e.getEntity() instanceof Player hit))
+            return;
 
-                // Enemy blocks stun
-                if (p.isBlocking()) {
-                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " blocked your crushing stun!", q);
-                    Messenger.sendSuccess("You blocked " + CSNameTag.mmUsername(q) + "'s crushing stun!", p);
-                } else if (p.isSneaking() && new Random().nextInt(4) == 0) {
-                    Messenger.sendWarning(CSNameTag.mmUsername(p) + " dodged your crushing stun!", q);
-                    Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(q) + "'s crushing stun!", p);
-                } else {
-                    Messenger.sendSuccess("You have crushed " + CSNameTag.mmUsername(p), q);
-                    Messenger.sendWarning("You have been crushed by " + CSNameTag.mmUsername(q) + "!", p);
-                    p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 70, 6)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 100, 5)));
-                }
+        // Bonecrusher tries to use stun an enemy
+        if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.BONE &&
+                equippedPlayer.getCooldown(Material.BONE) == 0) {
+            equippedPlayer.setCooldown(Material.BONE, 160);
+
+            // Enemy blocks stun
+            if (hit.isBlocking()) {
+                Messenger.sendWarning(CSNameTag.mmUsername(hit) + " blocked your crushing stun!", equippedPlayer);
+                Messenger.sendSuccess("You blocked " + CSNameTag.mmUsername(equippedPlayer) + "'s crushing stun!", hit);
+            } else if (hit.isSneaking() && new Random().nextInt(4) == 0) {
+                Messenger.sendWarning(CSNameTag.mmUsername(hit) + " dodged your crushing stun!", equippedPlayer);
+                Messenger.sendSuccess("You dodged " + CSNameTag.mmUsername(equippedPlayer) + "'s crushing stun!", hit);
+            } else {
+                Messenger.sendSuccess("You have crushed " + CSNameTag.mmUsername(hit), equippedPlayer);
+                Messenger.sendWarning("You have been crushed by " + CSNameTag.mmUsername(equippedPlayer) + "!", hit);
+                equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.BLOCK_BONE_BLOCK_BREAK , 1, 1 );
+                hit.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 70, 6)));
+                hit.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 100, 5)));
             }
         }
     }
