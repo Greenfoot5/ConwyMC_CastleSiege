@@ -3,7 +3,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
@@ -15,11 +14,11 @@ import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.HorseWatcher;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,13 +32,14 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Hellsteed kit
+ */
 public class Hellsteed extends SignKit implements Listener {
 
     /**
-     * Creates a new Firelands Hellsteed
+     * Creates a new Hellsteed
      */
     public Hellsteed() {
         super("Hellsteed", 500, 10, Material.LEATHER_HORSE_ARMOR, 2500);
@@ -118,37 +118,35 @@ public class Hellsteed extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onStomp(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player p) || !(e.getDamager() instanceof Player q)) {
+        if (!(e.getEntity() instanceof Player hit) || (e.getDamager() != equippedPlayer)) {
             return;
         }
 
         // Hellsteed tries to stomp every nearby enemy
-        if (!Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) ||
-                q.getInventory().getItemInMainHand().getType() != Material.ANVIL ||
-                q.getCooldown(Material.ANVIL) != 0) {
+        if (equippedPlayer.getInventory().getItemInMainHand().getType() != Material.ANVIL
+                || equippedPlayer.getCooldown(Material.ANVIL) != 0) {
             return;
         }
-        q.setCooldown(Material.ANVIL, 400);
+        equippedPlayer.setCooldown(Material.ANVIL, 400);
 
         // Enemy blocks stun
-        if (p.isBlocking()) {
-            Messenger.sendSuccess("You blocked " + CSNameTag.username(q) + "'s stomp", p);
+        if (hit.isBlocking()) {
+            Messenger.sendSuccess("You blocked " + CSNameTag.username(equippedPlayer) + "'s stomp", hit);
         } else {
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY , 1, (float) 0.8);
+            equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.ENTITY_HORSE_ANGRY , 1, (float) 0.8);
             e.setDamage(e.getDamage() * 1.5);
-            p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 50, 1)));
-            p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 50, 2)));
-            p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 50, 4)));
-            for (Player all : Bukkit.getOnlinePlayers()) {
-                if (!TeamController.isPlaying(all) || p.getWorld() != all.getWorld() || all == p || all == q)
-                    return;
-                if (all.getLocation().distanceSquared(p.getLocation()) < 2.1 * 2.1) {
-                    all.damage(e.getDamage(), p);
-                    // Players that weren't the one directly hit are affected less
-                    all.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
-                    all.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 40, 1)));
-                    all.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 40, 3)));
-                }
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 50, 1)));
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 50, 2)));
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 50, 4)));
+            for (Entity all : equippedPlayer.getNearbyEntities(2.1, 2.1, 2.1)) {
+                if (!(all instanceof Player p) || !TeamController.isPlaying(p)
+                        || all == hit || all == equippedPlayer)
+                    continue;
+                p.damage(e.getDamage(), equippedPlayer);
+                // Players that weren't the one directly hit are affected less
+                p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 1)));
+                p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 40, 1)));
+                p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 40, 3)));
             }
         }
     }
@@ -158,24 +156,17 @@ public class Hellsteed extends SignKit implements Listener {
      */
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractEntityEvent event) {
-
-        if (!(event.getRightClicked() instanceof Player clicked)) {
+        if (event.getRightClicked() != equippedPlayer)
             return;
-        }
+
         Player p = event.getPlayer();
 
         if (InCombat.isPlayerInLobby(p.getUniqueId())) {
             return;
         }
 
-        if (Kit.equippedKits.get(clicked.getUniqueId()).name == null) {
-            return;
-        }
-        if (Objects.equals(Kit.equippedKits.get(clicked.getUniqueId()).name, name)
-                && TeamController.getTeam(clicked.getUniqueId())
-                == TeamController.getTeam(p.getUniqueId())) {
-
-            clicked.addPassenger(p);
+        if (TeamController.getTeam(equippedPlayer.getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
+            equippedPlayer.addPassenger(p);
         }
     }
 
@@ -185,24 +176,23 @@ public class Hellsteed extends SignKit implements Listener {
      */
     @EventHandler
     public void onEject(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
 
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) ||
-                e.getItem() == null || e.getItem().getType() != Material.BARRIER) {
+        if (e.getItem() == null || e.getItem().getType() != Material.BARRIER) {
             return;
         }
-        int cooldown = p.getCooldown(Material.BARRIER);
+
+        int cooldown = equippedPlayer.getCooldown(Material.BARRIER);
         if (cooldown == 0) {
-
-            p.getPassengers();
-            p.setCooldown(Material.BARRIER, 20);
-            p.eject();
+            equippedPlayer.getPassengers();
+            equippedPlayer.setCooldown(Material.BARRIER, 20);
+            equippedPlayer.eject();
         }
     }
 
