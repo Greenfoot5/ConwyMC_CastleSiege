@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -21,7 +20,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 /**
  * Royal Crypts specific kit that can apply wither
@@ -83,16 +81,18 @@ public class Fallen extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onWither(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
+        if (e.getDamager() != equippedPlayer)
+            return;
+
+        if (e.getEntity() instanceof Player hit) {
 
             // tries withering an enemy
-            if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD &&
-                    q.getCooldown(Material.IRON_SWORD) == 0) {
-                q.setCooldown(Material.IRON_SWORD, 50);
+            if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD
+                    && equippedPlayer.getCooldown(Material.IRON_SWORD) == 0) {
+                equippedPlayer.setCooldown(Material.IRON_SWORD, 50);
 
-                if (!p.isBlocking())
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 180, 1)));
+                if (!hit.isBlocking())
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.WITHER, 180, 1)));
             }
         }
     }
