@@ -15,12 +15,12 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,6 +39,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Cave Troll kit
+ */
 public class CaveTroll extends SignKit implements Listener {
 
     /**
@@ -98,41 +101,48 @@ public class CaveTroll extends SignKit implements Listener {
      */
     @EventHandler
     public void massiveStomp(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            ItemStack main = p.getInventory().getItemInMainHand();
-            if (main.getType().equals(Material.IRON_INGOT)) {
-                if ((e.getAction() != Action.RIGHT_CLICK_AIR)) {
-                    return;
-                }
-                    int cooldown = p.getCooldown(Material.IRON_INGOT);
-                    if (cooldown == 0) {
-                        for (Player online : Bukkit.getOnlinePlayers()) {
-                            if (TeamController.isPlaying(online) && p.getWorld() == online.getWorld() && online != p) {
-                                if (online.getLocation().distanceSquared(p.getLocation()) < 3.5 * 3.5
-                                        && TeamController.getTeam(online.getUniqueId())
-                                        != TeamController.getTeam(p.getUniqueId())) {
 
-                                    online.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 30, 2)));
-                                    online.damage(60, p);
-                                    p.setCooldown(Material.IRON_INGOT, 360);
-                                    //the sound
-                                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL , 1, 2.5f);
-                                    //the knockback
-                                    Vector unitVector = online.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
-                                    online.setVelocity(unitVector.multiply(1.2).setY(unitVector.getY() + 0.5));
-                                }
-                            }
-                        }
+        ItemStack main = equippedPlayer.getInventory().getItemInMainHand();
 
-                    }
-                }
+        if (!main.getType().equals(Material.IRON_INGOT))
+            return;
 
+        if (e.getAction() != Action.RIGHT_CLICK_AIR)
+            return;
+
+        int cooldown = equippedPlayer.getCooldown(Material.IRON_INGOT);
+        if (cooldown != 0) {
+            return;
+        }
+
+        boolean hasHit = false;
+        for (Entity entity : equippedPlayer.getNearbyEntities(3.5, 3.5, 3.5)) {
+            if (!(entity instanceof Player hit))
+                continue;
+
+            if (TeamController.isPlaying(hit)
+                    && TeamController.getTeam(entity.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
+                hasHit = true;
+                hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 30, 2)));
+                hit.damage(60, equippedPlayer);
+
+                //the knockback
+                Vector unitVector = entity.getLocation().toVector().subtract(equippedPlayer.getLocation().toVector()).normalize();
+                entity.setVelocity(unitVector.multiply(1.2).setY(unitVector.getY() + 0.5));
+            }
+        }
+
+        if (hasHit) {
+            equippedPlayer.setCooldown(Material.IRON_INGOT, 360);
+            //the sound
+            equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL , 1, 2.5f);
         }
     }
 
@@ -142,35 +152,29 @@ public class CaveTroll extends SignKit implements Listener {
      */
     @EventHandler
     public void onImmobilise(PlayerInteractEntityEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            Player p = e.getPlayer();
-            //Stuns the horse which the cave troll hits.
-            if (e.getRightClicked() instanceof Horse h) {
-                Player horseOwner = (Player) h.getOwner();
-                assert horseOwner != null;
-                if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
-                  immobiliseHorse(h, p);
-                }
+        if (e.getPlayer() != equippedPlayer)
+            return;
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
+            return;
+        }
+
+        //Stuns the horse which the cave troll hits.
+        if (e.getRightClicked() instanceof Horse h) {
+            Player horseOwner = (Player) h.getOwner();
+            assert horseOwner != null;
+            if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
+              immobiliseHorse(h);
             }
+        }
 
-            //Check if the hit entity is a player, otherwise do nothing.
-            if (!(e.getRightClicked() instanceof Player q)) {
-                return;
-            }
-
-            //The player who is being right-clicked on by the troll.
-
-            // Prevent using in lobby
-            if (InCombat.isPlayerInLobby(uuid)) {
-                return;
-            }
-
+        //Check if the hit entity is a player, otherwise do nothing.
+        if (e.getRightClicked() instanceof Player hit) {
             //Check if the players are not on the same team, if true then perform the cave troll's attack.
-            if (TeamController.getTeam(q.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
-               immobilise(q, p);
+            if (TeamController.getTeam(hit.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
+                immobilise(hit);
             }
-
         }
     }
 
@@ -178,24 +182,23 @@ public class CaveTroll extends SignKit implements Listener {
     /**
      * Activate the cave troll's stun ability, immobilizing the opponent
      * @param victim The opponent
-     * @param troll The cave troll
      */
-    private void immobilise(Player victim, Player troll) {
-        if (troll.getInventory().getItemInMainHand().getType() == Material.STONE_SHOVEL &&
-                troll.getCooldown(Material.STONE_SHOVEL) == 0) {
+    private void immobilise(Player victim) {
+        if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.STONE_SHOVEL &&
+                equippedPlayer.getCooldown(Material.STONE_SHOVEL) == 0) {
 
             // Activate stun
-            troll.setCooldown(Material.STONE_SHOVEL, 240);
-            Messenger.sendSuccess("You immobilised " + CSNameTag.mmUsername(victim) + ".", troll);
-            Messenger.sendWarning("You have been immobilised by " + CSNameTag.mmUsername(troll) + "!", victim);
+            equippedPlayer.setCooldown(Material.STONE_SHOVEL, 240);
+            Messenger.sendSuccess("You immobilised " + CSNameTag.mmUsername(victim) + ".", equippedPlayer);
+            Messenger.sendWarning("You have been immobilised by " + CSNameTag.mmUsername(equippedPlayer) + "!", victim);
             victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_GENERIC_EXPLODE , 1, 1.6f);
 
             //the knockback
-            Vector unitVector = victim.getLocation().toVector().subtract(troll.getLocation().toVector()).normalize();
+            Vector unitVector = victim.getLocation().toVector().subtract(equippedPlayer.getLocation().toVector()).normalize();
             victim.setVelocity(unitVector.multiply(1.1).setY(unitVector.getY() + 0.4));
 
             // Apply potion effects
-            troll.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 1)));
+            equippedPlayer.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 1)));
             victim.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 80, 1)));
             victim.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 80, 0)));
 
@@ -213,33 +216,31 @@ public class CaveTroll extends SignKit implements Listener {
                 }
             }.runTaskLater(Main.plugin, 80);
 
-            UpdateStats.addSupports(troll.getUniqueId(), 2);
+            UpdateStats.addSupports(equippedPlayer.getUniqueId(), 2);
         }
     }
 
     /**
      * Activate the cave troll's stun ability, immobilizing the opponent
      * @param victim The opponent
-     * @param troll The cave troll
      */
-    private void immobiliseHorse(Horse victim, Player troll) {
-        if (troll.getInventory().getItemInMainHand().getType() == Material.STONE_SHOVEL &&
-                troll.getCooldown(Material.STONE_SHOVEL) == 0) {
+    private void immobiliseHorse(Horse victim) {
+        if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.STONE_SHOVEL &&
+                equippedPlayer.getCooldown(Material.STONE_SHOVEL) == 0) {
 
             // Activate stun
-            troll.setCooldown(Material.STONE_SHOVEL, 240);
-            Messenger.sendActionSuccess("You immobilised <aqua>" + Objects.requireNonNull(victim.getOwner()) + "</aqua>'s horse.", troll);
+            equippedPlayer.setCooldown(Material.STONE_SHOVEL, 240);
+            Messenger.sendActionSuccess("You immobilised <aqua>" + Objects.requireNonNull(victim.getOwner()) + "</aqua>'s horse.", equippedPlayer);
             victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL , 1, 2.5f);
 
             // Apply potion effects
             victim.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 100, 3)));
 
             //the knockback
-            Vector unitVector = victim.getLocation().toVector().subtract(troll.getLocation().toVector()).normalize();
+            Vector unitVector = victim.getLocation().toVector().subtract(equippedPlayer.getLocation().toVector()).normalize();
             victim.setVelocity(unitVector.multiply(1.4).setY(unitVector.getY() + 0.5));
 
-            UpdateStats.addSupports(troll.getUniqueId(), 2);
-
+            UpdateStats.addSupports(equippedPlayer.getUniqueId(), 2);
         }
     }
 
