@@ -11,10 +11,10 @@ import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -170,16 +170,16 @@ public class Cavalry extends CoinKit implements Listener {
         }
 
         boolean hasEnemyInRange = false;
-        for (Player hit : Bukkit.getOnlinePlayers()) {
+        for (Entity entity : equippedPlayer.getNearbyEntities(2.3, 2.3, 2.3)) {
+            if (!(entity instanceof Player hit))
+                continue;
 
             //if the player is not in the same world ignore them.
-            if (p.getWorld() != hit.getWorld() || !TeamController.isPlaying(hit))
+            if (!TeamController.isPlaying(hit))
                 continue;
 
             //the player executing the ability should have enemy players in range.
-            if (p.getLocation().distanceSquared(hit.getLocation()) <= 2.3 * 2.3 &&
-                    TeamController.getTeam(hit.getUniqueId())
-                            != TeamController.getTeam(p.getUniqueId())) {
+            if (TeamController.getTeam(hit.getUniqueId()) != TeamController.getTeam(p.getUniqueId())) {
 
                 hasEnemyInRange = true;
 
@@ -194,13 +194,13 @@ public class Cavalry extends CoinKit implements Listener {
                     hit.damage(100, p);
                 }
             }
+        }
 
-            if (hasEnemyInRange) {
-                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
-                p.setCooldown(Material.ANVIL, 200);
-            } else {
-                Messenger.sendActionError("No enemy players close enough!", p);
-            }
+        if (hasEnemyInRange) {
+            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_HORSE_ANGRY, 1, (float) 0.8);
+            p.setCooldown(Material.ANVIL, 200);
+        } else {
+            Messenger.sendActionError("No enemy players close enough!", p);
         }
     }
 
