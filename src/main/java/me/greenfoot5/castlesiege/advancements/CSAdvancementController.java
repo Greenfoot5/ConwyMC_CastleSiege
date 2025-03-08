@@ -17,17 +17,24 @@ import org.bukkit.event.Listener;
 
 import static me.greenfoot5.conwymc.data_types.Cosmetic.CosmeticType.TITLE;
 
+/**
+ * Controls and manages global advancements
+ */
 public class CSAdvancementController implements Listener {
     public static UltimateAdvancementAPI api;
 
+    /**
+     * Set up the controller
+     */
     public CSAdvancementController() {
         api = UltimateAdvancementAPI.getInstance(ConwyMC.plugin);
         LevelAdvancements levelAdvancements = new LevelAdvancements();
         ConwyMC.plugin.getServer().getPluginManager().registerEvents(levelAdvancements, ConwyMC.plugin);
         Main.instance.getCommand("levelup").setExecutor(levelAdvancements);
+        V4ReleaseAdvancements v4ReleaseAdvancements = new V4ReleaseAdvancements();
+        ConwyMC.plugin.getServer().getPluginManager().registerEvents(levelAdvancements, ConwyMC.plugin);
 
         //new TutorialAdvancements();
-        //new EventsAdvancements();
     }
 
     @EventHandler
@@ -42,15 +49,7 @@ public class CSAdvancementController implements Listener {
         //TutorialAdvancements.tab.grantRootAdvancement(p);
 
         // Events
-        //EventsAdvancements.tab.showTab(p);
-        //EventsAdvancements.tab.grantRootAdvancement(p);
-        // Grant the V4Tester advancement
-//        Advancement V4TAdv = EventsAdvancements.tab.getAdvancement(new AdvancementKey("v4_beta", NodeDisplay.cleanKey("V4 Tester")));
-//        if (!V4TAdv.isGranted(p)) {
-//            V4TAdv.grant(p);
-//            Cosmetic V4Tester = new Cosmetic(TITLE, "V4 Tester", "<color:#1ECDD5>⁎⁑<b><color:#00C3EE>V4</b>⁑⁎");
-//            PlayerData data = ActiveData.getData(p.getUniqueId());
-//            data.addCosmetic(V4Tester);
-//        }
+        V4ReleaseAdvancements.tab.showTab(p);
+        V4ReleaseAdvancements.tab.grantRootAdvancement(p);
     }
 }
