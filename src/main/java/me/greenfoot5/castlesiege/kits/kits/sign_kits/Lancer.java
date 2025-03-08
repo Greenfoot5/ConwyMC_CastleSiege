@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Lancer kit
+ */
 public class Lancer extends SignKit implements Listener {
 
     private static final int health = 270;
@@ -139,34 +142,32 @@ public class Lancer extends SignKit implements Listener {
      */
     @EventHandler
     public void throwSpear(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (e.getPlayer() != equippedPlayer)
             return;
-        }
-        Player p = e.getPlayer();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            ItemStack stick = p.getInventory().getItemInMainHand();
-            if (stick.getType().equals(Material.STICK)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    //Not allowed to throw whilst clicking on enderchests or cakes.
-                    if (e.getClickedBlock() != null) {
-                        if (interactableBlock(e.getClickedBlock()) || p.getInventory().getItemInMainHand().getType() == Material.LADDER
-                                || p.getInventory().getItemInMainHand().getType() == Material.WHEAT) {
-                            return;
-                        }
-                    }
-                    if (p.getInventory().getItemInMainHand().getType() == Material.WHEAT && p.getInventory().getItemInMainHand().getType() == Material.LADDER) {
-                            return;
-                    }
-                    int cooldown = p.getCooldown(Material.STICK);
-                    if (cooldown == 0) {
-                        stick.setAmount(stick.getAmount() - 1);
-                        p.setCooldown(Material.STICK, 200);
-                        p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.5));
-                    }
-                }
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        ItemStack stick = equippedPlayer.getInventory().getItemInMainHand();
+        if (!stick.getType().equals(Material.STICK))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        //Not allowed to throw whilst clicking on enderchests or cakes.
+        if (e.getClickedBlock() != null) {
+            if (interactableBlock(e.getClickedBlock())) {
+                return;
             }
+        }
+
+        int cooldown = equippedPlayer.getCooldown(Material.STICK);
+        if (cooldown == 0) {
+            stick.setAmount(stick.getAmount() - 1);
+            equippedPlayer.setCooldown(Material.STICK, 200);
+            equippedPlayer.launchProjectile(Arrow.class).setVelocity(equippedPlayer.getLocation().getDirection().multiply(2.5));
         }
     }
 
@@ -177,17 +178,15 @@ public class Lancer extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void changeSpearDamage(ProjectileHitEvent e) {
+        if (e.getEntity().getShooter() != equippedPlayer)
+            return;
+
         if (e.getEntity() instanceof Arrow arrow) {
 
-            if (arrow.getShooter() instanceof Player damages) {
-
-                if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    if (damages.isInsideVehicle()) {
-                        arrow.setDamage(horseThrowDamage);
-                    } else {
-                        arrow.setDamage(throwDamage);
-                    }
-                }
+            if (equippedPlayer.isInsideVehicle()) {
+                arrow.setDamage(horseThrowDamage);
+            } else {
+                arrow.setDamage(throwDamage);
             }
         }
     }
