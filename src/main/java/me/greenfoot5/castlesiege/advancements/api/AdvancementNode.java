@@ -4,6 +4,7 @@ import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
+import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
 import me.greenfoot5.castlesiege.advancements.displays.NodeDisplay;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -61,6 +62,19 @@ public class AdvancementNode {
         this.maxProgress = builder.maxProgress;
     }
 
+    /**
+     * Gets the AdvancementKey
+     * @param tab The tab to get the key using
+     * @return The key for the advancement
+     */
+    public AdvancementKey getKey(AdvancementTab tab) {
+        return new AdvancementKey(tab.getNamespace(), key);
+    }
+
+    /**
+     * Adds a new child to the node
+     * @param child The child node to add
+     */
     public void addChild(AdvancementNode child) {
         if (child.parent.equalsIgnoreCase(key)) {
             this.children.add(child);
