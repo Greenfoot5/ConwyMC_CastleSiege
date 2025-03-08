@@ -313,12 +313,11 @@ public class FireArcher extends VoterKit implements Listener {
         if (e.getEntity() != equippedPlayer)
             return;
 
-        if (!(e.getEntity() instanceof Arrow))
+        if (!(e.getProjectile() instanceof Arrow arrow))
             return;
 
-        Arrow a = (Arrow) e.getProjectile();
-        if (Objects.equals(a.getColor(), Color.ORANGE)) {
-            a.setFireTicks(260);
+        if (arrow.getColor() != null && Color.ORANGE.asRGB() == arrow.getColor().asRGB()) {
+            arrow.setFireTicks(260);
         }
     }
 
