@@ -535,7 +535,7 @@ public class Main extends JavaPlugin implements Listener {
         timedTasks.add(new Tips().runTaskTimer(plugin, Tips.TIME_BETWEEN_TIPS * 20L, Tips.TIME_BETWEEN_TIPS * 20L));
         timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BarCooldown(), 0, 1));
         timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Scoreboard(), 0, 5));
-        timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 75));
+        timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new ApplyRegeneration(), 0, 120));
         timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimer(plugin, new Hunger(), 0, 20));
         timedTasks.add(Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new KeepAlive(), 0, 5900));
     }
