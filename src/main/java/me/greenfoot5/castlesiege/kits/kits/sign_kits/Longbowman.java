@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
@@ -11,9 +10,8 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 /**
  * A kit that deals more damage the further away a target is
@@ -88,58 +85,48 @@ public class Longbowman extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow &&
-                e.getEntity().getShooter() instanceof Player p &&
-                Objects.equals(Kit.equippedKits.get(p.getUniqueId()).name, name)) {
+        if (e.getEntity().getShooter() != equippedPlayer)
+            return;
+        if (e.getHitEntity() == null)
+            return;
 
-            if (e.getHitEntity() == null) { return; }
+        if (e.getEntity() instanceof AbstractArrow arrow) {
 
             Entity hit = e.getHitEntity();
 
-            Location shooterLoc = p.getLocation();
+            Location shooterLoc = equippedPlayer.getLocation();
             Location hitLoc = hit.getLocation();
 
             double distance = shooterLoc.distanceSquared(hitLoc);
 
-            //default value
-            ((Arrow) e.getEntity()).setDamage(14);
-
-            if (distance <= 15 * 15 && distance >= 10 * 10) {
-                ((Arrow) e.getEntity()).setDamage(15);
-            }
-
-            if (distance <= 20 * 20 && distance >= 15 * 15) {
-                ((Arrow) e.getEntity()).setDamage(16);
-            }
-
-            if (distance <= 25 * 25 && distance >= 20 * 20) {
-                ((Arrow) e.getEntity()).setDamage(18);
-            }
-
-            if (distance <= 30 * 30 && distance >= 25 * 25) {
-                ((Arrow) e.getEntity()).setDamage(20);
-            }
-
-            if (distance <= 35 * 35 && distance >= 30 * 30) {
-                ((Arrow) e.getEntity()).setDamage(22);
-            }
-
-            if (distance <= 40 * 40 && distance >= 35 * 35) {
-                ((Arrow) e.getEntity()).setDamage(26);
-            }
-
-            if (distance <= 50 * 50 && distance >= 40 * 40) {
-                ((Arrow) e.getEntity()).setDamage(30);
-            }
-
-            if (distance <= 60 * 60 && distance >= 50 * 50) {
-                ((Arrow) e.getEntity()).setDamage(34);
-            }
-
-            if (distance >= 70 * 70) {
-                ((Arrow) e.getEntity()).setDamage(40);
-            }
+            arrow.setDamage(getArrowDamage(distance));
         }
+    }
+
+    private static int getArrowDamage(double distance) {
+        int damage;
+        if (distance < 10 * 10) {
+            damage = 14;
+        } else if (distance <= 15 * 15) {
+            damage = 15;
+        } else if (distance <= 20 * 20) {
+            damage = 16;
+        } else if (distance <= 25 * 25) {
+            damage = 18;
+        } else if (distance <= 30 * 30) {
+            damage = 20;
+        } else if (distance <= 35 * 35) {
+            damage = 22;
+        } else if (distance <= 40 * 40) {
+            damage = 26;
+        } else if (distance <= 50 * 50) {
+            damage = 30;
+        } else if (distance <= 60 * 60) {
+            damage = 34;
+        } else {
+            damage = 40;
+        }
+        return damage;
     }
 
     @Override
