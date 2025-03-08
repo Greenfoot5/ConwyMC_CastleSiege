@@ -72,6 +72,10 @@ public class Team implements Listener, SidebarComponent {
         if (InCombat.isPlayerInLobby(uuid))
             return;
 
+        // If the team doesn't have lives, we don't care
+        if (lives.get() < 0)
+            return;
+
         // We only want to take a life if the game is ongoing
         if (MapController.timer.state != TimerState.ONGOING)
             return;
