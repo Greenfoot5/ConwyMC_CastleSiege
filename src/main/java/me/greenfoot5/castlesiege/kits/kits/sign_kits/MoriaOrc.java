@@ -10,6 +10,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,6 +31,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * A kit for an Orc from Moria
+ */
 public class MoriaOrc extends SignKit implements Listener {
 
 
@@ -130,10 +134,11 @@ public class MoriaOrc extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow &&
-                e.getEntity().getShooter() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(20);
+        if (e.getEntity().getShooter() != equippedPlayer)
+            return;
+
+        if (e.getEntity() instanceof AbstractArrow arrow) {
+            arrow.setDamage(20);
         }
     }
 
