@@ -37,7 +37,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Objects;
 
 /**
  * The fire archer kit
@@ -197,7 +196,7 @@ public class FireArcher extends VoterKit implements Listener {
         }
 
         // Pick up own firepit
-        if (e.getClickedBlock() == placedPit) {
+        if (e.getClickedBlock().getLocation().equals(placedPit.getLocation())) {
             destroyFirepit();
             Messenger.sendActionInfo("You took back your Firepit", equippedPlayer);
             // Perm Potion Effect
@@ -225,7 +224,8 @@ public class FireArcher extends VoterKit implements Listener {
         // Check if hit cauldron
         if (e.getAction() != Action.LEFT_CLICK_BLOCK
                 || e.getClickedBlock() == null
-                || e.getClickedBlock().getType() != Material.CAULDRON) {
+                || e.getClickedBlock().getType() != Material.CAULDRON
+                || equippedPlayer.getUniqueId() == e.getPlayer().getUniqueId()) {
             return;
         }
 
