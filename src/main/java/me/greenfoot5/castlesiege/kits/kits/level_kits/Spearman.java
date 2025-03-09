@@ -54,7 +54,7 @@ public class Spearman extends LevelKit implements Listener {
 	 * Set the equipment and attributes of this kit
 	 */
 	public Spearman() {
-		super("Spearman", health, regen, Material.STICK, 5);
+		super("Spearman", health, regen, Material.STICK, 4);
 
 		// Equipment Stuff
 		EquipmentSet es = new EquipmentSet();

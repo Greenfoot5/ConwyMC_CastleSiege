@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 public class LevelAdvancements implements Listener, CommandExecutor {
 
     public static final int SWITCH_LEVEL = 3;
-    public static final int BUYKIT_LEVEL = 4;
+    public static final int BUYKIT_LEVEL = 5;
     public static final int BOUNTY_LEVEL = 7;
 
     public static AdvancementTab advancementTab;
@@ -82,25 +82,25 @@ public class LevelAdvancements implements Listener, CommandExecutor {
 
         // Level 4 - Purchase Kits
         rootNode.addChild(new AdvancementNodeBuilder("level_4", "level_3")
-                .setMaterial(Material.GOLD_BLOCK)
+                .setMaterial(Material.STICK)
                 .setFrameType(AdvancementFrameType.TASK)
-                .setTitle("Building Muscle")
+                .setTitle("Practice Throws")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 4</yellow>"})
-                .setReward("<yellow>◎ Purchase Coin Kits</yellow>" +
-                        "<br><gold>⛃ +1000 coins</gold>"
-                        + "<br><br><blue>You can now purchase coin kits. Use <br><yellow>/<kit></yellow>"
-                        + "<br>or select it from the kit menu to preview the kit and purchase with the blocks at the bottom.</blue>")
+                .setReward("<green>\uD83D\uDD31 Spearman Kit</green>" +
+                        "<br><gold>⛃ +1000 coins</gold>")
                 .setMaxProgress(4)
                 .build());
 
         // Level 5 - Spearman Kit
         rootNode.addChild(new AdvancementNodeBuilder("level_5", "level_4")
-                .setMaterial(Material.STICK)
+                .setMaterial(Material.GOLD_BLOCK)
                 .setFrameType(AdvancementFrameType.TASK)
-                .setTitle("Practice Throws")
+                .setTitle("Building Muscle")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 5</yellow>"})
-                .setReward("<green>\uD83D\uDD31 Spearman Kit</green>" +
-                        "<br><gold>⛃ +1000 coins</gold>")
+                .setReward("<yellow>◎ Purchase Coin Kits</yellow>" +
+                        "<br><gold>⛃ +1000 coins</gold>"
+                        + "<br><br><blue>You can now purchase coin kits. Use <br><yellow>/<kit></yellow>"
+                        + "<br>or select it from the kit menu to preview the kit and purchase with the blocks at the bottom.</blue>")
                 .setMaxProgress(5)
                 .build());
 
