@@ -1,16 +1,13 @@
-package me.greenfoot5.advancements.api;
+package me.greenfoot5.advancements;
 
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
-import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.advancements.api.events.V4ReleaseAdvancements;
-import me.greenfoot5.advancements.api.levels.LevelAdvancements;
+import me.greenfoot5.advancements.events.V4ReleaseAdvancements;
+import me.greenfoot5.advancements.levels.LevelAdvancements;
 import me.greenfoot5.conwymc.ConwyMC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import java.util.Objects;
 
 /**
  * Controls and manages global advancements

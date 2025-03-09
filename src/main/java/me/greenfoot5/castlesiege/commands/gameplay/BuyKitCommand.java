@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static me.greenfoot5.advancements.api.levels.LevelAdvancements.BUYKIT_LEVEL;
+import static me.greenfoot5.advancements.levels.LevelAdvancements.BUYKIT_LEVEL;
 
 /**
  * Purchases a kit for a player

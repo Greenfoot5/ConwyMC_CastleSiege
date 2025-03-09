@@ -12,7 +12,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.greenfoot5.advancements.api.CSAdvancementController;
+import me.greenfoot5.advancements.CSAdvancementController;
 import me.greenfoot5.castlesiege.commands.chat.TeamChatCommand;
 import me.greenfoot5.castlesiege.commands.donator.FireworkCommand;
 import me.greenfoot5.castlesiege.commands.donator.DuelCommand;

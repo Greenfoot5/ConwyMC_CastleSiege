@@ -6,7 +6,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
-import me.greenfoot5.advancements.api.CSAdvancementController;
+import me.greenfoot5.advancements.CSAdvancementController;
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.advancements.api.displays.NodeDisplay;
 import me.greenfoot5.advancements.api.displays.NodeDisplayTypes;
