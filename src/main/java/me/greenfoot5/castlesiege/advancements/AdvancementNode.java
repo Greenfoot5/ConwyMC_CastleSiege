@@ -4,12 +4,12 @@ import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
-import me.greenfoot5.castlesiege.advancements.displays.HiddenNodeDisplay;
-import me.greenfoot5.castlesiege.advancements.displays.NodeDisplay;
-import me.greenfoot5.castlesiege.advancements.displays.NodeDisplayTypes;
-import me.greenfoot5.castlesiege.advancements.displays.ParentGrantedNodeDisplay;
-import me.greenfoot5.castlesiege.advancements.displays.ShownNodeDisplay;
-import me.greenfoot5.castlesiege.advancements.displays.VanillaNodeDisplay;
+import me.greenfoot5.advancements.api.displays.HiddenNodeDisplay;
+import me.greenfoot5.advancements.api.displays.NodeDisplay;
+import me.greenfoot5.advancements.api.displays.NodeDisplayTypes;
+import me.greenfoot5.advancements.api.displays.ParentGrantedNodeDisplay;
+import me.greenfoot5.advancements.api.displays.ShownNodeDisplay;
+import me.greenfoot5.advancements.api.displays.VanillaNodeDisplay;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import org.bukkit.Material;
 

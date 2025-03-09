@@ -1,12 +1,12 @@
-package me.greenfoot5.castlesiege.advancements.levels;
+package me.greenfoot5.advancements.api.levels;
 
 import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
-import me.greenfoot5.castlesiege.advancements.api.AdvancementNode;
-import me.greenfoot5.castlesiege.advancements.CSAdvancementController;
-import me.greenfoot5.castlesiege.advancements.api.AdvancementNode.AdvancementNodeBuilder;
+import me.greenfoot5.advancements.api.AdvancementNode;
+import me.greenfoot5.advancements.api.CSAdvancementController;
+import me.greenfoot5.advancements.api.AdvancementNode.AdvancementNodeBuilder;
 import me.greenfoot5.castlesiege.commands.staff.boosters.GrantBoosterCommand;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;

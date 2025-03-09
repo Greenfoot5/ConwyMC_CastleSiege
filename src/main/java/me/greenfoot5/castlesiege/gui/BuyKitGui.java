@@ -23,7 +23,7 @@ import java.util.List;
 
 import static java.lang.String.join;
 import static java.util.Collections.nCopies;
-import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BUYKIT_LEVEL;
+import static me.greenfoot5.advancements.api.levels.LevelAdvancements.BUYKIT_LEVEL;
 
 /**
  * Handles creating BuyKit and Preview Kit GUIs

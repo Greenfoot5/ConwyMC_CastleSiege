@@ -1,4 +1,4 @@
-package me.greenfoot5.castlesiege.advancements.displays;
+package me.greenfoot5.advancements.api.displays;
 
 public enum NodeDisplayTypes {
     Hidden,

@@ -1,21 +1,16 @@
-package me.greenfoot5.castlesiege.advancements;
+package me.greenfoot5.advancements.api;
 
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
-import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
-import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.advancements.displays.NodeDisplay;
-import me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements;
+import me.greenfoot5.advancements.api.events.V4ReleaseAdvancements;
+import me.greenfoot5.advancements.api.levels.LevelAdvancements;
 import me.greenfoot5.conwymc.ConwyMC;
-import me.greenfoot5.conwymc.data_types.Cosmetic;
-import me.greenfoot5.conwymc.data_types.PlayerData;
-import me.greenfoot5.conwymc.database.ActiveData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import static me.greenfoot5.conwymc.data_types.Cosmetic.CosmeticType.TITLE;
+import java.util.Objects;
 
 /**
  * Controls and manages global advancements
@@ -30,13 +25,16 @@ public class CSAdvancementController implements Listener {
         api = UltimateAdvancementAPI.getInstance(ConwyMC.plugin);
         LevelAdvancements levelAdvancements = new LevelAdvancements();
         ConwyMC.plugin.getServer().getPluginManager().registerEvents(levelAdvancements, ConwyMC.plugin);
-        Main.instance.getCommand("levelup").setExecutor(levelAdvancements);
         V4ReleaseAdvancements v4ReleaseAdvancements = new V4ReleaseAdvancements();
-        ConwyMC.plugin.getServer().getPluginManager().registerEvents(levelAdvancements, ConwyMC.plugin);
+        ConwyMC.plugin.getServer().getPluginManager().registerEvents(v4ReleaseAdvancements, ConwyMC.plugin);
 
         //new TutorialAdvancements();
     }
 
+    /**
+     * Handles granting advancement tabs to user
+     * @param e Player has joined and the UAAPI has loaded for them
+     */
     @EventHandler
     public void onJoin(PlayerLoadingCompletedEvent e) {
         // Called after a player has successfully been loaded by the API

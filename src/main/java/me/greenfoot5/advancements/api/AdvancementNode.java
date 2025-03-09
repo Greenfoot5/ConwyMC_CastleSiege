@@ -1,11 +1,11 @@
-package me.greenfoot5.castlesiege.advancements.api;
+package me.greenfoot5.advancements.api;
 
 import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
-import me.greenfoot5.castlesiege.advancements.displays.NodeDisplay;
+import me.greenfoot5.advancements.api.displays.NodeDisplay;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Material;
@@ -156,7 +156,6 @@ public class AdvancementNode {
                 // Parent is root
                 if (displays.get(key).getParentKey().equals(this.key)) {
                     advancements.put(key, new BaseAdvancement(key, displays.get(key), root, displays.get(key).maxProgression));
-
                 }
                 // Parent is an existing advancement
                 else if (advancements.containsKey(displays.get(key).getParentKey())) {

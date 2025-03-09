@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.BOUNTY_LEVEL;
+import static me.greenfoot5.advancements.api.levels.LevelAdvancements.BOUNTY_LEVEL;
 
 /**
  * When a player runs the bounty command, either using or viewing the top bounties

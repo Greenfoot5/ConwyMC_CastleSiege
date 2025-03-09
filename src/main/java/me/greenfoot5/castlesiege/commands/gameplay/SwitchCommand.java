@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static me.greenfoot5.castlesiege.advancements.levels.LevelAdvancements.SWITCH_LEVEL;
+import static me.greenfoot5.advancements.api.levels.LevelAdvancements.SWITCH_LEVEL;
 
 /**
  * Allows the player to swap teams

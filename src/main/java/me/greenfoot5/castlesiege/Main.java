@@ -12,7 +12,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import dev.dejvokep.boostedyaml.serialization.standard.StandardSerializer;
 import dev.dejvokep.boostedyaml.serialization.standard.TypeAdapter;
-import me.greenfoot5.castlesiege.advancements.CSAdvancementController;
+import me.greenfoot5.advancements.api.CSAdvancementController;
 import me.greenfoot5.castlesiege.commands.chat.TeamChatCommand;
 import me.greenfoot5.castlesiege.commands.donator.FireworkCommand;
 import me.greenfoot5.castlesiege.commands.donator.DuelCommand;
@@ -126,8 +126,6 @@ import me.greenfoot5.castlesiege.kits.kits.level_kits.BattleMedic;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Abyssal;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Arbalester;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Artillerist;
-import me.greenfoot5.castlesiege.kits.kits.scrapped.AxeThrower;
-import me.greenfoot5.castlesiege.kits.kits.sign_kits.Axeman;
 import me.greenfoot5.castlesiege.kits.kits.sign_kits.Elytrier;
 import me.greenfoot5.castlesiege.kits.kits.staff_kits.Warbear;
 import me.greenfoot5.castlesiege.kits.kits.voter_kits.FireArcher;
@@ -475,8 +473,11 @@ public class Main extends JavaPlugin implements Listener {
                 Objects.requireNonNull(getCommand("Abyssal")).setExecutor(new Abyssal());
                 Objects.requireNonNull(getCommand("Arbalester")).setExecutor(new Arbalester());
                 Objects.requireNonNull(getCommand("Artillerist")).setExecutor(new Artillerist());
+//                Objects.requireNonNull(getCommand("Axeman")).setExecutor(new Axeman());
+//                getCommand("Bonecrusher").setExecutor(new Bonecrusher());
+//                getCommand("Buccaneer").setExecutor(new Buccaneer());
+//                getCommand("CamelRider").setExecutor(new CamelRider());
 
-                Objects.requireNonNull(getCommand("Axeman")).setExecutor(new Axeman());
 
                 Objects.requireNonNull(getCommand("Elytrier")).setExecutor(new Elytrier());
 

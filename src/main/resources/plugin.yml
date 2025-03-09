@@ -182,10 +182,6 @@ commands:
     usage: /givevote <player> <vote>
     permission: conwymc.chatmod+
     permission-message: You are not permitted to use this command!
-  LevelUp:
-    description: Calls a new level up event
-    usage: /levelup
-    permission: conwymc.developer
 #  SetTag:
 #    description: Set a nametag prefix
 #    usage: /settag <tag>
