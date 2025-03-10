@@ -1,7 +1,12 @@
 package me.greenfoot5.advancements.api.nodes;
 
+import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
+import me.greenfoot5.advancements.api.advancements.LevelAdvancement;
+import me.greenfoot5.advancements.api.advancements.StandardAdvancement;
+import me.greenfoot5.advancements.api.displays.NodeDisplay;
+
 /**
- * An Advancement node with a
+ * An Advancement node with a minimum level to view
  */
 public class LevelAdvancementNode extends AdvancementNode {
     private final int level;
@@ -9,6 +14,15 @@ public class LevelAdvancementNode extends AdvancementNode {
     protected LevelAdvancementNode(AdvancementNodeBuilder builder, int level) {
         super(builder);
         this.level = level;
+    }
+
+    @Override
+    protected StandardAdvancement getAdvancement(String advKey, NodeDisplay display, Advancement parent) {
+        if (display.maxProgression > 0) {
+            return new LevelAdvancement(advKey, display, parent, level, display.maxProgression);
+        } else {
+            return new LevelAdvancement(advKey, display, parent, level);
+        }
     }
 
     /**
@@ -21,9 +35,11 @@ public class LevelAdvancementNode extends AdvancementNode {
          * Create a new advancement
          *
          * @param key The key of the new node
+         * @param level Required level to view
          */
-        public LevelAdvancementNodeBuilder(String key) {
+        public LevelAdvancementNodeBuilder(String key, int level) {
             super(key);
+            this.level = level;
         }
 
         /**
@@ -31,9 +47,11 @@ public class LevelAdvancementNode extends AdvancementNode {
          *
          * @param key    The key of the new node
          * @param parent The key of the parent node
+         * @param level Required level to view
          */
-        public LevelAdvancementNodeBuilder(String key, String parent) {
+        public LevelAdvancementNodeBuilder(String key, String parent, int level) {
             super(key, parent);
+            this.level = level;
         }
 
         /**

@@ -8,6 +8,7 @@ import me.greenfoot5.advancements.api.advancements.StandardAdvancement;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode;
 import me.greenfoot5.advancements.CSAdvancementController;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode.AdvancementNodeBuilder;
+import me.greenfoot5.advancements.api.nodes.LevelAdvancementNode.LevelAdvancementNodeBuilder;
 import me.greenfoot5.castlesiege.commands.staff.boosters.GrantBoosterCommand;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
@@ -81,7 +82,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setMaxProgress(3)
                 .build());
 
-        // Level 4 - Purchase Kits
+        // Level 4 - Spearman Kit
         rootNode.addChild(new AdvancementNodeBuilder("level_4", "level_3")
                 .setMaterial(Material.STICK)
                 .setFrameType(AdvancementFrameType.TASK)
@@ -92,10 +93,10 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setMaxProgress(4)
                 .build());
 
-        // Level 5 - Spearman Kit
+        // Level 5 - Purchase Kits
         rootNode.addChild(new AdvancementNodeBuilder("level_5", "level_4")
                 .setMaterial(Material.GOLD_BLOCK)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Building Muscle")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 5</yellow>"})
                 .setReward("<yellow>◎ Purchase Coin Kits</yellow>" +
@@ -119,7 +120,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
         // Level 7 - Bounties
         rootNode.addChild(new AdvancementNodeBuilder("level_7", "level_6")
                 .setMaterial(Material.NAME_TAG)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Soldier in Training")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 7</yellow>"})
                 .setReward("<yellow>◎ Bounties</yellow>" +
@@ -153,7 +154,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
         // Level 10 - Spear Knight Kit & Wild Booster
         rootNode.addChild(new AdvancementNodeBuilder("level_10", "level_9")
                 .setMaterial(Material.WOODEN_SWORD)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Mighty Hunter")
                 .setRequirements(new String[]{"<yellow>⭐ Reach Level 10</yellow>"})
                 .setReward("<green>\uD83D\uDD31 Spear Knight Kit</green>" +
@@ -162,7 +163,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 11 - Berserker Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_11", "level_10")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_11", "level_10", 5)
                 .setMaterial(Material.STONE_SHOVEL)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Ran out of name ideas")
@@ -173,7 +174,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 12 - Random Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_12", "level_11")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_12", "level_11", 5)
                 .setMaterial(Material.STONE_SWORD)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Something something, well done")
@@ -184,7 +185,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 13 - Coins
-        rootNode.addChild(new AdvancementNodeBuilder("level_13", "level_12")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_13", "level_12", 7)
                 .setMaterial(Material.IRON_PICKAXE)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Experienced Combatant")
@@ -195,7 +196,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 14 - Random Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_14", "level_milestones")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_14", "level_milestones", 7)
                 .setMaterial(Material.IRON_SWORD)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Awoken Skillsmith")
@@ -206,7 +207,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 15 - Battle Medic Kit & Wild Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_15", "level_14")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_15", "level_14", 7)
                 .setMaterial(Material.PAPER)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Rising Up")
@@ -217,7 +218,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 16 - Random Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_16", "level_15")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_16", "level_15", 10)
                 .setMaterial(Material.GILDED_BLACKSTONE)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Subtle Sheen")
@@ -228,7 +229,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 17 - Paladin Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_17", "level_16")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_17", "level_16", 10)
                 .setMaterial(Material.GOLD_NUGGET)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Ready to Rumble")
@@ -239,7 +240,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 18 - Random Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_18", "level_17")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_18", "level_17", 10)
                 .setMaterial(Material.RAW_GOLD)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Refiner")
@@ -250,7 +251,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 19 - Ranger Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_19", "level_18")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_19", "level_18", 10)
                 .setMaterial(Material.GOLD_INGOT)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Artist of War")
@@ -261,7 +262,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 20 - Hypaspist Kit & Title
-        rootNode.addChild(new AdvancementNodeBuilder("level_20", "level_milestones")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_20", "level_milestones", 10)
                 .setMaterial(Material.GOLDEN_CHESTPLATE)
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Shield Carrier")
@@ -272,7 +273,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 25 - Wild Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_25", "level_20")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_25", "level_20", 20)
                 .setMaterial(Material.BLACK_CANDLE)
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Waxy Wings")
@@ -283,7 +284,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 30 - Wild Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_30", "level_25")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_30", "level_25", 20)
                 .setMaterial(Material.LADDER)
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Tower Climber")
@@ -294,7 +295,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 35 - Wild Booster
-        rootNode.addChild(new AdvancementNodeBuilder("level_35", "level_30")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_35", "level_30", 20)
                 .setMaterial(Material.GOLD_BLOCK)
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Summit so close...")
@@ -305,7 +306,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .build());
 
         // Level 40 - Title & Chat Colour
-        rootNode.addChild(new AdvancementNodeBuilder("level_40", "level_35")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("level_40", "level_35", 20)
                 .setMaterial(Material.CAKE)
                 .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Shining Star")
@@ -315,7 +316,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setMaxProgress(40)
                 .build());
 
-        rootNode.addChild(new AdvancementNodeBuilder("prestige_1", "level_40")
+        rootNode.addChild(new LevelAdvancementNodeBuilder("prestige_1", "level_40", 35)
                 .setMaterial(Material.END_PORTAL_FRAME)
                 .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("???")
@@ -329,6 +330,10 @@ public class LevelAdvancements implements Listener, CommandExecutor {
         advancementTab.registerAdvancements(advs.getFirst(), advancements);
     }
 
+    /**
+     * Grants advancements on level up
+     * @param event A level up event for a player
+     */
     @EventHandler
     public void onLevelUp(LevelUpEvent event) {
         Player p = event.getPlayer();

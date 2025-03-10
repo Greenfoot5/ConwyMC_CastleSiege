@@ -1,7 +1,6 @@
 package me.greenfoot5.advancements.api.advancements;
 
 import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
-import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplay;
 import com.fren_gor.ultimateAdvancementAPI.database.TeamProgression;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
@@ -67,8 +66,8 @@ public class LevelAdvancement extends StandardAdvancement {
             if (data != null)
                 if (data.getLevel() >= level)
                     return true;
-
         }
+
         return false;
     }
 }

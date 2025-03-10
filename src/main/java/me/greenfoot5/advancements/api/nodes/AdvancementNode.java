@@ -149,11 +149,11 @@ public class AdvancementNode {
             for (String key : displays.keySet()) {
                 // Parent is root
                 if (displays.get(key).getParentKey().equals(this.key)) {
-                    advancements.put(key, getAdvancement(key, displays.get(key), root));
+                    advancements.put(key, find(key).getAdvancement(key, displays.get(key), root));
                 }
                 // Parent is an existing advancement
                 else if (advancements.containsKey(displays.get(key).getParentKey())) {
-                    advancements.put(key, getAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey())));
+                    advancements.put(key, find(key).getAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey())));
                 }
                 // Parent doesn't exist yet
                 else {
