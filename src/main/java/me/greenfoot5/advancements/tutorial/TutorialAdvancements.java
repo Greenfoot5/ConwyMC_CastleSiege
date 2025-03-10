@@ -2,24 +2,36 @@ package me.greenfoot5.advancements.tutorial;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
+import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
+import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
 import me.greenfoot5.advancements.CSAdvancementController;
 import me.greenfoot5.advancements.api.advancements.StandardAdvancement;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode.AdvancementNodeBuilder;
 import me.greenfoot5.advancements.api.nodes.AdvancementAdvancementNode.AdvancementAdvancementNodeBuilder;
 import me.greenfoot5.advancements.api.nodes.HiddenAdvancementNode.HiddenAdvancementNodeBuilder;
+import me.greenfoot5.castlesiege.Main;
+import me.greenfoot5.castlesiege.events.map.GateBreachEvent;
+import me.greenfoot5.castlesiege.events.map.RamEvent;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerTextures;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Manages the basic advancements for doing stuff for the first time
@@ -27,6 +39,9 @@ import java.net.URI;
 public class TutorialAdvancements implements Listener {
 
     public static AdvancementTab tab;
+
+    // Event tracking
+    private final HashMap<String, Set<UUID>> ramAttackers = new HashMap<>();
 
     /**
      * Setup the events advancements tab
@@ -135,5 +150,68 @@ public class TutorialAdvancements implements Listener {
                 .setTitle("I did knock...")
                 .setRequirements(new String[] {"<yellow>\uD83E\uDE93 Deal at least <light_purple>90%</light_purple> of the damage to a gate</yellow>"})
                 .build());
+    }
+
+    @EventHandler
+    private void onRamEvent(RamEvent event) {
+        if (event.isCancelled()) return;
+
+        for (UUID uuid : event.getPlayerUUIDs()) {
+            // Update Tracking
+            if (!ramAttackers.containsKey(event.getGateName())) {
+                ramAttackers.put(event.getGateName(), new HashSet<>());
+            }
+
+            ramAttackers.get(event.getGateName()).add(uuid);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Player p = Bukkit.getPlayer(uuid);
+                    tab.getAdvancement(new AdvancementKey(tab.getNamespace(), "gate_hit")).grant(p);
+
+                    if (event.getPlayerUUIDs().size() >= 4) {
+                        tab.getAdvancement(new AdvancementKey(tab.getNamespace(), "get_four")).grant(p);
+                    }
+                }
+            }.runTask(Main.plugin);
+        }
+
+        // Gate has been destroyed
+        if (event.wasGateBreached()) {
+            ramAttackers.remove(event.getGateName());
+        }
+    }
+
+    @EventHandler
+    private void onGateBreach(GateBreachEvent event) {
+        for (UUID uuid : event.getDamagers().keySet()) {
+            // Breach event if >1 players dealt damage
+            if (event.getDamagers().size() > 1) {
+                Advancement breachAdv = tab.getAdvancement(new AdvancementKey(tab.getNamespace(), "gate_break"));
+                Player contributor = Bukkit.getPlayer(uuid);
+                if (contributor != null && breachAdv != null) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            breachAdv.grant(contributor);
+                        }
+                    }.runTask(Main.plugin);
+                }
+            }
+
+            // More than 90% of damage dealt
+            if (event.getDamage(uuid) >= event.getOriginalHealth() * 0.9) {
+                Advancement breachAdv = tab.getAdvancement(new AdvancementKey(tab.getNamespace(), "gate_solo"));
+                Player solo = Bukkit.getPlayer(uuid);
+                if (solo != null && breachAdv != null) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            breachAdv.grant(solo);
+                        }
+                    }.runTask(Main.plugin);
+                }
+            }
+        }
     }
 }

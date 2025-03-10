@@ -2,6 +2,7 @@ package me.greenfoot5.castlesiege.maps.objects;
 
 import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.database.UpdateStats;
+import me.greenfoot5.castlesiege.events.map.GateBreachEvent;
 import me.greenfoot5.castlesiege.events.map.RamEvent;
 import me.greenfoot5.castlesiege.maps.MapController;
 import me.greenfoot5.castlesiege.maps.TeamController;
@@ -21,6 +22,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -38,10 +40,13 @@ public class Gate implements Listener {
     private Vector schematicLocation;
     private Vector breachSoundLocation;
 
+    private int startHealth;
     private int health;
     private boolean isBreached;
 
     private final ArrayList<UUID> recentHitters = new ArrayList<>();
+
+    private final HashMap<UUID, Integer> damagers = new HashMap<>();
 
     // Ram data
     private Ram ram;
@@ -101,6 +106,7 @@ public class Gate implements Listener {
      */
     public void setHealth(int health) {
         this.health = health;
+        this.startHealth = health;
     }
 
     /**
@@ -121,6 +127,9 @@ public class Gate implements Listener {
     }
 
     private void gateBreached() {
+        GateBreachEvent ramEvent = new GateBreachEvent(getName(), startHealth, damagers);
+        Bukkit.getPluginManager().callEvent(ramEvent);
+
         if (!getName().isEmpty()) {
             Messenger.broadcastWarning(getName() + " has been breached!");
         }
@@ -220,6 +229,9 @@ public class Gate implements Listener {
                 Player player = Bukkit.getPlayer(uuid);
                 if (player == null)
                     continue;
+                // Track total damage dealt
+                damagers.computeIfPresent(uuid, (key, value) -> value + damage);
+                damagers.putIfAbsent(uuid, damage);
                 Messenger.sendAction(String.format("<gray><b>Gate Health: %d", health), player);
             }
 

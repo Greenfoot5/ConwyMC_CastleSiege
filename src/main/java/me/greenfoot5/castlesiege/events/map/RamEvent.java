@@ -6,6 +6,8 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -26,10 +28,11 @@ public class RamEvent extends Event implements Cancellable {
 
     /**
      * Create a RamEvent of damage by player(s) on a ram
-     * @param gateName The name of the gate being rammed
-     * @param damageDealt The damage dealt by the ram
+     *
+     * @param gateName      The name of the gate being rammed
+     * @param damageDealt   The damage dealt by the ram
      * @param currentHealth The current health of the gate (pre-hit)
-     * @param players The player(s) dealing the damage
+     * @param players       The player(s) dealing the damage
      */
     public RamEvent(String gateName, int damageDealt, int currentHealth, ArrayList<UUID> players) {
         super(true);

@@ -44,9 +44,12 @@ public class StandardAdvancement extends BaseAdvancement {
 
     @Override
     public void grant(@NotNull Player player, boolean giveRewards) {
+        boolean has = isGranted(player.getUniqueId());
         super.grant(player, giveRewards);
         // Remove duplicate whitespace from toast
-        CSAdvancementController.api.displayCustomToast(player, display.getIcon(),
-                display.getTitle().replaceAll("\\s+", " "), display.getFrame());
+        if (!has) {
+            CSAdvancementController.api.displayCustomToast(player, display.getIcon(),
+                    display.getTitle().replaceAll("\\s+", " "), display.getFrame());
+        }
     }
 }
