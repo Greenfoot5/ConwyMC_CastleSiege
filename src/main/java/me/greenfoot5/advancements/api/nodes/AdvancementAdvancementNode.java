@@ -11,10 +11,10 @@ import java.util.Set;
 /**
  * An AdvancementNode that requires other advancements be earnt to be visible
  */
-public class AdvacementAdvancementNode extends AdvancementNode {
+public class AdvancementAdvancementNode extends AdvancementNode {
     private final String[] requiredAdvancements;
 
-    protected AdvacementAdvancementNode(AdvancementNodeBuilder builder, String[] requiredAdvancements) {
+    protected AdvancementAdvancementNode(AdvancementNodeBuilder builder, String[] requiredAdvancements) {
         super(builder);
         this.requiredAdvancements = requiredAdvancements;
     }
@@ -58,7 +58,7 @@ public class AdvacementAdvancementNode extends AdvancementNode {
          * @param key The key of the new advancement requirement
          * @return The builder with the required advancement key added
          */
-        public AdvancementAdvancementNodeBuilder addAdvancement(String key) {
+        public AdvancementAdvancementNodeBuilder addRequiredKey(String key) {
             this.requiredKeys.add(key);
             return this;
         }
@@ -67,12 +67,12 @@ public class AdvacementAdvancementNode extends AdvancementNode {
          * Builds the advancement node
          * @return The built advancement node
          */
-        public AdvacementAdvancementNode build()
+        public AdvancementAdvancementNode build()
         {
             constructDescription();
             verifyIcon();
 
-            return new AdvacementAdvancementNode(this, this.requiredKeys.toArray(String[]::new));
+            return new AdvancementAdvancementNode(this, this.requiredKeys.toArray(String[]::new));
         }
     }
 }

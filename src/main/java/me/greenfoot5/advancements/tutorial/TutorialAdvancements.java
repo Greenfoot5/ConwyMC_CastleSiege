@@ -8,6 +8,7 @@ import me.greenfoot5.advancements.CSAdvancementController;
 import me.greenfoot5.advancements.api.advancements.StandardAdvancement;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode.AdvancementNodeBuilder;
+import me.greenfoot5.advancements.api.nodes.AdvancementAdvancementNode.AdvancementAdvancementNodeBuilder;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -76,7 +77,8 @@ public class TutorialAdvancements implements Listener {
                 .setTitle("Shooting Cannons")
                 .setRequirements(new String[]{"<yellow>☄ Fire a cannon</yellow>"})
                 .build());
-        root.addChild(new AdvancementNodeBuilder("cannon_kill", "cannon_fire")
+        root.addChild(new AdvancementAdvancementNodeBuilder("cannon_kill", "cannon_fire")
+                .addRequiredKey("cannon_fire")
                 .setMaterial(Material.OAK_BOAT)
                 .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("You sunk my battleship")
@@ -97,7 +99,8 @@ public class TutorialAdvancements implements Listener {
                 .setTitle("Aim Carefully")
                 .setRequirements(new String[]{"<yellow>\uD83C\uDFAF Adjust pitch & yaw on a catapult before firing</yellow>"})
                 .build());
-        root.addChild(new AdvancementNodeBuilder("catapult_kill", "catapult_aim")
+        root.addChild(new AdvancementAdvancementNodeBuilder("catapult_kill", "catapult_aim")
+                .addRequiredKey("catapult_fire")
                 .setMaterial(Material.SKELETON_SKULL)
                 .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("Master Catapulteer")
