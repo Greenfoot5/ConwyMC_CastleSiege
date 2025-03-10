@@ -4,7 +4,6 @@ import me.greenfoot5.castlesiege.Main;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -13,8 +12,8 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,13 +28,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Windlancer kit
+ */
 public class Windlancer extends SignKit implements Listener {
 
     /**
-     * Creates a new Moria Windlancer NOTE: from 17/10/2024 this kit is no longer in use.
+     * Creates a new Windlancer
      */
     public Windlancer() {
         super("Windlancer", 300, 9 , Material.STICK, 5000);
@@ -87,33 +87,31 @@ public class Windlancer extends SignKit implements Listener {
     }
 
     /**
-     * Activate the spearman ability of throwing a spear
-     * @param e The event called when right-clicking with a stick
+     * Activate the windlancer ability
+     * @param e The event called when interacting
      */
     @EventHandler
     public void throwSpear(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack stick = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.STICK);
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId())) {
             return;
         }
 
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            if (stick.getType().equals(Material.STICK)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (cooldown == 0) {
-                        Messenger.sendActionInfo("You threw your spear-burst!", p);
-                        shootSpearBurst(p);
+        ItemStack stick = equippedPlayer.getInventory().getItemInMainHand();
+        if (!stick.getType().equals(Material.STICK))
+            return;
 
-                    } else {
-                        Messenger.sendActionError("You can't use spear-burst yet!", p);
-                    }
-                }
-            }
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (equippedPlayer.getCooldown(Material.STICK) == 0) {
+            Messenger.sendActionInfo("You threw your spear-burst!", equippedPlayer);
+            shootSpearBurst();
+        } else {
+            Messenger.sendActionError("You can't use spear-burst yet!", equippedPlayer);
         }
     }
 
@@ -123,37 +121,33 @@ public class Windlancer extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void changeSpearDamage(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow arrow) {
+        if (e.getEntity() instanceof AbstractArrow arrow) {
+            if (arrow.getShooter() != equippedPlayer)
+                return;
 
-            if(arrow.getShooter() instanceof Player damages){
-
-                if (Objects.equals(Kit.equippedKits.get(damages.getUniqueId()).name, name)) {
-                    arrow.setDamage(20);
-                }
-            }
+            arrow.setDamage(20);
         }
     }
 
-    private void shootSpearBurst(Player p) {
-        p.setCooldown(Material.STICK, 60);
-        burstSpear(p,  9);
-        burstSpear(p,  18);
-        burstSpear(p,  27);
-        burstSpear(p, 36);
+    private void shootSpearBurst() {
+        equippedPlayer.setCooldown(Material.STICK, 60);
+        burstSpear(9);
+        burstSpear(18);
+        burstSpear(27);
+        burstSpear(36);
     }
 
     /**
      * Shoot a single arrow from the spear burst ability
-     * @param p The Windlancer shooting their spear burst
      * @param d The delay with which to shoot the arrow
      */
-    private void burstSpear(Player p, int d) {
+    private void burstSpear(int d) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 // Shoot if the player has an arrow
-                if (removeSpear(p)) {
-                    p.launchProjectile(Arrow.class).setVelocity(p.getLocation().getDirection().multiply(2.6));
+                if (removeSpear()) {
+                    equippedPlayer.launchProjectile(Arrow.class).setVelocity(equippedPlayer.getLocation().getDirection().multiply(2.6));
                 }
             }
         }.runTaskLater(Main.plugin, d);
@@ -162,21 +156,20 @@ public class Windlancer extends SignKit implements Listener {
 
     /**
      * Remove an arrow from the player's inventory
-     * @param p The player from whom to remove an arrow
      * @return true if the player has an arrow to remove, false otherwise
      */
-    private boolean removeSpear(Player p) {
-        PlayerInventory inv = p.getInventory();
+    private boolean removeSpear() {
+        PlayerInventory inv = equippedPlayer.getInventory();
 
         // Try offhand first
         if (inv.getItemInOffHand().getType() == Material.STICK) {
             ItemStack o = inv.getItemInOffHand();
-            o.setAmount(o.getAmount() - 1);
+            o.add(-1);
             return true;
             // Try inventory
         } else if (inv.getItemInMainHand().getType() == Material.STICK) {
-            ItemStack stick = p.getInventory().getItemInMainHand();
-            stick.setAmount(stick.getAmount() - 1);
+            ItemStack stick = inv.getItemInMainHand();
+            stick.add(-1);
             return true;
         }
 
