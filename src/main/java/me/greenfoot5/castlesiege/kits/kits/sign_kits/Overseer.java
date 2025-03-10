@@ -5,7 +5,6 @@ import me.greenfoot5.castlesiege.database.UpdateStats;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.maps.TeamController;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -15,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,8 +31,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Overseer kit
@@ -119,52 +117,49 @@ public class Overseer extends SignKit implements Listener {
      */
     @EventHandler
     public void throwAxe(PlayerInteractEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (e.getPlayer() != equippedPlayer)
             return;
+
+        // Prevent using in lobby
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+        ItemStack horn = equippedPlayer.getInventory().getItemInOffHand();
+        if (!horn.getType().equals(Material.GOAT_HORN))
+            return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        //Not allowed to throw whilst clicking on enderchests or cakes.
+        if (e.getClickedBlock() != null) {
+            if (interactableBlock(e.getClickedBlock())) {
+                return;
+            }
         }
-        Player p = e.getPlayer();
-        if (Objects.equals(Kit.equippedKits.get(uuid).name, name)) {
-            ItemStack horn = p.getInventory().getItemInOffHand();
-            if (horn.getType().equals(Material.GOAT_HORN)) {
-                if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    //Not allowed to throw whilst clicking on enderchests or cakes.
-                    if (e.getClickedBlock() != null) {
-                        if (interactableBlock(e.getClickedBlock()) || p.getInventory().getItemInMainHand().getType() == Material.LADDER) {
-                            return;
+
+        int cooldown = equippedPlayer.getCooldown(Material.GOAT_HORN);
+        if (cooldown == 0) {
+            equippedPlayer.setCooldown(Material.GOAT_HORN, 420);
+
+            for (Entity near : equippedPlayer.getNearbyEntities(8, 8, 8)) {
+                if (near instanceof Player player && TeamController.isPlaying(player.getUniqueId())) {
+
+                    if (TeamController.getTeam(near.getUniqueId()) == TeamController.getTeam(equippedPlayer.getUniqueId())) {
+                        //Add potion effects to nearby allies in an 8 block radius of you. Including yourself.
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 100, 1));
+                        if (near != equippedPlayer) {
+                            Bukkit.getScheduler().runTaskAsynchronously(Main.plugin,
+                                    () -> UpdateStats.addSupports(equippedPlayer.getUniqueId(), 1));
                         }
-                    }
-                    int cooldown = p.getCooldown(Material.GOAT_HORN);
-                    if (cooldown == 0) {
-                        p.setCooldown(Material.GOAT_HORN, 420);
-
-                        for (Player near : Bukkit.getOnlinePlayers()) {
-                            if (p.getWorld() != near.getWorld() || !TeamController.isPlaying(near))
-                                continue;
-
-                            if (near.getLocation().distanceSquared(p.getLocation()) < 8 * 8
-                                    && TeamController.getTeam(near.getUniqueId()) == TeamController.getTeam(p.getUniqueId())) {
-                                //Add potion effects to nearby allies in an 8 block radius of you. Including yourself.
-                                addPotionEffect(near, new PotionEffect(PotionEffectType.SPEED, 100, 1));
-                                addPotionEffect(near, new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 100, 1));
-                                p.getWorld().playSound(p.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_3 , 1, 2.2f);
-                                p.getWorld().playSound(p.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_3 , 1, 1.2f);
-                                if (near != p) {
-                                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin,
-                                            () -> UpdateStats.addSupports(uuid, 1));
-                                }
-                            }
-                        }
-
                     }
                 }
             }
-        }
-    }
 
-    private void addPotionEffect(Player player, PotionEffect potion) {
-        Bukkit.getScheduler().runTask(Main.plugin, () -> player.addPotionEffect(potion));
+            equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_3, 1, 2.2f);
+            equippedPlayer.getWorld().playSound(equippedPlayer.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_3, 1, 1.2f);
+        }
     }
 
     @Override
