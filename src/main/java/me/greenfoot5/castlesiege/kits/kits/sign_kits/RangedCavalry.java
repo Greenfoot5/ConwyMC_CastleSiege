@@ -3,15 +3,13 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 import me.greenfoot5.castlesiege.events.gameplay.HorseHandler;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -24,8 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Ranged Cavalry Kit
+ */
 public class RangedCavalry extends SignKit implements Listener {
 
     private static final int health = 230;
@@ -36,7 +36,7 @@ public class RangedCavalry extends SignKit implements Listener {
     private static final int arrowDamage = 16;
 
     /**
-     * Creates a new Helms Deep Ranged Cavalry
+     * Creates a new Ranged Cavalry instance
      */
     public RangedCavalry() {
         super("Ranged Cavalry", health, regen, Material.BOW, 2500);
@@ -127,10 +127,11 @@ public class RangedCavalry extends SignKit implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW)
     public void onArrowHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof Arrow &&
-                e.getEntity().getShooter() instanceof Player &&
-                Objects.equals(Kit.equippedKits.get(((Player) e.getEntity().getShooter()).getUniqueId()).name, name)) {
-            ((Arrow) e.getEntity()).setDamage(arrowDamage);
+        if (e.getEntity().getShooter() != equippedPlayer)
+            return;
+
+        if (e.getEntity() instanceof AbstractArrow) {
+            ((AbstractArrow) e.getEntity()).setDamage(arrowDamage);
         }
     }
 
