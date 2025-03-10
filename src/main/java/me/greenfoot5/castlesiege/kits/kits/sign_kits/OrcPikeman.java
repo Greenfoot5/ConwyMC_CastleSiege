@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import net.kyori.adventure.text.Component;
@@ -28,15 +27,17 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
+/**
+ * Orc Pikeman kit
+ */
 public class OrcPikeman extends SignKit implements Listener {
 
     // Damage multiplier when hitting horses
     private static final double HORSE_MULTIPLIER = 1.5;
 
     /**
-     * Creates a new Moria Orc Pikeman
+     * Creates a new Orc Pikeman
      */
     public OrcPikeman() {
         super("Orc Pikeman", 360, 8, Material.NETHERITE_HOE, 2000);
@@ -119,20 +120,22 @@ public class OrcPikeman extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onPiked(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
+        if (e.getDamager() != equippedPlayer)
+            return;
+
+        if (e.getEntity() instanceof Player hit) {
 
             // Pikeman keeps the enemy distant
-            if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.NETHERITE_HOE &&
-                    q.getCooldown(Material.NETHERITE_HOE) == 0) {
-                q.setCooldown(Material.NETHERITE_HOE, 80);
+            if (equippedPlayer.getInventory().getItemInMainHand().getType() == Material.NETHERITE_HOE &&
+                    equippedPlayer.getCooldown(Material.NETHERITE_HOE) == 0) {
+                equippedPlayer.setCooldown(Material.NETHERITE_HOE, 80);
 
                 // Enemy blocks piking?
-                if (!p.isBlocking()) {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PHANTOM_FLAP , 1, 1.8f);
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 30, 2)));
-                    Vector unitVector = p.getLocation().toVector().subtract(q.getLocation().toVector()).normalize();
-                    p.setVelocity(unitVector.multiply(2.2).setY(unitVector.getY() + 0.3));
+                if (!hit.isBlocking()) {
+                    hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_PHANTOM_FLAP , 1, 1.8f);
+                    hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 30, 2)));
+                    Vector unitVector = hit.getLocation().toVector().subtract(equippedPlayer.getLocation().toVector()).normalize();
+                    hit.setVelocity(unitVector.multiply(2.2).setY(unitVector.getY() + 0.3));
                     e.setDamage(e.getDamage() * 1.5);
                 }
             }
@@ -144,10 +147,8 @@ public class OrcPikeman extends SignKit implements Listener {
      */
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player && e.getEntity() instanceof Horse) {
-            if (Objects.equals(Kit.equippedKits.get(e.getDamager().getUniqueId()).name, name)) {
-                e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
-            }
+        if (e.getDamager() == equippedPlayer && e.getEntity() instanceof Horse) {
+            e.setDamage(e.getDamage() * HORSE_MULTIPLIER);
         }
     }
 
