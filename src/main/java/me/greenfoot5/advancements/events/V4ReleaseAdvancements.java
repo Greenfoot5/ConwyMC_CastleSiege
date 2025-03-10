@@ -7,8 +7,9 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
 import me.greenfoot5.advancements.CSAdvancementController;
-import me.greenfoot5.advancements.api.AdvancementNode.AdvancementNodeBuilder;
-import me.greenfoot5.advancements.api.AdvancementNode;
+import me.greenfoot5.advancements.api.advancements.StandardAdvancement;
+import me.greenfoot5.advancements.api.nodes.AdvancementNode.AdvancementNodeBuilder;
+import me.greenfoot5.advancements.api.nodes.AdvancementNode;
 import me.greenfoot5.conwymc.data_types.Cosmetic;
 import me.greenfoot5.conwymc.data_types.PlayerData;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -66,7 +67,7 @@ public class V4ReleaseAdvancements implements Listener {
                         "<br><br><dark_gray><font:uniform><b>Currently granted manually")
                 .build());
 
-        Tuple<RootAdvancement, BaseAdvancement[]> advs = rootNode.asAdvancementList(tab, "textures/block/stripped_warped_stem_top.png");
+        Tuple<RootAdvancement, StandardAdvancement[]> advs = rootNode.asAdvancementList(tab, "textures/block/stripped_warped_stem_top.png");
 
         tab.registerAdvancements(advs.getFirst(), advs.getSecond());
     }

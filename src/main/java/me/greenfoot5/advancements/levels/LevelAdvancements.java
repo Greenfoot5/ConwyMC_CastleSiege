@@ -4,9 +4,10 @@ import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
-import me.greenfoot5.advancements.api.AdvancementNode;
+import me.greenfoot5.advancements.api.advancements.StandardAdvancement;
+import me.greenfoot5.advancements.api.nodes.AdvancementNode;
 import me.greenfoot5.advancements.CSAdvancementController;
-import me.greenfoot5.advancements.api.AdvancementNode.AdvancementNodeBuilder;
+import me.greenfoot5.advancements.api.nodes.AdvancementNode.AdvancementNodeBuilder;
 import me.greenfoot5.castlesiege.commands.staff.boosters.GrantBoosterCommand;
 import me.greenfoot5.castlesiege.data_types.CSPlayerData;
 import me.greenfoot5.castlesiege.database.CSActiveData;
@@ -322,7 +323,7 @@ public class LevelAdvancements implements Listener, CommandExecutor {
                 .setMaxProgress(999)
                 .build());
 
-        Tuple<RootAdvancement, BaseAdvancement[]> advs = rootNode.asAdvancementList(advancementTab, "textures/block/green_concrete.png");
+        Tuple<RootAdvancement, StandardAdvancement[]> advs = rootNode.asAdvancementList(advancementTab, "textures/block/green_concrete.png");
         advancements = advs.getSecond();
 
         advancementTab.registerAdvancements(advs.getFirst(), advancements);

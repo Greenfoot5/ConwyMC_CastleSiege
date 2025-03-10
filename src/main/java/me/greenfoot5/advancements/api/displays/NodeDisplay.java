@@ -6,37 +6,38 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class NodeDisplay extends AdvancementDisplay {
     private String parentKey;
     public int maxProgression;
 
-    public NodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
-                               @NotNull Component title, @NotNull Component description) {
+    public NodeDisplay(@NotNull ItemStack icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
+                       @NotNull Component title, @NotNull Component description) {
         super(icon, LegacyComponentSerializer.legacySection().serialize(title), frame, showToast, announceChat, x, y,
                 LegacyComponentSerializer.legacySection().serialize(description));
     }
 
-    public NodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
+    public NodeDisplay(@NotNull ItemStack icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
                                @NotNull String title, @NotNull Component description) {
         super(icon, mmConvert(title), frame, showToast, announceChat, x, y,
                 LegacyComponentSerializer.legacySection().serialize(description));
     }
 
-    public NodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
+    public NodeDisplay(@NotNull ItemStack icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
                                @NotNull Component title, @NotNull String description) {
         super(icon, LegacyComponentSerializer.legacySection().serialize(title), frame, showToast, announceChat, x, y,
                 mmConvert(description));
     }
 
-    public NodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
+    public NodeDisplay(@NotNull ItemStack icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
                                @NotNull String title, @NotNull String description) {
         super(icon, mmConvert(title), frame, showToast, announceChat, x, y,
                 mmConvert(description));
     }
 
-    public NodeDisplay(@NotNull Material icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
+    public NodeDisplay(@NotNull ItemStack icon, @NotNull AdvancementFrameType frame, boolean showToast, boolean announceChat, float x, float y,
                           @NotNull String title, @NotNull String description, @NotNull int maxProgression) {
         super(icon, mmConvert(title), frame, showToast, announceChat, x, y,
                 mmConvert(description));

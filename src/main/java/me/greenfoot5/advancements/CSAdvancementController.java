@@ -4,6 +4,7 @@ import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
 import me.greenfoot5.advancements.events.V4ReleaseAdvancements;
 import me.greenfoot5.advancements.levels.LevelAdvancements;
+import me.greenfoot5.advancements.tutorial.TutorialAdvancements;
 import me.greenfoot5.conwymc.ConwyMC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,6 +25,8 @@ public class CSAdvancementController implements Listener {
         ConwyMC.plugin.getServer().getPluginManager().registerEvents(levelAdvancements, ConwyMC.plugin);
         V4ReleaseAdvancements v4ReleaseAdvancements = new V4ReleaseAdvancements();
         ConwyMC.plugin.getServer().getPluginManager().registerEvents(v4ReleaseAdvancements, ConwyMC.plugin);
+        TutorialAdvancements tutorialAdvancements = new TutorialAdvancements();
+        ConwyMC.plugin.getServer().getPluginManager().registerEvents(tutorialAdvancements, ConwyMC.plugin);
 
         //new TutorialAdvancements();
     }
@@ -40,10 +43,10 @@ public class CSAdvancementController implements Listener {
         LevelAdvancements.advancementTab.showTab(p);
         LevelAdvancements.advancementTab.grantRootAdvancement(p);
         // Here you can show tabs to players
-        //TutorialAdvancements.tab.showTab(p);
-        //TutorialAdvancements.tab.grantRootAdvancement(p);
+        TutorialAdvancements.tab.showTab(p);
+        TutorialAdvancements.tab.grantRootAdvancement(p);
 
-        // Events
+        // Event - V4 Release
         V4ReleaseAdvancements.tab.showTab(p);
         V4ReleaseAdvancements.tab.grantRootAdvancement(p);
     }

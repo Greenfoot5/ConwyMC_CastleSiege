@@ -1,14 +1,15 @@
-package me.greenfoot5.advancements.api;
+package me.greenfoot5.advancements.api.nodes;
 
 import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
-import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
+import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
+import me.greenfoot5.advancements.api.advancements.StandardAdvancement;
 import me.greenfoot5.advancements.api.displays.NodeDisplay;
 import me.greenfoot5.conwymc.data_types.Tuple;
-import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,21 +18,16 @@ import java.util.List;
 /**
  * A node allowing automatic display of advancements
  */
-@SuppressWarnings("deprecation")
 public class AdvancementNode {
     private final String key;
 
     // AdvancementDisplay Required
-    private final Material icon;
+    private final ItemStack icon;
     private final AdvancementFrameType frameType;
     private final String title;
     private final String description;
 
-    // Other Display Options
-    private final BaseComponent[] announceMessage;
-    private boolean announceInChat;
     private final String compactDescription;
-    private boolean showToast;
 
     // DAG Node
     private final String parent;
@@ -41,7 +37,7 @@ public class AdvancementNode {
     private final int maxProgress;
 
     // References
-    BaseAdvancement advancement;
+    StandardAdvancement advancement;
     NodeDisplay display;
 
     protected AdvancementNode(AdvancementNodeBuilder builder) {
@@ -49,15 +45,12 @@ public class AdvancementNode {
         this.parent = builder.parent;
         this.children = new ArrayList<>();
 
-        this.icon = builder.material;
+        this.icon = builder.icon;
         this.frameType = builder.frameType;
         this.title = builder.title;
         this.description = builder.description;
 
-        this.announceMessage = builder.announceMessage;
-        this.announceInChat = builder.announceInChat;
         this.compactDescription = builder.compactDescription;
-        this.showToast = builder.showToast;
 
         this.maxProgress = builder.maxProgress;
     }
@@ -128,7 +121,8 @@ public class AdvancementNode {
             }
             y = (int) Math.round(min_y + (y_size - 1.0) / 2);
         }
-        NodeDisplay display = new NodeDisplay(icon, frameType, showToast, announceInChat, x, y, title, description, maxProgress);
+        // Other Display Options
+        NodeDisplay display = new NodeDisplay(icon, frameType, false, false, x, y, title, description, maxProgress);
         display.setParentKey(parent);
         displays.put(key, display);
         return new Tuple<>(displays, y_size);
@@ -140,13 +134,13 @@ public class AdvancementNode {
      * @param background The background image to use
      * @return The created advancements
      */
-    public Tuple<RootAdvancement, BaseAdvancement[]> asAdvancementList(AdvancementTab tab, String background) {
+    public Tuple<RootAdvancement, StandardAdvancement[]> asAdvancementList(AdvancementTab tab, String background) {
         HashMap<String, NodeDisplay> displays = getDisplays();
 
         RootAdvancement root = new RootAdvancement(tab, key, displays.get(key), background);
         displays.remove(key);
 
-        HashMap<String, BaseAdvancement> advancements = new HashMap<>();
+        HashMap<String, StandardAdvancement> advancements = new HashMap<>();
 
         int i = 0; // Prevent ∞ loop
         while (!displays.isEmpty() && i < 10) {
@@ -155,15 +149,11 @@ public class AdvancementNode {
             for (String key : displays.keySet()) {
                 // Parent is root
                 if (displays.get(key).getParentKey().equals(this.key)) {
-                    advancements.put(key, new BaseAdvancement(key, displays.get(key), root, displays.get(key).maxProgression));
+                    advancements.put(key, getAdvancement(key, displays.get(key), root));
                 }
                 // Parent is an existing advancement
                 else if (advancements.containsKey(displays.get(key).getParentKey())) {
-                    if (displays.get(key).maxProgression > 0) {
-                        advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey()), displays.get(key).maxProgression));
-                    } else {
-                        advancements.put(key, new BaseAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey())));
-                    }
+                    advancements.put(key, getAdvancement(key, displays.get(key), advancements.get(displays.get(key).getParentKey())));
                 }
                 // Parent doesn't exist yet
                 else {
@@ -173,7 +163,15 @@ public class AdvancementNode {
             displays = retryDisplays;
             i++;
         }
-        return new Tuple<>(root, advancements.values().toArray(new BaseAdvancement[0]));
+        return new Tuple<>(root, advancements.values().toArray(new StandardAdvancement[0]));
+    }
+
+    protected StandardAdvancement getAdvancement(String advKey, NodeDisplay display, Advancement parent) {
+        if (display.maxProgression > 0) {
+            return new StandardAdvancement(advKey, display, parent, display.maxProgression);
+        } else {
+            return new StandardAdvancement(advKey, display, parent);
+        }
     }
 
     /**
@@ -184,6 +182,7 @@ public class AdvancementNode {
 
         // AdvancementDisplay Required
         private Material material = Material.TURTLE_EGG;
+        private ItemStack icon = null;
         private AdvancementFrameType frameType = AdvancementFrameType.TASK;
         private String title = "Agent: P";
         private String description = "Curse you Perry the Platypus!";
@@ -195,10 +194,7 @@ public class AdvancementNode {
 
 
         // Other Display Options
-        private BaseComponent[] announceMessage = new BaseComponent[0];
-        private boolean announceInChat = false;
         private String compactDescription = "Curse Perry";
-        private boolean showToast = true;
 
         // DAG Node
         private final String parent;
@@ -275,6 +271,16 @@ public class AdvancementNode {
         }
 
         /**
+         * Sets the icon for the advancement
+         * @param icon The item stack to use as an icon
+         * @return The node builder with the icon set
+         */
+        public AdvancementNodeBuilder setIcon(ItemStack icon) {
+            this.icon = icon;
+            return this;
+        }
+
+        /**
          * Sets the frame
          * @param frameType The frame to use on the advancement
          * @return The node builder with the frame type set
@@ -295,26 +301,6 @@ public class AdvancementNode {
         }
 
         /**
-         * Sets the announcement message
-         * @param announceMessage Bungee BaseComponent message
-         * @return The node builder with the announcement message set
-         */
-        public AdvancementNodeBuilder setAnnounceMessage(BaseComponent[] announceMessage) {
-            this.announceMessage = announceMessage;
-            return this;
-        }
-
-        /**
-         * Sets if the advancement should announce it in chat
-         * @param announceInChat true if it should be announced
-         * @return The node builder with announce in chat set
-         */
-        public AdvancementNodeBuilder setAnnounceInChat(boolean announceInChat) {
-            this.announceInChat = announceInChat;
-            return this;
-        }
-
-        /**
          * Sets the compact description of the advancement
          * @param compactDescription The string compact description
          * @return The node builder with the compact description set
@@ -324,22 +310,7 @@ public class AdvancementNode {
             return this;
         }
 
-        /**
-         * If upon getting the advancement it should show the toast
-         * @param showToast If the toast should be shown
-         * @return The node builder with show toast set
-         */
-        public AdvancementNodeBuilder setShowToast(boolean showToast) {
-            this.showToast = showToast;
-            return this;
-        }
-
-        /**
-         * Builds the advancement node
-         * @return The built advancement node
-         */
-        public AdvancementNode build()
-        {
+        protected void constructDescription() {
             if (requirements != null) {
                 StringBuilder description = new StringBuilder("<white><b>Requirements:</b></white>");
                 for (String requirement : requirements) {
@@ -351,6 +322,21 @@ public class AdvancementNode {
 
                 this.description = description.toString();
             }
+        }
+
+        protected void verifyIcon() {
+            if (icon == null) {
+                icon = new ItemStack(this.material);
+            }
+        }
+
+        /**
+         * Builds the advancement node
+         * @return The built advancement node
+         */
+        public AdvancementNode build() {
+            constructDescription();
+            verifyIcon();
 
             return new AdvancementNode(this);
         }
