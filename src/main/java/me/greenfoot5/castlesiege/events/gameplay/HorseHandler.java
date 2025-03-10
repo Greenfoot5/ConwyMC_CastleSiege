@@ -43,6 +43,7 @@ public class HorseHandler implements Listener {
      * @param jump The horse's jump strength
      * @param armor The horse's horse armor
      * @param effects The horse's potion effects
+     * @param type The horse type
      */
     public static void add(String kitName, int cooldown, double health, double knockback, double speed,
                            double jump, Material armor, @Nullable Collection<PotionEffect> effects, String type) {

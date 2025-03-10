@@ -24,7 +24,7 @@ import java.util.Collections;
 public class RoyalKnight extends SignKit {
 
     /**
-     * Creates a new Royal Knight
+     * Creates a new Royal Knight instance
      */
     public RoyalKnight() {
         super("Royal Knight", 600, 5,
