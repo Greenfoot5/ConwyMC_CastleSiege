@@ -9,6 +9,7 @@ import me.greenfoot5.advancements.api.advancements.StandardAdvancement;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode.AdvancementNodeBuilder;
 import me.greenfoot5.advancements.api.nodes.AdvancementAdvancementNode.AdvancementAdvancementNodeBuilder;
+import me.greenfoot5.advancements.api.nodes.HiddenAdvancementNode.HiddenAdvancementNodeBuilder;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -49,7 +50,7 @@ public class TutorialAdvancements implements Listener {
         // Cannons
         generateCannonAdvancements(rootNode);
         generateCatapultAdvancements(rootNode);
-        // Catapults
+        generateRamAdvancements(rootNode);
 
         Tuple<RootAdvancement, StandardAdvancement[]> advs = rootNode.asAdvancementList(tab, "textures/block/stone_bricks.png");
 
@@ -105,6 +106,34 @@ public class TutorialAdvancements implements Listener {
                 .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("Master Catapulteer")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDDE1 Kill a player with a catapult</yellow>"})
+                .build());
+    }
+
+    private static void generateRamAdvancements(AdvancementNode root) {
+        root.addChild(new AdvancementNodeBuilder("gate_hit", "siege_tutorial")
+                .setMaterial(Material.OAK_WOOD)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Ramming Gates")
+                .setRequirements(new String[]{"<yellow>\uD83E\uDE93 Deal damage to a gate</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("gate_four", "gate_hit")
+                .addRequiredKey("gate_hit")
+                .setMaterial(Material.PLAYER_HEAD)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("Lift with your back")
+                .setRequirements(new String[] {"<yellow>✣ Have at least 4 players on the same ram</yellow>"})
+                .build());
+        root.addChild(new AdvancementNodeBuilder("gate_break", "gate_hit")
+                .setMaterial(Material.SPRUCE_LOG)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("I'm sorry for barging in")
+                .setRequirements(new String[] {"<yellow>\uD83D\uDCA5 Work with others to bring down a gate</yellow>"})
+                .build());
+        root.addChild(new HiddenAdvancementNodeBuilder("gate_solo", "gate_break")
+                .setMaterial(Material.CHISELED_STONE_BRICKS)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("I did knock...")
+                .setRequirements(new String[] {"<yellow>\uD83E\uDE93 Deal at least <light_purple>90%</light_purple> of the damage to a gate</yellow>"})
                 .build());
     }
 }
