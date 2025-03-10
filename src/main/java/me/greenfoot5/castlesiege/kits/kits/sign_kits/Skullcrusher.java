@@ -2,7 +2,6 @@ package me.greenfoot5.castlesiege.kits.kits.sign_kits;
 
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.castlesiege.misc.CSNameTag;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -28,13 +27,15 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Adds a new skullcrusher kit
+ */
 public class Skullcrusher extends SignKit implements Listener {
 
     /**
-     * Creates a new Moria Skullcrusher
+     * Creates a new Skullcrusher instance
      */
     public Skullcrusher() {
         super("Skullcrusher", 350, 10, Material.NETHERITE_SHOVEL, 2000);
@@ -123,40 +124,42 @@ public class Skullcrusher extends SignKit implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onStun(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player p && e.getDamager() instanceof Player q) {
+        if (e.getDamager() != equippedPlayer)
+            return;
 
-            // Maceman tries to use stun an enemy
-            if (Objects.equals(Kit.equippedKits.get(q.getUniqueId()).name, name) &&
-                    q.getInventory().getItemInMainHand().getType() == Material.NETHERITE_SHOVEL &&
-                    q.getCooldown(Material.NETHERITE_SHOVEL) == 0) {
-                q.setCooldown(Material.NETHERITE_SHOVEL, 180);
+        if (!(e.getEntity() instanceof Player hit))
+            return;
 
-                // Enemy blocks stun
-                if (p.isBlocking()) {
-                    Messenger.sendWarning(CSNameTag.username(p) + " blocked your stun", q);
-                    if (new Random().nextInt(10) == 0) {
-                        Messenger.sendWarning("Your shield broke whilst blocking " + CSNameTag.username(q) + "'s stun", p);
-                        if (p.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
-                            p.getInventory().getItemInMainHand().setAmount(0);
-                        } else if (p.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
-                            p.getInventory().getItemInOffHand().setAmount(0);
-                        }
-                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
-                    }
-                } else if (p.isSneaking() && new Random().nextInt(6) == 0) {
-                    Messenger.sendWarning(CSNameTag.username(p) + " dodged your stun", q);
-                    Messenger.sendSuccess("You dodged " + CSNameTag.username(q) + "'s stun", p);
-                } else {
-                    Messenger.sendSuccess("You have stunned " + CSNameTag.username(q), p);
-                    Messenger.sendWarning("You have been stunned by " + CSNameTag.username(p) + "!", q);
-                    p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_FALL , 1, 1.5F);
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 0)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 40, 2)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 80, 0)));
-                    p.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 80, 2)));
-                    e.setDamage(e.getDamage() * 1.75);
+        if (equippedPlayer.getInventory().getItemInMainHand().getType() != Material.NETHERITE_SHOVEL
+                || equippedPlayer.getCooldown(Material.NETHERITE_SHOVEL) != 0)
+            return;
+
+        equippedPlayer.setCooldown(Material.NETHERITE_SHOVEL, 180);
+
+        // Enemy blocks stun
+        if (hit.isBlocking()) {
+            Messenger.sendWarning(CSNameTag.username(hit) + " blocked your stun", equippedPlayer);
+            if (new Random().nextInt(10) == 0) {
+                Messenger.sendWarning("Your shield broke whilst blocking " + CSNameTag.username(equippedPlayer) + "'s stun", hit);
+                if (hit.getInventory().getItemInMainHand().getType().equals(Material.SHIELD)) {
+                    hit.getInventory().getItemInMainHand().setAmount(0);
+                } else if (hit.getInventory().getItemInOffHand().getType().equals(Material.SHIELD)) {
+                    hit.getInventory().getItemInOffHand().setAmount(0);
                 }
+                hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_ITEM_BREAK , 1, 1 );
             }
+        } else if (hit.isSneaking() && new Random().nextInt(6) == 0) {
+            Messenger.sendWarning(CSNameTag.username(hit) + " dodged your stun", equippedPlayer);
+            Messenger.sendSuccess("You dodged " + CSNameTag.username(equippedPlayer) + "'s stun", hit);
+        } else {
+            Messenger.sendSuccess("You have stunned " + CSNameTag.username(equippedPlayer), hit);
+            Messenger.sendWarning("You have been stunned by " + CSNameTag.username(hit) + "!", equippedPlayer);
+            hit.getWorld().playSound(hit.getLocation(), Sound.BLOCK_ANVIL_FALL , 1, 1.5F);
+            hit.addPotionEffect((new PotionEffect(PotionEffectType.BLINDNESS, 30, 0)));
+            hit.addPotionEffect((new PotionEffect(PotionEffectType.SLOWNESS, 40, 2)));
+            hit.addPotionEffect((new PotionEffect(PotionEffectType.WEAKNESS, 80, 0)));
+            hit.addPotionEffect((new PotionEffect(PotionEffectType.MINING_FATIGUE, 80, 2)));
+            e.setDamage(e.getDamage() * 1.75);
         }
     }
 
