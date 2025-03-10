@@ -4,7 +4,6 @@ import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import me.greenfoot5.castlesiege.events.combat.InCombat;
 import me.greenfoot5.castlesiege.kits.items.CSItemCreator;
 import me.greenfoot5.castlesiege.kits.items.EquipmentSet;
-import me.greenfoot5.castlesiege.kits.kits.Kit;
 import me.greenfoot5.castlesiege.kits.kits.SignKit;
 import me.greenfoot5.conwymc.data_types.Tuple;
 import me.greenfoot5.conwymc.util.Messenger;
@@ -14,7 +13,6 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -28,9 +26,10 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
+/**
+ * Pirate kit
+ */
 public class Pirate extends SignKit {
 
     private static final int health = 300;
@@ -40,6 +39,9 @@ public class Pirate extends SignKit {
     private static final int flintlockCooldown = 140;
     private static final BukkitAPIHelper mythicMobsApi = new BukkitAPIHelper();
 
+    /**
+     * Creates a new Pirate instance
+     */
     public Pirate() {
         super("Pirate", health, regen, Material.WOODEN_HOE, 2000);
 
@@ -98,7 +100,7 @@ public class Pirate extends SignKit {
         es.hotbar[3] = CSItemCreator.item(new ItemStack(Material.FIREWORK_STAR, 8),
                 Component.text("Lead Bullets", NamedTextColor.GOLD),
                 List.of(Component.empty(),
-                        Component.text("(ammo for your pistol).", NamedTextColor.BLUE)),
+                        Component.text("Ammo for your pistol", NamedTextColor.BLUE)),
                 null);
 
         // Ladders
@@ -115,35 +117,33 @@ public class Pirate extends SignKit {
      */
     @EventHandler
     public void clickFlintlock(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        UUID uuid = p.getUniqueId();
-        ItemStack flintlock = p.getInventory().getItemInMainHand();
-        int cooldown = p.getCooldown(Material.WOODEN_HOE);
+        if (e.getPlayer() != equippedPlayer)
+            return;
 
         // Prevent using in lobby
-        if (InCombat.isPlayerInLobby(uuid)) {
+        if (InCombat.isPlayerInLobby(equippedPlayer.getUniqueId()))
+            return;
+
+
+        ItemStack flintlock = equippedPlayer.getInventory().getItemInMainHand();
+        if (!flintlock.getType().equals(Material.WOODEN_HOE))
+            return;
+
+
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (!equippedPlayer.getInventory().contains(Material.FIREWORK_STAR, 1)) {
+            Messenger.sendActionError("You require lead bullets to shoot the flintlock!", equippedPlayer);
             return;
         }
 
-        if (!Objects.equals(Kit.equippedKits.get(uuid).name, name) || !flintlock.getType().equals(Material.WOODEN_HOE)) {
-            return;
-        }
-        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (!p.getInventory().contains(Material.FIREWORK_STAR, 1)) {
-                Messenger.sendActionError("You require lead bullets to shoot the flintlock!", p);
-                return;
-            }
-
-            if (cooldown == 0) {
-                for (ItemStack item : p.getInventory().getContents()) {
-                    mythicMobsApi.castSkill(p, "PirateFlintlockShot", p.getLocation());
-                    p.setCooldown(Material.WOODEN_HOE, flintlockCooldown);
-                    if (item == null) {
-                        return;
-                    }
-                    if (item.getType().equals(Material.FIREWORK_STAR)) {
-                        item.setAmount(item.getAmount() - 1);
-                    }
+        if (equippedPlayer.getCooldown(Material.WOODEN_HOE) == 0) {
+            for (ItemStack item : equippedPlayer.getInventory().getContents()) {
+                if (item != null && item.getType().equals(Material.FIREWORK_STAR)) {
+                    item.add(-1);
+                    mythicMobsApi.castSkill(equippedPlayer, "PirateFlintlockShot", equippedPlayer.getLocation());
+                    equippedPlayer.setCooldown(Material.WOODEN_HOE, flintlockCooldown);
                 }
             }
         }
