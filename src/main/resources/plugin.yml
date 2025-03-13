@@ -436,6 +436,9 @@ commands:
   UrukBerserker:
     description: Selects the Uruk Berserker kit
     usage: /UrukBerserker
+  Windlancer:
+    description: Selects the Windlancer kit
+    usage: /Windlancer
 
   # Staff Kits
   Warbear:
