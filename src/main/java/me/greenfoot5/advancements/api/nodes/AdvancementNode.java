@@ -104,6 +104,7 @@ public class AdvancementNode {
      * @return A hashmap of the key and it's display
      */
     private HashMap<String, NodeDisplay> getDisplays() {
+        // Stores the minimum y position of a new node at x
         HashMap<Integer, Integer> min_y = new HashMap<>();
         min_y.put(0, 0);
         min_y.put(1, 0);
@@ -113,6 +114,8 @@ public class AdvancementNode {
             for (AdvancementNode node : this.children) {
                 Tuple<HashMap<String, NodeDisplay>, HashMap<Integer, Integer>> value = node.generateDisplays(1, new HashMap<>(min_y));
                 displays.putAll(value.getFirst());
+
+                // Store the highest y so far at x = 1
                 min_y.put(1, value.getSecond().get(1));
                 for (int y_pos : value.getSecond().values()) {
                     if (y_pos > min_y.get(1)) {
@@ -148,16 +151,11 @@ public class AdvancementNode {
             }
         }
 
-        // Calculate y
-        System.out.println(icon.getType());
-        System.out.println(x);
-        System.out.println(min_y);
-
+        // Calculate mid-point of children for y
         int y = Math.floorDiv(min_y.getOrDefault(x + 1, min_y.get(x)) - min_y.get(x), 2) + min_y.get(x);
         min_y.put(x, y + 1);
-        System.out.println(y);
 
-        // Other Display Options
+        // Setup display
         NodeDisplay display = new NodeDisplay(icon, frameType, false, false, x, y, title, description, maxProgress);
         display.setParentKey(parent);
         displays.put(key, display);
