@@ -30,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -167,10 +168,10 @@ public class TutorialAdvancements implements Listener {
                 @Override
                 public void run() {
                     Player p = Bukkit.getPlayer(uuid);
-                    tab.getAdvancement(new AdvancementKey(tab.getNamespace(), "gate_hit")).grant(p);
+                    Objects.requireNonNull(tab.getAdvancement(new AdvancementKey(tab.getNamespace(), "gate_hit"))).grant(Objects.requireNonNull(p));
 
                     if (event.getPlayerUUIDs().size() >= 4) {
-                        tab.getAdvancement(new AdvancementKey(tab.getNamespace(), "get_four")).grant(p);
+                        Objects.requireNonNull(tab.getAdvancement(new AdvancementKey(tab.getNamespace(), "get_four"))).grant(p);
                     }
                 }
             }.runTask(Main.plugin);
