@@ -99,33 +99,69 @@ public class AdvancementNode {
         return null;
     }
 
-
+    /**
+     * Calculate from root all the displays required
+     * @return A hashmap of the key and it's display
+     */
     private HashMap<String, NodeDisplay> getDisplays() {
-        return generateDisplays(0, 0).getFirst();
+        HashMap<Integer, Integer> min_y = new HashMap<>();
+        min_y.put(0, 0);
+        min_y.put(1, 0);
+        HashMap<String, NodeDisplay> displays = new HashMap<>();
+
+        if (!children.isEmpty()) {
+            for (AdvancementNode node : this.children) {
+                Tuple<HashMap<String, NodeDisplay>, HashMap<Integer, Integer>> value = node.generateDisplays(1, new HashMap<>(min_y));
+                displays.putAll(value.getFirst());
+                min_y.put(1, value.getSecond().get(1));
+                for (int y_pos : value.getSecond().values()) {
+                    if (y_pos > min_y.get(1)) {
+                        min_y.put(1, y_pos);
+                    }
+                }
+            }
+        }
+
+        // Calculate y position of root
+        int y = (min_y.get(1) - 1) / 2 + 1;
+        NodeDisplay display = new NodeDisplay(icon, frameType, false, false, 0, y, title, description, maxProgress);
+        display.setParentKey(parent);
+        displays.put(key, display);
+        return displays;
     }
 
-    // Generates the displays for each of the nodes in the list
-    private Tuple<HashMap<String, NodeDisplay>, Integer> generateDisplays(int x, int min_y) {
-        int y_size = 0;
-        int y;
+    /**
+     * Calculate from non-root node it's display (and it's childrens)
+     * @param x The x coord of the node
+     * @param min_y The minimum y coordinate for the node
+     * @return The hashmap of {key: display} for the node and {x: y} for the minimum y position
+     */
+    private Tuple<HashMap<String, NodeDisplay>, HashMap<Integer, Integer>> generateDisplays(int x, HashMap<Integer, Integer> min_y) {
         HashMap<String, NodeDisplay> displays = new HashMap<>();
-        // Base Case
-        if (children.isEmpty()) {
-            y = y_size + min_y;
-            y_size += 1;
-        } else {
+        min_y.putIfAbsent(x, min_y.get(1));
+
+        if (!children.isEmpty()) {
             for (AdvancementNode node : this.children) {
-                Tuple<HashMap<String, NodeDisplay>, Integer> value = node.generateDisplays(x + 1, min_y + y_size);
+                Tuple<HashMap<String, NodeDisplay>, HashMap<Integer, Integer>> value = node.generateDisplays(x + 1, min_y);
                 displays.putAll(value.getFirst());
-                y_size += value.getSecond();
+                min_y.putAll(value.getSecond());
             }
-            y = (int) Math.round(min_y + (y_size - 1.0) / 2);
         }
+
+        // Calculate y
+        System.out.println(icon.getType());
+        System.out.println(x);
+        System.out.println(min_y);
+
+        int y = Math.floorDiv(min_y.getOrDefault(x + 1, min_y.get(x)) - min_y.get(x), 2) + min_y.get(x);
+        min_y.put(x, y + 1);
+        System.out.println(y);
+
         // Other Display Options
         NodeDisplay display = new NodeDisplay(icon, frameType, false, false, x, y, title, description, maxProgress);
         display.setParentKey(parent);
         displays.put(key, display);
-        return new Tuple<>(displays, y_size);
+        return new Tuple<>(displays, min_y);
     }
 
     /**
