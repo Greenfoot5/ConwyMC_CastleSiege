@@ -13,6 +13,7 @@ import me.greenfoot5.advancements.api.nodes.AdvancementNode.AdvancementNodeBuild
 import me.greenfoot5.advancements.api.nodes.AdvancementAdvancementNode.AdvancementAdvancementNodeBuilder;
 import me.greenfoot5.advancements.api.nodes.HiddenAdvancementNode.HiddenAdvancementNodeBuilder;
 import me.greenfoot5.castlesiege.Main;
+import me.greenfoot5.castlesiege.events.map.FlagAnimateEvent;
 import me.greenfoot5.castlesiege.events.map.GateBreachEvent;
 import me.greenfoot5.castlesiege.events.map.RamEvent;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -67,6 +68,7 @@ public class TutorialAdvancements implements Listener {
         generateCannonAdvancements(rootNode);
         generateCatapultAdvancements(rootNode);
         generateRamAdvancements(rootNode);
+        generateFlagAdvancements(rootNode);
 
         Tuple<RootAdvancement, StandardAdvancement[]> advs = rootNode.asAdvancementList(tab, "textures/block/stone_bricks.png");
 
@@ -214,5 +216,79 @@ public class TutorialAdvancements implements Listener {
                 }
             }
         }
+    }
+
+    private void generateFlagAdvancements(AdvancementNode root) {
+        root.addChild(new AdvancementNodeBuilder("flag_cap", "siege_tutorial")
+                .setMaterial(Material.RED_WOOL)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Capturing Flags")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Earn a capture point</yellow>"})
+                .build());
+        root.addChild(new HiddenAdvancementNodeBuilder("flag_secret", "flag_cap")
+                .setMaterial(Material.BLACK_WOOL)
+                .setFrameType(AdvancementFrameType.CHALLENGE)
+                .setTitle("Shh, it's a secret...")
+                .setRequirements(new String[]{"<yellow>❓ Discover a secret flag</yellow>"})
+                .build());
+        root.addChild(new AdvancementNodeBuilder("flag_all", "flag_cap")
+                .setMaterial(Material.BLUE_WOOL)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("A finger in every pie")
+                .setRequirements(new String[]{"<yellow>✥ Help capture every capturable flag on a map</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("flag_solo", "flag_all")
+                .addRequiredKey("flag_cap")
+                .setMaterial(Material.LIME_WOOL)
+                .setFrameType(AdvancementFrameType.CHALLENGE)
+                .setTitle("Everywhere all at once")
+                .setRequirements(new String[]{"<yellow>\uD83E\uDD47 Earn the most capture points on a map</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("flag_lose", "flag_solo")
+                .addRequiredKey("flag_solo")
+                .setMaterial(Material.YELLOW_WOOL)
+                .setFrameType(AdvancementFrameType.CHALLENGE)
+                .setTitle("Tried so hard")
+                .setRequirements(new String[]{"<yellow>\uD83E\uDD47 Earn the most capture points on a map</yellow>",
+                "<yellow>\uD83D\uDCA9 Lose that same map</yellow>"})
+                .build());
+        root.addChild(new AdvancementNodeBuilder("flag_spawn", "flag_cap")
+                .setMaterial(Material.LIGHT_BLUE_WOOL)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Everywhere once at all")
+                .setRequirements(new String[]{"<yellow>\uD83E\uDDED Spawn at every flag on a map</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("flag_full", "flag_all")
+                .setMaterial(Material.GREEN_WOOL)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("As high as can be")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Fully capture a flag</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("flag_lock", "flag_full")
+                .setMaterial(Material.BROWN_WOOL)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("No take-backsies")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Fully capture a flag</yellow>",
+                        "<yellow>\uD83D\uDD12 The flag then becomes locked</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("flag_time", "flag_full")
+                .setMaterial(Material.WHITE_WOOL)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Just in time")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Fully capture a flag</yellow>",
+                        "<yellow>⌚ Gain extra time from the flag</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("flag_life", "flag_full")
+                .setMaterial(Material.PINK_WOOL)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Now you can die more")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Fully capture a flag</yellow>",
+                        "<yellow>❤ Gain additional lives for your team from the flag</yellow>"})
+                .build());
+    }
+
+    @EventHandler
+    private void onFlagAnimate(FlagAnimateEvent event) {
+
     }
 }
