@@ -68,6 +68,6 @@ public class LevelAdvancement extends StandardAdvancement {
                     return true;
         }
 
-        return false;
+        return progression.getProgression(this) >= getMaxProgression();
     }
 }
