@@ -127,8 +127,12 @@ public class Gate implements Listener {
     }
 
     private void gateBreached() {
-        GateBreachEvent ramEvent = new GateBreachEvent(getName(), startHealth, damagers);
-        Bukkit.getPluginManager().callEvent(ramEvent);
+        new BukkitRunnable() {
+            public void run() {
+                GateBreachEvent ramEvent = new GateBreachEvent(getName(), startHealth, damagers);
+                Bukkit.getPluginManager().callEvent(ramEvent);
+            }
+        }.runTaskAsynchronously(Main.plugin);
 
         if (!getName().isEmpty()) {
             Messenger.broadcastWarning(getName() + " has been breached!");

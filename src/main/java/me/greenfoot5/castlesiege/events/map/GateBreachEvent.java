@@ -27,7 +27,7 @@ public class GateBreachEvent extends Event {
      * @param damagers      The players who have attacked and their total damage
      */
     public GateBreachEvent(String gateName, int originalHealth, HashMap<UUID, Integer> damagers) {
-        super(false);
+        super(true);
         this.originalHealth = originalHealth;
         this.gateName = gateName;
         this.damagers = damagers;
