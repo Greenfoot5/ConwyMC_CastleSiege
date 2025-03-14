@@ -12,8 +12,8 @@ import me.greenfoot5.advancements.api.nodes.AdvancementNode;
 import me.greenfoot5.advancements.api.nodes.AdvancementNode.AdvancementNodeBuilder;
 import me.greenfoot5.advancements.api.nodes.AdvancementAdvancementNode.AdvancementAdvancementNodeBuilder;
 import me.greenfoot5.advancements.api.nodes.HiddenAdvancementNode.HiddenAdvancementNodeBuilder;
+import me.greenfoot5.advancements.api.nodes.LevelAdvancementNode.LevelAdvancementNodeBuilder;
 import me.greenfoot5.castlesiege.Main;
-import me.greenfoot5.castlesiege.events.map.FlagAnimateEvent;
 import me.greenfoot5.castlesiege.events.map.GateBreachEvent;
 import me.greenfoot5.castlesiege.events.map.RamEvent;
 import me.greenfoot5.conwymc.data_types.Tuple;
@@ -69,6 +69,8 @@ public class TutorialAdvancements implements Listener {
         generateCatapultAdvancements(rootNode);
         generateRamAdvancements(rootNode);
         generateFlagAdvancements(rootNode);
+        generateWinAdvancements(rootNode);
+        generateBountyAdvancements(rootNode);
 
         Tuple<RootAdvancement, StandardAdvancement[]> advs = rootNode.asAdvancementList(tab, "textures/block/stone_bricks.png");
 
@@ -287,8 +289,97 @@ public class TutorialAdvancements implements Listener {
                 .build());
     }
 
-    @EventHandler
-    private void onFlagAnimate(FlagAnimateEvent event) {
+    private void generateWinAdvancements(AdvancementNode root) {
+        root.addChild(new AdvancementNodeBuilder("win", "siege_tutorial")
+                .setMaterial(Material.GOLD_BLOCK)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Winner Winner Chicken Dinner")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
+                "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("win_mvp", "win")
+                .addRequiredKey("win")
+                .setMaterial(Material.CAKE)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("Simply the best")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
+                        "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
+                        "<yellow>\uD83C\uDF96 By your team's MVP</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("win_defense", "win")
+                .addRequiredKey("win")
+                .setMaterial(Material.SHIELD)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Hold fast!")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
+                        "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
+                        "<yellow>\uD83C\uDFF4 Don't lose control of any flags</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("win_time", "win_defense")
+                .addRequiredKey("win")
+                .setMaterial(Material.CLOCK)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("CHAAAAAAAARGE!")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
+                        "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
+                        "<yellow>\uD83C\uDFF4 Win a <red>Charge</red> map by running out the time</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("win_domination", "win")
+                .addRequiredKey("win")
+                .setMaterial(Material.YELLOW_BANNER)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("I want it all")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
+                        "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
+                        "<yellow>\uD83C\uDFF4 Win a <red>Domination</red> map by capturing all the enemy flags</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("win_lives", "win_domination")
+                .addRequiredKey("win")
+                .setMaterial(Material.HEARTBREAK_POTTERY_SHERD)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Kill them all")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
+                        "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
+                        "<yellow>\uD83C\uDFF4 Win an <red>Assault</red> map by depleting the enemy's lives</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("win_dtc", "win_domination")
+                .addRequiredKey("win")
+                .setMaterial(Material.BLACK_STAINED_GLASS)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("CHAAAAAAAARGE!")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
+                        "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
+                        "<yellow>\uD83C\uDFF4 Win a <red>Destroy the Core</red> map by... destroying the enemy's core(s)</yellow>"})
+                .build());
+    }
 
+    private void generateBountyAdvancements(AdvancementNode root) {
+        root.addChild(new LevelAdvancementNodeBuilder("bounty_place", "siege_tutorial", 6)
+                .setMaterial(Material.COAL)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Pirate's Black Spot")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFAF Place a bounty</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("bounty_1000", "bounty_place")
+                .addRequiredKey("bounty_place")
+                .setMaterial(Material.COAL_BLOCK)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("A really big black spot")
+                .setRequirements(new String[]{"<yellow>⛃ Place a bounty worth 1000</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("bounty_gain", "bounty_place")
+                .addRequiredKey("bounty_place")
+                .setMaterial(Material.TARGET)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("You're next...")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFAF Gain a bounty</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("bounty_hunter", "bounty_place")
+                .addRequiredKey("bounty_place")
+                .setMaterial(Material.BOW)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Hunting gold")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFF9 Kill a player with a bounty</yellow>"})
+                .build());
     }
 }
