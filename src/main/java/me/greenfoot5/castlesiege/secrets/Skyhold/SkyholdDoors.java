@@ -175,7 +175,7 @@ public class SkyholdDoors implements Listener {
                 code = code + "1";
             } else if (event.getClickedBlock().getType().equals(Material.POLISHED_BLACKSTONE_BUTTON) && event.getClickedBlock().getLocation().equals(primeButtonLoc)) {
                 code = code + "0";
-              if (code.equalsIgnoreCase("3210")) {
+                if (code.equalsIgnoreCase("3210")) {
                   new BukkitRunnable() {
 
                       @Override
