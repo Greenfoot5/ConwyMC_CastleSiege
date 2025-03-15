@@ -30,6 +30,7 @@ public class SecretsCommand implements CommandExecutor {
         String abraham = getAbrakhanSecrets(p);
         String hallOfHerakles = getHallOfHeraklesSecrets(p);
         String edoras = getEdorasSecrets(p);
+        String gregynog = getGregynogSecrets(p);
 
         p.sendMessage(Messenger.mm.deserialize("<dark_aqua> <st>━━━━━</st>Secrets<st>━━━━━</st> </dark_aqua>"));
         p.sendMessage(ChatColor.DARK_AQUA + " Abrakhan: " + abraham);
@@ -40,6 +41,7 @@ public class SecretsCommand implements CommandExecutor {
         p.sendMessage(ChatColor.DARK_AQUA + " Thunderstone: " + thunder);
         p.sendMessage(ChatColor.DARK_AQUA + " Hall Of Herakles: " + hallOfHerakles);
         p.sendMessage(ChatColor.DARK_AQUA + " Edoras: " + edoras);
+        p.sendMessage(ChatColor.DARK_AQUA + " Gregynog: " + gregynog);
 
 
 
@@ -252,6 +254,19 @@ public class SecretsCommand implements CommandExecutor {
 
         int foundAmount = 0;
         String[] secrets = {"Edoras_Statue"};
+
+        for (String secret : secrets) if (data.hasSecret(secret)) foundAmount++;
+
+        return ChatColor.AQUA + "(" + ChatColor.WHITE + foundAmount + ChatColor.AQUA + "/" + secrets.length + ")";
+    }
+
+    private String getGregynogSecrets(Player p) {
+        UUID uuid = p.getUniqueId();
+
+        CSPlayerData data = CSActiveData.getData(uuid);
+
+        int foundAmount = 0;
+        String[] secrets = {"Gregynog_ForestPath"};
 
         for (String secret : secrets) if (data.hasSecret(secret)) foundAmount++;
 

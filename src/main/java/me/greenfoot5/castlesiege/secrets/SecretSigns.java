@@ -61,6 +61,7 @@ public class SecretSigns implements Listener {
     final String DigSite5 = "HallOfHerakles_TreeTop";
     final String DigSite6 = "HallOfHerakles_EagleHall";
     final String Edoras = "Edoras_Statue";
+    final String Gregynog = "Gregynog_ForestPath";
 
 
     @EventHandler
@@ -227,6 +228,11 @@ public class SecretSigns implements Listener {
                     Location statueSecret = new Location(Bukkit.getWorld("Edoras"), -54, 65, 170);
                     if (e.getClickedBlock().getLocation().equals(statueSecret)) {
                         registerFoundSecret(player, Edoras, 250);
+                    }
+                } else if (MapController.getCurrentMap().worldName.equalsIgnoreCase("Gregynog")) {
+                    Location statueSecret = new Location(Bukkit.getWorld("Gregynog"), -131, 75, 212);
+                    if (e.getClickedBlock().getLocation().equals(statueSecret)) {
+                        registerFoundSecret(player, Gregynog, 369);
                     }
                 }
             }
