@@ -371,9 +371,16 @@ public class TutorialAdvancements implements Listener {
         root.addChild(new AdvancementAdvancementNodeBuilder("bounty_1000", "bounty_place")
                 .addRequiredKey("bounty_place")
                 .setMaterial(Material.COAL_BLOCK)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("A really big black spot")
                 .setRequirements(new String[]{"<yellow>⛃ Place a bounty worth 1000</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("bounty_10000", "bounty_place")
+                .addRequiredKey("bounty_1000")
+                .setMaterial(Material.COAL_BLOCK)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("A really, really, really big black spot")
+                .setRequirements(new String[]{"<yellow>⛃ Place a bounty worth 10,000</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("bounty_gain", "bounty_place")
                 .addRequiredKey("bounty_place")
@@ -394,14 +401,14 @@ public class TutorialAdvancements implements Listener {
     private void generateUnlockKitAdvancements(AdvancementNode root) {
         root.addChild(new LevelAdvancementNodeBuilder("kit_unlock", "siege_tutorial", 4)
                 .setMaterial(Material.SUNFLOWER)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Which one to choose?")
                 .setRequirements(new String[]{"<yellow>⛃ Purchase a global coin kit</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("kit_unlock_map", "kit_unlock")
                 .addRequiredKey("kit_unlock")
                 .setMaterial(Material.MAP)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("I want that one!")
                 .setRequirements(new String[]{"<yellow>⛃ Purchase a map kit</yellow>"})
                 .build());
@@ -420,7 +427,7 @@ public class TutorialAdvancements implements Listener {
         root.addChild(new AdvancementNodeBuilder("map_vote", "siege_tutorial")
                 .setMaterial(Material.JUKEBOX)
                 .setFrameType(AdvancementFrameType.TASK)
-                .setTitle("Who voted for what is not known, only the tallies")
+                .setTitle("Vote for war")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDDF3 Vote yes/no on a map</yellow>"})
                 .build());
     }
@@ -428,26 +435,26 @@ public class TutorialAdvancements implements Listener {
     private void generateSecretAdvancements(AdvancementNode root) {
         root.addChild(new HiddenAdvancementNodeBuilder("secret_find", "siege_tutorial")
                 .setMaterial(Material.SUSPICIOUS_SAND)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Budding detective")
                 .setRequirements(new String[]{"<yellow>\uD83E\uDD2B Discover a secret</yellow>"})
                 .build());
         root.addChild(new AdvancementNodeBuilder("secret_undiscovered", "secret_find")
                 .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("Ooooh! Shiny!")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDDDD Pickup an undiscovered secret item</yellow>"})
                 .build());
         root.addChild(new AdvancementNodeBuilder("secret_steal", "secret_find")
                 .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.GOAL)
                 .setTitle("My precious!")
                 .setRequirements(new String[]{"<yellow>\uD83C\uDFF9 Kill another player holding a secret item</yellow>",
                 "<yellow>\uD83D\uDDDD Pickup their secret item</yellow>"})
                 .build());
         root.addChild(new AdvancementNodeBuilder("secret_hunter", "secret_find")
                 .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("True Detective")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDD75 Discover all the secrets on a map</yellow>"})
                 .build());
@@ -478,14 +485,14 @@ public class TutorialAdvancements implements Listener {
         root.addChild(new AdvancementAdvancementNodeBuilder("falling_survive", "falling_land")
                 .addRequiredKey("falling_land")
                 .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("Only just")
                 .setRequirements(new String[]{"<yellow>❤ Land on a hay bale and survive with 0.5 hearts</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("falling_die", "falling_land")
                 .addRequiredKey("falling_land")
                 .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
-                .setFrameType(AdvancementFrameType.TASK)
+                .setFrameType(AdvancementFrameType.CHALLENGE)
                 .setTitle("No chance for survival")
                 .setRequirements(new String[]{"<yellow>☠ Land on a hay bale and still die</yellow>"})
                 .build());
