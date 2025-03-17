@@ -77,7 +77,7 @@ public class StatsSidebar {
             lines.addDynamicLine(() ->
                     Messenger.mm.deserialize("<transition:" + gradient + ":0.7>" + num.format(mapData.getAssists()) + " ➕</transition> "));
             lines.addDynamicLine(() ->
-                    Messenger.mm.deserialize("<transition:" + gradient + ":0.8>" + num.format(mapData.getCaptures()) + " \uD83C\uDFF4</transition> "));
+                    Messenger.mm.deserialize("<transition:" + gradient + ":0.8>" + num.format(mapData.getCaptures()) + " ⚑</transition> "));
             lines.addDynamicLine(() ->
                     Messenger.mm.deserialize("<transition:" + gradient + ":0.9>" + num.format(mapData.getHeals()) + " ❤</transition> "));
             lines.addDynamicLine(() ->

@@ -71,6 +71,14 @@ public class TutorialAdvancements implements Listener {
         generateFlagAdvancements(rootNode);
         generateWinAdvancements(rootNode);
         generateBountyAdvancements(rootNode);
+        generateUnlockKitAdvancements(rootNode);
+        generateSettingAdvancements(rootNode);
+        generateMapVoteAdvancements(rootNode);
+        generateSecretAdvancements(rootNode);
+        generateHealingAdvancements(rootNode);
+        generateFallAdvancements(rootNode);
+        generateEnderchestAdvancements(rootNode);
+        generateCosmeticAdvancements(rootNode);
 
         Tuple<RootAdvancement, StandardAdvancement[]> advs = rootNode.asAdvancementList(tab, "textures/block/stone_bricks.png");
 
@@ -225,7 +233,7 @@ public class TutorialAdvancements implements Listener {
                 .setMaterial(Material.RED_WOOL)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Capturing Flags")
-                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Earn a capture point</yellow>"})
+                .setRequirements(new String[]{"<yellow>⚑ Earn a capture point</yellow>"})
                 .build());
         root.addChild(new HiddenAdvancementNodeBuilder("flag_secret", "flag_cap")
                 .setMaterial(Material.BLACK_WOOL)
@@ -264,27 +272,27 @@ public class TutorialAdvancements implements Listener {
                 .setMaterial(Material.GREEN_WOOL)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("As high as can be")
-                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Fully capture a flag</yellow>"})
+                .setRequirements(new String[]{"<yellow>⚑ Fully capture a flag</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("flag_lock", "flag_full")
                 .setMaterial(Material.BROWN_WOOL)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("No take-backsies")
-                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Fully capture a flag</yellow>",
+                .setRequirements(new String[]{"<yellow>⚑ Fully capture a flag</yellow>",
                         "<yellow>\uD83D\uDD12 The flag then becomes locked</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("flag_time", "flag_full")
                 .setMaterial(Material.WHITE_WOOL)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Just in time")
-                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Fully capture a flag</yellow>",
+                .setRequirements(new String[]{"<yellow>⚑ Fully capture a flag</yellow>",
                         "<yellow>⌚ Gain extra time from the flag</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("flag_life", "flag_full")
                 .setMaterial(Material.PINK_WOOL)
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Now you can die more")
-                .setRequirements(new String[]{"<yellow>\uD83C\uDFF4 Fully capture a flag</yellow>",
+                .setRequirements(new String[]{"<yellow>⚑ Fully capture a flag</yellow>",
                         "<yellow>❤ Gain additional lives for your team from the flag</yellow>"})
                 .build());
     }
@@ -313,7 +321,7 @@ public class TutorialAdvancements implements Listener {
                 .setTitle("Hold fast!")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
                         "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
-                        "<yellow>\uD83C\uDFF4 Don't lose control of any flags</yellow>"})
+                        "<yellow>⚑ Don't lose control of any flags</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("win_time", "win_defense")
                 .addRequiredKey("win")
@@ -322,7 +330,7 @@ public class TutorialAdvancements implements Listener {
                 .setTitle("CHAAAAAAAARGE!")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
                         "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
-                        "<yellow>\uD83C\uDFF4 Win a <red>Charge</red> map by running out the time</yellow>"})
+                        "<yellow>⚑ Win a <red>Charge</red> map by running out the time</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("win_domination", "win")
                 .addRequiredKey("win")
@@ -331,7 +339,7 @@ public class TutorialAdvancements implements Listener {
                 .setTitle("I want it all")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
                         "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
-                        "<yellow>\uD83C\uDFF4 Win a <red>Domination</red> map by capturing all the enemy flags</yellow>"})
+                        "<yellow>⚑ Win a <red>Domination</red> map by capturing all the enemy flags</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("win_lives", "win_domination")
                 .addRequiredKey("win")
@@ -340,7 +348,7 @@ public class TutorialAdvancements implements Listener {
                 .setTitle("Kill them all")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
                         "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
-                        "<yellow>\uD83C\uDFF4 Win an <red>Assault</red> map by depleting the enemy's lives</yellow>"})
+                        "<yellow>⚑ Win an <red>Assault</red> map by depleting the enemy's lives</yellow>"})
                 .build());
         root.addChild(new AdvancementAdvancementNodeBuilder("win_dtc", "win_domination")
                 .addRequiredKey("win")
@@ -349,7 +357,7 @@ public class TutorialAdvancements implements Listener {
                 .setTitle("CHAAAAAAAARGE!")
                 .setRequirements(new String[]{"<yellow>\uD83D\uDC51 Win a game</yellow>",
                         "<yellow>\uD83D\uDCAE Earn at least 20 score in that game</yellow>",
-                        "<yellow>\uD83C\uDFF4 Win a <red>Destroy the Core</red> map by... destroying the enemy's core(s)</yellow>"})
+                        "<yellow>⚑ Win a <red>Destroy the Core</red> map by... destroying the enemy's core(s)</yellow>"})
                 .build());
     }
 
@@ -380,6 +388,159 @@ public class TutorialAdvancements implements Listener {
                 .setFrameType(AdvancementFrameType.TASK)
                 .setTitle("Hunting gold")
                 .setRequirements(new String[]{"<yellow>\uD83C\uDFF9 Kill a player with a bounty</yellow>"})
+                .build());
+    }
+
+    private void generateUnlockKitAdvancements(AdvancementNode root) {
+        root.addChild(new LevelAdvancementNodeBuilder("kit_unlock", "siege_tutorial", 4)
+                .setMaterial(Material.SUNFLOWER)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Which one to choose?")
+                .setRequirements(new String[]{"<yellow>⛃ Purchase a global coin kit</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("kit_unlock_map", "kit_unlock")
+                .addRequiredKey("kit_unlock")
+                .setMaterial(Material.MAP)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("I want that one!")
+                .setRequirements(new String[]{"<yellow>⛃ Purchase a map kit</yellow>"})
+                .build());
+    }
+
+    private void generateSettingAdvancements(AdvancementNode root) {
+        root.addChild(new AdvancementNodeBuilder("setting_change", "siege_tutorial")
+                .setMaterial(Material.LEVER)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("On, off, up, down, in, out")
+                .setRequirements(new String[]{"<yellow><b>⚙</b> Change a setting</yellow>"})
+                .build());
+    }
+
+    private void generateMapVoteAdvancements(AdvancementNode root) {
+        root.addChild(new AdvancementNodeBuilder("map_vote", "siege_tutorial")
+                .setMaterial(Material.JUKEBOX)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Who voted for what is not known, only the tallies")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDDF3 Vote yes/no on a map</yellow>"})
+                .build());
+    }
+
+    private void generateSecretAdvancements(AdvancementNode root) {
+        root.addChild(new HiddenAdvancementNodeBuilder("secret_find", "siege_tutorial")
+                .setMaterial(Material.SUSPICIOUS_SAND)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Budding detective")
+                .setRequirements(new String[]{"<yellow>\uD83E\uDD2B Discover a secret</yellow>"})
+                .build());
+        root.addChild(new AdvancementNodeBuilder("secret_undiscovered", "secret_find")
+                .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Ooooh! Shiny!")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDDDD Pickup an undiscovered secret item</yellow>"})
+                .build());
+        root.addChild(new AdvancementNodeBuilder("secret_steal", "secret_find")
+                .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("My precious!")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDFF9 Kill another player holding a secret item</yellow>",
+                "<yellow>\uD83D\uDDDD Pickup their secret item</yellow>"})
+                .build());
+        root.addChild(new AdvancementNodeBuilder("secret_hunter", "secret_find")
+                .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("True Detective")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDD75 Discover all the secrets on a map</yellow>"})
+                .build());
+    }
+
+    private void generateHealingAdvancements(AdvancementNode root) {
+        root.addChild(new AdvancementNodeBuilder("healing_cake", "siege_tutorial")
+                .setMaterial(Material.SUSPICIOUS_SAND)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Yummy")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDF82 Eat some cake to recover your health</yellow>"})
+                .build());
+        root.addChild(new AdvancementNodeBuilder("healing_bed", "healing_cake")
+                .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Nap time")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDECC Sleep in a bed to recover your health</yellow>"})
+                .build());
+    }
+
+    private void generateFallAdvancements(AdvancementNode root) {
+        root.addChild(new AdvancementNodeBuilder("falling_land", "siege_tutorial")
+                .setMaterial(Material.HAY_BLOCK)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Not sure why this works")
+                .setRequirements(new String[]{"<yellow>\uD83C\uDF3E Land on a hay bale to take reduced fall damage</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("falling_survive", "falling_land")
+                .addRequiredKey("falling_land")
+                .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Only just")
+                .setRequirements(new String[]{"<yellow>❤ Land on a hay bale and survive with 0.5 hearts</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("falling_die", "falling_land")
+                .addRequiredKey("falling_land")
+                .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("No chance for survival")
+                .setRequirements(new String[]{"<yellow>☠ Land on a hay bale and still die</yellow>"})
+                .build());
+    }
+
+    private void generateEnderchestAdvancements(AdvancementNode root) {
+        root.addChild(new AdvancementNodeBuilder("enderchest_use", "siege_tutorial")
+                .setMaterial(Material.ENDER_CHEST)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Magically has everything you need")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDCE6 Restock your items using an enderchest</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("enderchest_clear", "enderchest_use")
+                .addRequiredKey("enderchest_use")
+                .setMaterial(Material.ENCHANTED_GOLDEN_APPLE)
+                .setFrameType(AdvancementFrameType.TASK)
+                .setTitle("Body cleanse")
+                .setRequirements(new String[]{"<yellow>\uD83D\uDCC9 Clear your negative effects by restocking</yellow>"})
+                .build());
+    }
+
+    private void generateCosmeticAdvancements(AdvancementNode root) {
+        root.addChild(new HiddenAdvancementNodeBuilder("cosmetic_collect", "siege_tutorial")
+                .setMaterial(Material.CYAN_DYE)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("Will this make me pretty?")
+                .setRequirements(new String[]{"<yellow>✨Collect a cosmetic</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("cosmetic_title", "cosmetic_collect")
+                .addRequiredKey("cosmetic_collect")
+                .setMaterial(Material.NAME_TAG)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("Fancy name")
+                .setRequirements(new String[]{"<yellow>✨Collect a title</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("cosmetic_chat", "cosmetic_collect")
+                .addRequiredKey("cosmetic_collect")
+                .setMaterial(Material.BLUE_DYE)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("Magic words")
+                .setRequirements(new String[]{"<yellow>✨Collect a chat colour</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("cosmetic_join", "cosmetic_collect")
+                .addRequiredKey("cosmetic_collect")
+                .setMaterial(Material.GREEN_DYE)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("Dramatic entrance")
+                .setRequirements(new String[]{"<yellow>✨Collect a join message colour</yellow>"})
+                .build());
+        root.addChild(new AdvancementAdvancementNodeBuilder("cosmetic_leave", "cosmetic_collect")
+                .addRequiredKey("cosmetic_collect")
+                .setMaterial(Material.YELLOW_DYE)
+                .setFrameType(AdvancementFrameType.GOAL)
+                .setTitle("Exit with grace")
+                .setRequirements(new String[]{"<yellow>✨Collect a leave message colour</yellow>"})
                 .build());
     }
 }
