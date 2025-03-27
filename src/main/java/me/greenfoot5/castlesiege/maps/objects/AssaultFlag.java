@@ -5,9 +5,12 @@ import me.greenfoot5.castlesiege.maps.Team;
 import me.greenfoot5.conwymc.util.Messenger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.Objects;
+import java.util.UUID;
 
 
 /**
@@ -78,7 +81,11 @@ public class AssaultFlag extends Flag {
                         .append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
                 livesClaimed = true;
             } else if (additionalLives > 0) {
-                Messenger.broadcastInfo("No additional lives were granted as they have already been claimed");
+                for (UUID uuid : players) {
+                    Player player = Bukkit.getPlayer(uuid);
+                    if (player != null)
+                        Messenger.sendInfo("No additional lives were granted as they have already been claimed", player);
+                }
             }
         }
     }
