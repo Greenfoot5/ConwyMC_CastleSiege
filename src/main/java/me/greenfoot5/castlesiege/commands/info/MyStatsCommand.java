@@ -74,7 +74,7 @@ public class MyStatsCommand implements CommandExecutor {
         MiniMessage mm = Messenger.mm;
 
         meta.addPages(Component.text("Name: ", NamedTextColor.BLACK)
-                .append(data.getDisplayRank())
+                .append(data.displayRank())
                 .append(Component.newline()).append(Component.newline())
                 .append(Component.text("Rank: ")).append(NameTag.convertRank(data.getStaffRank()))
                 .append(Component.newline())

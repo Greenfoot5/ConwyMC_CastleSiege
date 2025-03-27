@@ -41,7 +41,7 @@ public class CSNameTag implements Listener {
         assert data != null;
 
         Component title = event.getTitle() == null ? Component.empty() : event.getTitle().append(Component.text(" "));
-        Component rank = data.getDisplayRank();
+        Component rank = data.displayRank();
         String legacyRank = LegacyComponentSerializer.legacySection().serialize(rank);
 
         Component username;

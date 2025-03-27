@@ -79,7 +79,7 @@ dependencies {
     implementation(platform("com.intellectualsites.bom:bom-newest:1.52"))
 
     // Via /lib
-    compileOnly("com.github.Greenfoot5:conwymc-global:1.0.6")
+    compileOnly("com.github.Greenfoot5:conwymc-global:1.1")
     compileOnly("com.nametagedit:nametagedit:4.5.24")
 
     compileOnly("net.citizensnpcs:citizensapi:2.0.33-SNAPSHOT")
