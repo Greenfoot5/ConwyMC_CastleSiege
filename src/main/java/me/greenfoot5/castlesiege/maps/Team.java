@@ -83,16 +83,12 @@ public class Team implements Listener, SidebarComponent {
         int maxPlayers = 100 / MapController.getCurrentMap().teams.length;
         int amountLost = maxPlayers / players.size();
 
-        System.out.println("Losing " + amountLost + " lives");
-
         // Take amountLost if > 5 lives, otherwise only 1
         int left = lives.updateAndGet(v -> {
             if (v <= 5)
                 return v - 1;
             return Math.max(v - amountLost, 5);
         });
-
-        System.out.println(left + " lives left");
 
         if (left == 5) {
             Messenger.broadcast(Component.empty().color(NamedTextColor.RED)
@@ -112,8 +108,6 @@ public class Team implements Listener, SidebarComponent {
     public int grantLives(double amount) {
         int maxPlayers = 100 / MapController.getCurrentMap().teams.length;
         int granted = (int) Math.ceil(amount * ((double) maxPlayers / players.size()));
-        System.out.println("Gaining " + granted + " lives");
-        System.out.println(lives.addAndGet(granted) + " lives left");
         return granted;
     }
 
