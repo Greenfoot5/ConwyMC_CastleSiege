@@ -270,7 +270,7 @@ public class Priest extends CoinKit implements Listener {
      */
     @EventHandler
     public void onClickEnderchest(EnderchestEvent event) {
-        if (blessing != null && event.getPlayer() != equippedPlayer) {
+        if (blessing != null && event.getPlayer() == equippedPlayer) {
             assignBook(holyBook);
             event.getPlayer().getInventory().setItem(1, holyBook);
         }
