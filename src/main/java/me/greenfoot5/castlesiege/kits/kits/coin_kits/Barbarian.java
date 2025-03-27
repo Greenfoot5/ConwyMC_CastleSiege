@@ -166,7 +166,7 @@ public class Barbarian extends CoinKit implements Listener {
         kitLore.add(Component.text("- Deal up to ", NamedTextColor.GRAY)
                 .append(Component.text(maxDamage - minDamage, NamedTextColor.GREEN))
                 .append(Component.text(" additional DMG")));
-        kitLore.add(Component.text("based on health lost"));
+        kitLore.add(Component.text("based on health lost", NamedTextColor.GRAY));
         return kitLore;
     }
 }
