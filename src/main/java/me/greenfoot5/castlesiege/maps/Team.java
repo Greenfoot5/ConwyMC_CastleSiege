@@ -85,12 +85,12 @@ public class Team implements Listener, SidebarComponent {
 
         // Take amountLost if > 5 lives, otherwise only 1
         int left = lives.updateAndGet(v -> {
-            if (v <= 5)
+            if (v <= 3)
                 return v - 1;
             return Math.max(v - amountLost, 5);
         });
 
-        if (left == 5) {
+        if (left <= 3 && left > 0) {
             Messenger.broadcast(Component.empty().color(NamedTextColor.RED)
                     .append(Component.text("[!] ", NamedTextColor.GOLD))
                     .append(getDisplayName())
@@ -105,10 +105,16 @@ public class Team implements Listener, SidebarComponent {
      * @param amount How many lives to add per person
      * @return How many lives were added
      */
-    public int grantLives(double amount) {
+    public float grantLives(double amount) {
         int maxPlayers = 100 / MapController.getCurrentMap().teams.length;
         int granted = (int) Math.ceil(amount * ((double) maxPlayers / players.size()));
-        return granted;
+        lives.addAndGet(granted);
+        float output;
+        if (getLives() > 3)
+            output = granted / (float) startingLives;
+        else
+            output = granted;
+        return output;
     }
 
     /**
@@ -236,7 +242,7 @@ public class Team implements Listener, SidebarComponent {
 
     @Override
     public void draw(@NotNull LineDrawable lineDrawable) {
-        if (getLives() > 5) {
+        if (getLives() > 3) {
             int lives = (int) ((getLives() / (float) startingLives) * 100);
             lineDrawable.drawLine(getDisplayName()
                     .append(Component.text(": "))

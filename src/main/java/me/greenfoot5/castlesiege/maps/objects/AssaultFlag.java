@@ -74,11 +74,19 @@ public class AssaultFlag extends Flag {
 
         if (animationIndex == maxCap && !Objects.equals(currentOwners, startingTeam)) {
             if (additionalLives > 0 && !livesClaimed) {
-                int granted = MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
-                Messenger.broadcastInfo(Component.empty()
-                        .append(Component.text(granted + " lives", NamedTextColor.AQUA))
-                        .append(Component.text(" have been added to "))
-                        .append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
+                float granted = MapController.getCurrentMap().getTeam(currentOwners).grantLives(additionalLives);
+                if (granted >= 1) {
+                    Messenger.broadcastInfo(Component.empty()
+                            .append(Component.text(granted + " lives", NamedTextColor.AQUA))
+                            .append(Component.text(" have been added to "))
+                            .append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
+                } else {
+                    int lives = (int) (granted * 100);
+                    Messenger.broadcastInfo(Component.empty()
+                            .append(Component.text(lives + "% lives", NamedTextColor.AQUA))
+                            .append(Component.text(" have been added to "))
+                            .append(MapController.getCurrentMap().getTeam(currentOwners).getDisplayName()));
+                }
                 livesClaimed = true;
             } else if (additionalLives > 0) {
                 for (UUID uuid : players) {
