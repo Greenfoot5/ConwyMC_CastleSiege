@@ -25,6 +25,7 @@ public class Timer {
 		state = startState;
 		if (seconds > 0 || minutes > 0)
 			startTimer();
+		ongoingTimePassed = 0;
 	}
 
 	/**
