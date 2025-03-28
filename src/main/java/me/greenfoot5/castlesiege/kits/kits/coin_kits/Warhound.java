@@ -143,7 +143,7 @@ public class Warhound extends CoinKit implements Listener {
      */
     @EventHandler
     public void onImmobilise(PlayerInteractEntityEvent e) {
-        if (e.getRightClicked() != equippedPlayer)
+        if (e.getPlayer() != equippedPlayer)
             return;
 
         // Prevent using in lobby
@@ -162,7 +162,6 @@ public class Warhound extends CoinKit implements Listener {
         //Stuns the horse which the warhound hits.
         if (e.getRightClicked() instanceof Horse h) {
             Player horseOwner = (Player) h.getOwner();
-            assert horseOwner != null;
             if (TeamController.getTeam(horseOwner.getUniqueId()) != TeamController.getTeam(equippedPlayer.getUniqueId())) {
                 immobiliseHorse(h);
             }
