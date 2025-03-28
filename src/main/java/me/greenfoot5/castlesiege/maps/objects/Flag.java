@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -489,8 +490,10 @@ public class Flag implements SidebarComponent {
         // Play level up sound if it's fully capped, or play a xp orb pickup
         Sound effect = fullyCapped ? Sound.ITEM_GOAT_HORN_SOUND_1 : Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
+        Random rng = new Random();
+        float rngPitch = rng.nextFloat() * 0.01f + 0.795f;
         float volume = 1f; //1 = 100%0
-        float pitch = fullyCapped ? 1f : 0.8f; //Float between 0.5 and 2.0
+        float pitch = fullyCapped ? 1f : rngPitch; //Float between 0.5 and 2.0
 
         player.playSound(location, effect, volume, pitch);
     }
