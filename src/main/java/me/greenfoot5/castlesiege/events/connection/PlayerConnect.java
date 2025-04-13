@@ -102,7 +102,7 @@ public class PlayerConnect implements Listener {
         }
 
         if (!(Bukkit.getWhitelistedPlayers().contains(Bukkit.getOfflinePlayer(event.getPlayer().getUniqueId()))
-                || ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 1)) {
+                || ((System.currentTimeMillis() / 1000 - 86400) % 604800) / 86400 < 3)) {
             // TODO - Remove after release
             event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST,
                     Component.text("Sorry, the server's not fully public just yet!")
